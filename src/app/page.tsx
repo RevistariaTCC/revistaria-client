@@ -1,16 +1,16 @@
 export default function Home() {
     return(
-        <div className="grid grid-cols-12 h-screen">
+        <div className="grid grid-cols-2 h-screen grid-rows-4">
 
-            <div className="col-span-6 bg-[#4C5A77] flex justify-center items-center">
+            <div className="bg-[#4C5A77] flex justify-center items-center cell:col-span-2 md:col-span-1 cell:row-span-1 md:row-span-4">
                 <div className="flex justify-center">
                     image
                 </div>
             </div>
 
-            <div className="col-span-6 flex justify-center items-center">
+            <div className="flex justify-center items-center border cell:col-span-2 md:col-span-1 cell:row-span-3 md:row-span-4">
                 <div>
-                <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <form className="bg-gray-200 shadow-md rounded-ss-[90px] rounded-ee-[90px] px-16 py-10 mb-4">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
                             Usuário
