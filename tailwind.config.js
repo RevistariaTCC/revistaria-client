@@ -6,7 +6,12 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: { },
+    extend: {
+      backgroundImage: {
+        'bancadaboca1' : "url('../../public/images/bancadaboca.jpg')" ,
+        'bancadaboca2' : "url('../../public/images/bancadaboca2.jpg')"
+      },
+     },
     screens:{
       'cell': '350px',
       // => @media (min-width: 475px) { ... }

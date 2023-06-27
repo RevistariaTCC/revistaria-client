@@ -1,19 +1,23 @@
 import Image from "next/image"
 import Logo from "../../public/images/logo.png"
+import bancadaboca from "../../public/images/bancadaboca.jpg"
 
 export default function Home() {
     return(
-        <div className="grid grid-cols-2 h-screen grid-rows-4">
+        <div className="grid grid-cols-3 h-screen grid-rows-4">
 
-            <div className="bg-[#4C5A77] flex justify-center items-center cell:col-span-2 md:col-span-1 cell:row-span-1 md:row-span-4">
-                <div className="p-4  min-w-[100px]">
-                    <Image src={Logo} alt="" className="mb-6"></Image>
-                    <div className="float-right text-2xl font-bold text-yellow-400">A Banca Moderna</div>
+            <div className="bg-[#4C5A77] flex justify-center items-center cell:col-span-3 md:col-span-2 cell:row-span-1 md:row-span-4">
+                <div className="p-4 min-w-[100px]">
+                    <Image src={Logo} alt="" className="mb-6 md:w-96 cell:w-72"></Image>
+                    <div className="grid justify-end">
+                        <div className=" text-2xl font-bold text-white">A Banca de revistas</div>
+                        <div className="cell:text-2xl text-end md:text-5xl font-bold text-yellow-400 ">MODERNA</div>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex justify-center items-center border cell:col-span-2 md:col-span-1 cell:row-span-3 md:row-span-4">
-                <div>
+            <div className="flex justify-center cell:mt-[10%] md:mt-0 md:items-center cell:col-span-3 md:col-span-1 cell:row-span-3 md:row-span-4">
+                <div> 
                 <form className="bg-gray-200 shadow-md rounded-ss-[90px] rounded-ee-[90px] cell:px-10 md:px-16 py-10 mb-4 border border-yellow-500">
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">
