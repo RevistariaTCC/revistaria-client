@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Logo from "../../public/images/logo.png"
+import Link from "next/link"
 
 export default function Home() {
     return(
@@ -35,9 +36,11 @@ export default function Home() {
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************"/>
                     </div>
                     <div className="flex items-center justify-between">
-                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline" type="button">
-                            Login
-                        </button>
+                        <Link href='/home'>
+                            <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline" type="button">
+                                Login
+                            </button>
+                        </Link>
                         <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
                             Esqueceu a senha?
                         </a>
