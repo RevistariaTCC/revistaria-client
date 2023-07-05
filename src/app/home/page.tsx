@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
+import { funnelIcon } from "../../../public/icons/Icons";
+import FilterTemplate from "../components/FilterTemplate";
 
 export default function Home() {
     
@@ -27,17 +29,50 @@ export default function Home() {
         };
     }, []);
 
-    console.log(pageSize.width);
-
     return(
         <div>
             <Navbar/>
                 <Layout>
                     <div className="grid grid-cols-4 gap-2 mt-12 max-w-[1600px]">
                         <div className="cell:col-span-4 md:col-span-1 md:h-screen grid md:justify-center">
-                            <div className="bg-gray-300 p-8 cell:w-[100%] md:w-64 rounded-md">
-                                teste
-                            </div>
+                            {pageSize.width > 759 ? (
+                                <div className="border-2 p-4 cell:w-[100%] md:w-64 grid-rows-1">
+                                    <FilterTemplate title="Categoria">
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                    </FilterTemplate>
+
+                                    <FilterTemplate title="Ano de Edição">
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                    </FilterTemplate>
+                                </div>
+                            ) : (
+                                <div className="grid grid-cols-2">
+                                    <button className="w-6 flex">
+                                        <div>
+                                            {funnelIcon}
+                                        </div>
+                                        filtro
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <div className="cell:col-span-4 md:col-span-3 h-52 md:mx-10">
                             <div className="grid cell:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cell:gap-1 md:gap-3">

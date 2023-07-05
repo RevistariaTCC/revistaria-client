@@ -4,7 +4,7 @@ type LayoutProps = {
 
 export default function Layout({children}: LayoutProps) {
     return(
-        <div className="  px-[10px] p-10">
+        <div className="cell:px-4 md:px-[10px] pt-10">
             {children}
         </div>
     )
