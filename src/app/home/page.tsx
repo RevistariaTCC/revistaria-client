@@ -34,10 +34,23 @@ export default function Home() {
             <Navbar/>
                 <Layout>
                     <div className="grid grid-cols-4 gap-2 mt-12 max-w-[1600px]">
-                        <div className="cell:col-span-4 md:col-span-1 md:h-screen grid md:justify-center">
+                        <div className="cell:col-span-4 md:col-span-1 md:h-screen flex md:justify-end">
                             {pageSize.width > 759 ? (
-                                <div className="border-2 p-4 cell:w-[100%] md:w-64 grid-rows-1">
+                                <div className="border-2 p-4 cell:w-[100%] max-w-[280px] min-w-[205px] grid-rows-1">
                                     <FilterTemplate title="Categoria">
+                                        <div className=""> <input type="checkbox" /> cat1</div>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                        <h2>cat1</h2>
+                                    </FilterTemplate>
+
+                                    <FilterTemplate title="Editora">
                                         <h2>cat1</h2>
                                         <h2>cat1</h2>
                                         <h2>cat1</h2>
