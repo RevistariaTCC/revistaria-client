@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { favoriteIcon } from "../../../../public/icons/Icons"
+import Link from "next/link"
 
 export default function DropDownMenu() {
     const [dropdown, setdropdown] = useState(false)
@@ -15,11 +16,6 @@ export default function DropDownMenu() {
         }
     }
 
-    function modifyToChecked() {
-        const element =  document.getElementById("favorite-toggle") as HTMLInputElement
-        element.checked = true
-    }
-
     function trueOrFalse() {
         if (news === false) {
             setnews(true)
@@ -31,37 +27,34 @@ export default function DropDownMenu() {
     function menuTemplate(styles?: string) {
         return(
             <div className={`h-48 w-64 absolute bg-[#4C5A77] right-0 top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
-                <div className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center">
+                <Link href='/home/favoritos' className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
                     Favoritos  
                     <div className="grid justify-center">
                         {favoriteIcon}
                     </div>
-                </div>
-                <div className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center">
+                </Link>
+                <div className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
                     Novidades
                     <div className="grid justify-center">
                         <label className="relative inline-flex items-center cursor-pointer">
-                            {news === true? (
-                                <input type="checkbox" value="" className="sr-only peer" id="favorite-toggle" onClick={()=> trueOrFalse()} checked/>
-
-                            ) : (
-                                <input type="checkbox" value="" className="sr-only peer" id="favorite-toggle" onClick={()=> trueOrFalse()}/>
-                            )}
+                            <input type="checkbox" value="" className="sr-only peer" id="favorite-toggle"/>
                             <div className={ `w-11 h-6 bg-gray-200 outline-none rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white  after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 `}></div>
                         </label>
                     </div> 
                 </div> 
-                <div className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center">
+                <div className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
                     Interesses 
                     <div className="grid justify-center">
                         <label className="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" value="" className="sr-only peer" id="favorite-toggle" onClick={()=> trueOrFalse()}/>
+                            <input type="checkbox" value="" className="sr-only peer" id="favorite-toggle"/>
                             <div className={ `w-11 h-6 bg-gray-200 outline-none rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 `}></div>
                         </label>
                     </div>
                     <div className="col-span-2">
-                        <hr  className="my-2"/>
-                        Alterar Interesses
+                        <hr className="my-2"/>
+                        <Link href='/meus-interesses' className="hover:text-[#141630]">
+                            Alterar Interesses
+                        </Link>
                     </div>
                 </div>
             </div>

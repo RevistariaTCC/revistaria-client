@@ -1,6 +1,7 @@
 import '../../../styles/globals.css'
 import { Inter } from 'next/font/google'
 import DropDownMenu from '../components/DropDownMenu'
+import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,13 +17,15 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="grid grid-cols-2 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-500">
-            <div className="">Logo</div>
+        <div className="fixed top-0 w-full grid grid-cols-2 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-500">
+          <div>
+            <Link href='/home' className="">Logo</Link>
+          </div>
             <div className='flex justify-end'>
               <DropDownMenu/>
             </div>
         </div>
-        <div className="cell:px-4 md:px-[80px] pt-10">
+        <div className="cell:px-4 md:px-[80px] pt-24">
             {children}
         </div>
       </body>

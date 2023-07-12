@@ -82,7 +82,7 @@ export default function Home() {
                     </div>
                 )}
             </div>
-            <div className="cell:col-span-4 md:col-span-3 h-52 md:mx-10">
+            <div className="cell:col-span-4 md:col-span-3 h-52 grid justify-center">
                 <div className="grid cell:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 cell:gap-1 md:gap-3">
                     <Card></Card>
                     <Card></Card>
