@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
               <DropDownMenu/>
             </div>
         </div>
-        <div className="cell:px-4 md:px-[80px] pt-24">
+        <div className="px-4 pt-24">
             {children}
         </div>
       </body>

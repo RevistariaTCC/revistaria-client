@@ -19,13 +19,13 @@ module.exports = {
       'sm': '640px',
       // => @media (min-width: 640px) { ... }
 
-      'md': '768px',
+      'md': '772px',
       // => @media (min-width: 768px) { ... }
 
       'xm': '850px',
       // => @media (min-width: 850px) { ... }
 
-      'lg': '1024px',
+      'lg': '1075px',
       // => @media (min-width: 1024px) { ... }
 
       'xl': '1280px',
