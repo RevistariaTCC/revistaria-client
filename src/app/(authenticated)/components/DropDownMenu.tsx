@@ -26,7 +26,7 @@ export default function DropDownMenu() {
  
     function menuTemplate(styles?: string) {
         return(
-            <div className={`h-48 w-64 absolute bg-[#4C5A77] right-0 top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
+            <div className={`h-48 cell md:w-64 absolute bg-[#4C5A77] right-[6%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
                 <Link href='/home/favoritos' className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
                     Favoritos  
                     <div className="grid justify-center">

@@ -4,7 +4,7 @@ import InterestCard from "./components/InterestCard";
 export default function Interesses() {
     return(
         <div>
-            <div className="grid justify-center mt-40 mx-32">
+            <div className="grid justify-center mt-30 mx-32">
                 <div className="text-center mb-10 text-2xl font-bold text-[#333f57]">
                     Selecione seus interesses!
                 </div>

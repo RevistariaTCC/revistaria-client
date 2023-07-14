@@ -1,7 +1,10 @@
+'use client'
+
 import '../../../styles/globals.css'
 import { Inter } from 'next/font/google'
 import DropDownMenu from '../components/DropDownMenu'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,6 +15,21 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode}){
 
+  const pathname = usePathname()
+
+
+
+  function handlePathname () {
+    const trimpathname = pathname.split('/').slice(1).map(e => e )
+
+    return trimpathname.map((element, index) =>         
+      <Link href={`/${trimpathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
+
+          <div className={`first-letter:uppercase inline-block`}>
+            {element} /
+          </div>
+      </Link>)
+  }
 
 
   return (
@@ -26,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
             </div>
         </div>
         <div className="px-4 pt-24">
+            <div className='ms-[8%] mb-10'>{handlePathname()}</div>
             {children}
         </div>
       </body>

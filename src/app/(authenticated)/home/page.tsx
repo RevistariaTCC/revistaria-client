@@ -29,10 +29,10 @@ export default function Home() {
 
     return(
         <div className="grid cell:justify-center md:justify-normal">
-            <div className="grid grid-cols-4 gap-2 mt-12 max-w-[1600px]">
+            <div className="grid grid-cols-4 gap-2 max-w-[1600px]">
                 <div className="cell:col-span-4 md:col-span-1 md:h-screen flex md:justify-end">
-                    {pageSize.width > 759 ? (
-                        <div className="p-4 cell:w-[100%] max-w-[280px] min-w-[205px] grid-rows-1">
+                    {pageSize.width > 770 ? (
+                        <div className="p-4 cell:w-[100%] max-w-[280px] min-w-[205px] ">
                             <FilterTemplate title="Categoria">
                                 <div className=""> <input type="checkbox" /> cat1</div>
                                 <h2>cat1</h2>
