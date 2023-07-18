@@ -20,10 +20,10 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
 
 
   function handlePathname () {
-    const trimpathname = pathname.split('/').slice(1).map(e => e )
+    const trimedPathname = pathname.split('/').slice(1).map(e => e )
 
-    return trimpathname.map((element, index) =>         
-      <Link href={`/${trimpathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
+    return trimedPathname.map((element, index) =>         
+      <Link href={`/${trimedPathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
 
           <div className={`first-letter:uppercase inline-block`}>
             {element} /
@@ -43,8 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
               <DropDownMenu/>
             </div>
         </div>
-        <div className="px-4 pt-24">
-            <div className='ms-[8%] mb-10'>{handlePathname()}</div>
+        <div className="">
+            <div className='ms-[8%] mb-10 px-4 pt-24'>{handlePathname()}</div>
             {children}
         </div>
       </body>

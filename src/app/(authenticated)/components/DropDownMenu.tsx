@@ -52,7 +52,7 @@ export default function DropDownMenu() {
                     </div>
                     <div className="col-span-2">
                         <hr className="my-2"/>
-                        <Link href='/meus-interesses' className="hover:text-[#141630]">
+                        <Link href='/home/meus-interesses' className="hover:text-[#141630]">
                             Alterar Interesses
                         </Link>
                     </div>

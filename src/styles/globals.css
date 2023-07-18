@@ -3,12 +3,10 @@
 @import 'tailwindcss/utilities';
 
 
-body{
-    background: linear-gradient(to bottom, #ffffff, #e3e2e2) fixed;
-}
+
 
 .scrollbar::-webkit-scrollbar {
-    width: .7em;
+    width: .6em;
 }
  
 .scrollbar::-webkit-scrollbar-track {
