@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="fixed top-0 w-full grid grid-cols-2 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-500">
+        <div className="fixed top-0 w-full grid grid-cols-2 h-12 items-center px-[10%] bg-[#4C5A77] text-[yellow]">
           <div>
             <Link href='/home' className="">Logo</Link>
           </div>
@@ -44,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
             </div>
         </div>
         <div className="">
-            <div className='ms-[8%] mb-10 px-4 pt-24'>{handlePathname()}</div>
+            <div className='ms-[8%] px-4 pt-28 text-sm'>{handlePathname()}</div>
             {children}
         </div>
       </body>

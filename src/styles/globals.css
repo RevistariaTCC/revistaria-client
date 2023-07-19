@@ -16,3 +16,7 @@
 .scrollbar::-webkit-scrollbar-thumb {
   background-color: #4C5A77;
 }
+
+.scrollbarIvisible::-webkit-scrollbar{
+  width: 0;
+}

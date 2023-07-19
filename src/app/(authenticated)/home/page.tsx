@@ -29,17 +29,14 @@ export default function Home() {
         };
     }, []);
 
-    console.log(isClicked);
+    
 
     return(
         <div>
-            {isClicked? 
-                (
-                    <FilterSideBar/>
-                ):
-                    null
+            {isClicked && pageSize.width <= 770 ? 
+                <FilterSideBar Onclick={() => {setIsClicked(false)}}/> : null
             }
-            <div className="grid cell:justify-center md:justify-normal pt-24">
+            <div className="grid cell:justify-center md:justify-normal pt-8">
                 <div className="grid grid-cols-4 gap-2 max-w-[1600px]">
                     <div className="cell:col-span-4 md:col-span-1 md:h-screen flex md:justify-end">
                         {pageSize.width > 770 ? (
