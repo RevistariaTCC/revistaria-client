@@ -1,5 +1,5 @@
 import { favoriteIcon } from "../../../../../public/icons/Icons";
-import FavoriteCard from "./components/FavoriteCard";
+import FavoriteCard from "../../components/FavoriteCard";
 
 export default function Favoritos() {
     return(

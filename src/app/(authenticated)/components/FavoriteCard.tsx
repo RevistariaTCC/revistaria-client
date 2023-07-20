@@ -1,4 +1,4 @@
-import { favoriteIcon, xIcon } from "../../../../../../public/icons/Icons"
+import { favoriteIcon, xIcon } from "../../../../public/icons/Icons"
 
 type FavoriteCardProps = {
     imageUrl?: URL

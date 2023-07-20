@@ -10,7 +10,7 @@ export default function FilterSideBar(props : FilterSideBarProps) {
     return(
         <div className="fixed flex h-full w-full top-0">
             <div className="h-full flex-none w-64 bg-white">
-                <div className="h-12 bg-[#4C5A77] text-[yellow] border grid grid-cols-2 items-center px-7">
+                <div className="h-12 bg-[#4C5A77] text-yellow-500 font-bold border grid grid-cols-2 items-center px-7">
                     <div>
                         Filtros
                     </div>
@@ -49,7 +49,7 @@ export default function FilterSideBar(props : FilterSideBarProps) {
                         </FilterTemplate>
 
                         <FilterTemplate title="Ano de Edição">
-                        <div className=""> <input type="checkbox" /> cat1</div>
+                            <div className=""> <input type="checkbox" /> cat1</div>
                             <div className=""> <input type="checkbox" /> cat1</div>
                             <div className=""> <input type="checkbox" /> cat1</div>
                             <div className=""> <input type="checkbox" /> cat1</div>
@@ -63,8 +63,8 @@ export default function FilterSideBar(props : FilterSideBarProps) {
                     </div>
                 </div>
                 <div className="relative bottom-0 h-12 border-t flex justify-around items-center">
-                    <button className="bg-yellow-400 hover:bg-yellow-500 w-24 h-7 rounded-sm flex justify-center items-center"> Limpar </button>
-                    <button className="bg-yellow-400 hover:bg-yellow-500 w-24 h-7 rounded-sm flex justify-center items-center"> Aplicar </button>
+                    <button className="bg-yellow-500 hover:bg-yellow-600 w-24 h-7 rounded-sm flex justify-center items-center"> Limpar </button>
+                    <button className="bg-yellow-500 hover:bg-yellow-600 w-24 h-7 rounded-sm flex justify-center items-center"> Aplicar </button>
                 </div>
             </div>
             <div className="bg-[#1f1e1e75] h-full flex-1 float-right" onClick={props.Onclick}></div>

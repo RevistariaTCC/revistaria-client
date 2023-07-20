@@ -24,13 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
 
     return trimedPathname.map((element, index) =>         
       <Link href={`/${trimedPathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
-
           <div className={`first-letter:uppercase inline-block`}>
             {element} /
           </div>
       </Link>)
   }
-
 
   return (
     <html lang="en">

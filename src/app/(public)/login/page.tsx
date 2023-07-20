@@ -2,8 +2,9 @@
 
 import Image from "next/image"
 import Logo from "../../../../public/images/logo.png"
-import Link from "next/link"
 import { useRouter } from "next/navigation"
+import Input from "@/app/components/Input"
+import Link from "next/link"
 
 export default function Home() {
     const router = useRouter()
@@ -11,7 +12,7 @@ export default function Home() {
     return(
         <div className="grid grid-cols-3 h-screen grid-rows-4">
 
-            <div className="bg-[#4C5A77] grid md:grid-rows-3  cell:col-span-3 md:col-span-2 cell:row-span-1 md:row-span-4">
+            <div className="bg-[#4C5A77] grid md:grid-rows-3  cell:col-span-3 md:col-span-1 xm:col-span-2 cell:row-span-1 md:row-span-4">
                 <div></div>
 
                 <div className="grid justify-center p-4 min-w-[100px]">
@@ -25,29 +26,24 @@ export default function Home() {
                 <div></div>
             </div>
 
-            <div className="flex justify-center cell:mt-[10%] md:mt-0 md:items-center cell:col-span-3 md:col-span-1 cell:row-span-3 md:row-span-4">
-                <form className="bg-gray-200 shadow-md rounded-ss-[90px] rounded-ee-[90px] cell:px-10 md:px-16 py-10 mb-4 border border-yellow-500 grid grid-cols-1 h-72" onSubmit={() => router.push('/home')}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Usuário
-                        </label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="ze.silva"/>
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Senha
-                        </label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************"/>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline" type="submit">
-                            Login
-                        </button>
-                        <a className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-                            Esqueceu a senha?
-                        </a>
-                    </div>
-                </form>
+            <div className="flex justify-center cell:mt-[10%] md:mt-0 md:items-center xm:mx-1 cell:col-span-3 md:col-span-2 xm:col-span-1 cell:row-span-3 md:row-span-4">
+                <div className="w-[70%] min-w-[260px] max-w-[350px]">
+                    <form className="grid grid-cols-1 justify-center bg-gray-200 shadow-md rounded-ss-[90px] rounded-ee-[90px] py-16 mb-4 border border-yellow-500" onSubmit={() => router.push('/home')}>
+                        <Input Label="Usuário" InputType="text" InputId="username" InputPlaceholder="ze.silva"></Input>
+                        <Input Label="Senha" InputType="password" InputId="senha" InputPlaceholder="***********"/>
+                        <div className="flex items-center justify-between">
+                            <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                Login
+                            </button>
+                            <div className="flex flex-col">
+                                <Link href='' className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">                          
+                                    Esqueceu a senha?
+                                </Link>
+                                <Link href='/cadastro' className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Cadastre-se</Link>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     )
