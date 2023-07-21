@@ -29,17 +29,14 @@ export default function Home() {
             <div className="flex justify-center cell:pt-[10%] md:pt-0 md:items-center cell:col-span-3 md:col-span-2 cell:row-span-3 md:row-span-4 bg-gray-100">
                 <div className="flex flex-col">
                     <div className="cell:mb-6 md:mb-16 text-yellow-500 text-2xl font-bold text-center">
-                        Cadastre-se!
+                        Recuperar senha
                     </div>
                     <form className=" grid grid-cols-1" onSubmit={() => router.push('/home')}>
-                        <Form Label="Nome do usuário" InputType="text" InputId="username" InputPlaceholder="Zé Silva"/>
-                        <Form Label="Email" InputType="email" InputId="useremail" InputPlaceholder="ze.silva@email.com"/>
-                        <Form Label="Senha" InputType="password" InputId="password" InputPlaceholder="***********"/>
-                        <Form Label="Confirmar Senha" InputType="password" InputId="conf-password" InputPlaceholder="***********"/>
-                        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-6" type="submit">
-                            Cadastrar
-                        </button>
-                        <div className="flex justify-end mt-1">
+                        <Form Label="Digite seu e-mail" InputType="email" InputId="email" InputPlaceholder="ze.silva@email.com"/>
+                        <div className="flex items-center justify-between cell:mt-6 md:mt-10">
+                            <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline" type="submit">
+                                Recuperar
+                            </button>
                             <Link href="/login" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" >
                                 já possui conta?
                             </Link>

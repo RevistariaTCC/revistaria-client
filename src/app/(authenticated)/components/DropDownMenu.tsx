@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from "react"
-import { favoriteIcon } from "../../../../public/icons/Icons"
+import { favoriteIcon, logOffIcon } from "../../../../public/icons/Icons"
 import Link from "next/link"
 
 export default function DropDownMenu() {
@@ -26,9 +26,9 @@ export default function DropDownMenu() {
  
     function menuTemplate(styles?: string) {
         return(
-            <div className={`h-48 cell md:w-64 absolute bg-[#4C5A77] right-[6%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
+            <div className={`cell md:w-64 absolute bg-[#4C5A77] right-[6%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
                 <Link href='/home/favoritos' className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
-                    Favoritos  
+                    Favoritos
                     <div className="grid justify-center">
                         {favoriteIcon}
                     </div>
@@ -57,6 +57,15 @@ export default function DropDownMenu() {
                         </Link>
                     </div>
                 </div>
+                <div className="">
+                    <div className="flex justify-center bg-white py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3] hover:text-blue-950">
+                        Sair
+                        <div className="grid justify-center">
+                            {logOffIcon}
+                        </div> 
+
+                    </div>
+                </div> 
             </div>
         )
     }
@@ -70,7 +79,7 @@ export default function DropDownMenu() {
             {dropdown === true ? (
                 menuTemplate('translate-y-0')
             ) : (
-                menuTemplate('-translate-y-64')
+                menuTemplate('-translate-y-80')
             )}
         </>
 
