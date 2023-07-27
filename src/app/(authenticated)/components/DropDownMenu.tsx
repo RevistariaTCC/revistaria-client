@@ -1,29 +1,33 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { favoriteIcon, logOffIcon } from "../../../../public/icons/Icons"
 import Link from "next/link"
 
 export default function DropDownMenu() {
-    const [dropdown, setdropdown] = useState(false)
-    const [news, setnews] = useState(true)
+    
+    const [isOpen, setIsOpen] = useState(false)
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    function openClose(){
-        if (dropdown === false) {
-            setdropdown(true)
-        } else {
-            setdropdown(false)
-        }
-    }
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+  
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
+  
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+  
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
-    function trueOrFalse() {
-        if (news === false) {
-            setnews(true)
-        } else {
-            setnews(false)
-        }
-    } 
- 
+
     function menuTemplate(styles?: string) {
         return(
             <div className={`cell md:w-64 absolute bg-[#4C5A77] right-[6%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
@@ -70,18 +74,17 @@ export default function DropDownMenu() {
         )
     }
 
-
     return(
-        <>
-            <button className="flex justify-end" data-dropdown-toggle="dropdown"  type="button" id="dropdownButton" onClick={() => openClose()}>
+        <div ref={dropdownRef}>
+            <button className="flex justify-end" data-dropdown-toggle="dropdown"  type="button" id="dropdownButton" onClick={() => toggleDropdown()}>
                 <div className="bg-white w-8 h-8 rounded-full flex items-center justify-center">P</div>
             </button>
-            {dropdown === true ? (
+            {isOpen ? (
                 menuTemplate('translate-y-0')
             ) : (
                 menuTemplate('-translate-y-80')
             )}
-        </>
+        </div>
 
     )    
 };
