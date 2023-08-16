@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import Card from "../../components/Card";
+import Card from "../components/Card";
 import { funnelIcon } from "../../../../public/icons/Icons";
-import FilterTemplate from "../../components/FilterTemplate";
+import FilterTemplate from "../components/FilterTemplate";
 import FilterSideBar from "../components/FilterSideBar";
 
 export default function Home() {
@@ -28,8 +28,6 @@ export default function Home() {
             }
         };
     }, []);
-
-    
 
     return(
         <div>

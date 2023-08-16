@@ -1,5 +1,5 @@
 import { xIcon } from "../../../../public/icons/Icons"
-import FilterTemplate from "../../components/FilterTemplate";
+import FilterTemplate from "./FilterTemplate";
 
 
 type FilterSideBarProps = {

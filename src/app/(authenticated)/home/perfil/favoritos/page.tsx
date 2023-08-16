@@ -1,9 +1,11 @@
-import FavoriteCard from "../../components/FavoriteCard";
+import FavoriteCard from "@/app/(authenticated)/components/FavoriteCard";
 
-export default function MeusInteresses() {
-    return (
-        <div className="grid justify-center cell:mt-10 xm:mt-20">
-            <div className="mb-20 text-2xl text-center bg-gray-300">Interesses</div>
+
+
+export default function Favoritos() {
+    return(
+        <div className="flex flex-col">
+            <div className="mb-20 h-7 text-xl ps-3 bg-gray-300">Favoritos</div>
             <div className="grid cell:grid-cols-2 xm:grid-cols-3 lg:grid-cols-4 gap-2 justify-center"> 
                 <FavoriteCard></FavoriteCard>
                 <FavoriteCard></FavoriteCard>
