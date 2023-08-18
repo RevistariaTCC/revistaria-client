@@ -1,10 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import Card from "../components/Card";
+import HomeCard from "../components/HomeCard";
 import { funnelIcon } from "../../../../public/icons/Icons";
 import FilterTemplate from "../components/FilterTemplate";
-import FilterSideBar from "../components/FilterSideBar";
+import Drawer  from "../components/Drawer";
 
 export default function Home() {
     
@@ -32,55 +32,18 @@ export default function Home() {
     return(
         <div>
             {isClicked && pageSize.width <= 770 ? 
-                <FilterSideBar Onclick={() => {setIsClicked(false)}}/> : null
+                <Drawer Onclick={() => {setIsClicked(false)}} children={<FilterTemplate/>}/> : null
             }
             <div className="grid cell:justify-center md:justify-normal pt-8">
                 <div className="grid grid-cols-4 gap-2 max-w-[1600px]">
                     <div className="cell:col-span-4 md:col-span-1 md:h-screen flex md:justify-end">
-                        {pageSize.width > 770 ? (
+                        {pageSize.width > 771 ? (
                             <div className="p-4 cell:w-[100%] max-w-[280px] min-w-[205px] ">
-                                <FilterTemplate title="Categoria">
-                                    <div className=""> <input type="checkbox" /> cat1</div>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                </FilterTemplate>
-
-                                <FilterTemplate title="Editora">
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                </FilterTemplate>
-
-                                <FilterTemplate title="Ano de Edição">
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                    <h2>cat1</h2>
-                                </FilterTemplate>
+                                <FilterTemplate/>
                             </div>
                         ) : (
                             <div className="grid grid-cols-2">
-                                <button className="w-6 flex" onClick={() => isClicked? setIsClicked(false) : setIsClicked(true) }>
+                                <button className="w-6 flex" onClick={() => isClicked ? setIsClicked(false) : setIsClicked(true) }>
                                     <div>
                                         {funnelIcon}
                                     </div>
@@ -91,11 +54,11 @@ export default function Home() {
                     </div>
                     <div className="cell:col-span-4 md:col-span-3 h-52 grid cell:justify-start xm:justify-center md:pt-5">
                         <div className="grid cell:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 cell:gap-2 md:gap-3">
-                            <Card></Card>
-                            <Card></Card>
-                            <Card></Card>
-                            <Card></Card>
-                            <Card></Card>
+                            <HomeCard/>
+                            <HomeCard/>
+                            <HomeCard/>
+                            <HomeCard/>
+                            <HomeCard/>
                         </div>
                     </div>
                 </div>

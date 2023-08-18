@@ -30,7 +30,7 @@ export default function DropDownMenu() {
 
     function menuTemplate(styles?: string) {
         return(
-            <div className={`cell md:w-64 absolute bg-[#4C5A77] right-[6%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
+            <div className={`cell absolute bg-[#4C5A77] cell:right-[6%] md:right-[9%] top-12 ${styles} rounded-b-md px-2 text-[#4C5A77] font-bold text-sm shadow-md`}>
                 <Link href='/home/perfil' className="bg-white grid grid-cols-2 py-2 px-4 mb-2 rounded-md items-center hover:bg-[#f3f3f3]">
                     Perfil
                     <div className="grid justify-center">
