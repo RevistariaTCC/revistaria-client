@@ -5,6 +5,7 @@ import { Inter } from 'next/font/google'
 import DropDownMenu from '../components/DropDownMenu'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { searchIcon } from '../../../../public/icons/Icons'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,7 +17,6 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode}){
 
   const pathname = usePathname()
-
 
 
   function handlePathname () {
@@ -33,14 +33,18 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="fixed top-0 w-full grid grid-cols-2 h-12 items-center px-[10%] bg-[#4C5A77] text-[yellow]">
+        <header className="fixed top-0 w-full grid grid-cols-3 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-400">
           <div>
             <Link href='/home' className="">Logo</Link>
           </div>
-            <div className='flex justify-end'>
-              <DropDownMenu/>
-            </div>
-        </div>
+          <div className='flex'>
+            <input type="search"  className='w-full h-8 rounded-s-md px-3 outline-none' placeholder='Pesquisar'/>
+            <button type='button' className='h-8 w-10 bg-yellow-400 rounded-e-md flex justify-center items-center'>{searchIcon}</button>
+          </div>
+          <div className='flex justify-end'>
+            <DropDownMenu/>
+          </div>
+        </header>
         <div className="">
             <div className='ms-[8%] px-4 pt-28 text-sm'>{handlePathname()}</div>
             {children}
