@@ -29,7 +29,7 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography>{children}</Typography>
+            {children}
           </Box>
         )}
       </div>
@@ -84,7 +84,6 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
         <CustomTabPanel value={value} index={1}>
           <SignUp />
         </CustomTabPanel>
-
       </Box>
     </Modal>
   );

@@ -3,6 +3,8 @@ import { AppBar, Box, Button, IconButton, Toolbar, Typography } from "@mui/mater
 import { useState } from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import UserModal from "./UserModal";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 
 import Logo from "./Logo";
 
@@ -11,7 +13,7 @@ export default function NavBar(){
   const [showUserModal, setShowUserModal] = useState(false);
 
   return(
-    <>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
@@ -32,7 +34,7 @@ export default function NavBar(){
       </AppBar>
     </Box>
     <UserModal open={showUserModal} handleClose={() => setShowUserModal(false)}/>
-    </>
+    </LocalizationProvider>
 
     )
 }
