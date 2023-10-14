@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import UserModal from "./UserModal";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import ptBR from 'date-fns/locale/pt-BR'
 
 import Logo from "./Logo";
 
@@ -13,7 +14,7 @@ export default function NavBar(){
   const [showUserModal, setShowUserModal] = useState(false);
 
   return(
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
