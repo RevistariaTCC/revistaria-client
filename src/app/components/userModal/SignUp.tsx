@@ -4,25 +4,25 @@ import FirstStep from "../signUp/FirstStep";
 import SecondStep from "../signUp/SecondStep";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import SignUpSchema, { SignUpProps } from "@/schemas/UserSignUp";
+import SignUpSchema, { SignUpType } from "@/schemas/UserSignUp";
 
 export default function SignUp() {
-  const methods = useForm<SignUpProps>({
+  const methods = useForm<SignUpType>({
     defaultValues: {
       firstName: "",
       lastName: "",
-      birthDate: undefined,
+      birthDate: new Date(),
       email: "",
       password: "",
-      confirmPassword: "",
+      confirm: "",
     },
-    mode: "onChange",
+    mode: "all",
     resolver: zodResolver(SignUpSchema),
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, formState: {errors} } = methods;
   const [step, setStep] = useState(0);
 
-  const onSubmit: SubmitHandler<SignUpProps> = (data) => {
+  const onSubmit: SubmitHandler<SignUpType> = (data) => {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   };
 
@@ -34,7 +34,7 @@ export default function SignUp() {
         return (
           <SecondStep
             previous={() => setStep(0)}
-            handleSubmit={() => handleSubmit(onSubmit)}
+            handleSubmit={handleSubmit(onSubmit)}
           ></SecondStep>
         );
     }

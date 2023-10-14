@@ -7,13 +7,12 @@ const SignUpSchema = z
     birthDate: z.date(),
     email: z.string().min(1, "Email is required").email(),
     password: z.string().min(6, "Password must be atleast 6 characters"),
-    confirmPassword: z.string().min(6, "Password must be atleast 6 characters"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
+    confirm: z.string().min(6, "Password must be atleast 6 characters"),
+  }).refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
+    path: ["confirm"], // path of error
   });
 
-export type SignUpProps = z.infer<typeof SignUpSchema>;
+export type SignUpType = z.infer<typeof SignUpSchema>;
 
 export default SignUpSchema;

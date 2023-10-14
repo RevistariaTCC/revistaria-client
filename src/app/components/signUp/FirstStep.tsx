@@ -21,19 +21,8 @@ interface IFirstStep {
 export default function FirstStep({ next }: IFirstStep) {
   const {
     control,
-    formState,
+    formState: {isValid},
   } = useFormContext();
-
-  console.log("STATE:", formState.errors)
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -93,7 +82,6 @@ export default function FirstStep({ next }: IFirstStep) {
             </Grid>
             <Grid item xs={12}>
               <ControlledInput
-                required
                 fullWidth
                 name="password"
                 label="Password"
@@ -105,12 +93,11 @@ export default function FirstStep({ next }: IFirstStep) {
             </Grid>
             <Grid item xs={12}>
               <ControlledInput
-                required
                 fullWidth
-                name="confirmPassword"
+                name="confirm"
                 label="Confirm password"
                 type="password"
-                id="confirmPassword"
+                id="confirm"
                 autoComplete="new-password"
                 control={control}
               />
@@ -123,8 +110,8 @@ export default function FirstStep({ next }: IFirstStep) {
             </Grid>
           </Grid>
           <Button
-            type="submit"
-            disabled={!formState.isValid}
+            onClick={next}
+            disabled={!isValid}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
