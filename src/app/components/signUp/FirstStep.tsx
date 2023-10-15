@@ -2,7 +2,6 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
@@ -10,9 +9,9 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { DatePicker } from "@mui/x-date-pickers";
 import { useFormContext } from "react-hook-form";
 import ControlledInput from "../ControlledInput";
+import ControlledDatePicker from "../ControlledDatePicker";
 
 interface IFirstStep {
   next(): void;
@@ -21,7 +20,7 @@ interface IFirstStep {
 export default function FirstStep({ next }: IFirstStep) {
   const {
     control,
-    formState: {isValid},
+    formState: { isValid },
   } = useFormContext();
 
   return (
@@ -67,7 +66,16 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <DatePicker className="w-full" label="Birthdate" />
+              <ControlledDatePicker
+                required
+                id="birthdate"
+                fullWidth
+                className="w-full"
+                label="Birthdate"
+                name="birthdate"
+                autoComplete="bday"
+                control={control}
+              />
             </Grid>
             <Grid item xs={12}>
               <ControlledInput

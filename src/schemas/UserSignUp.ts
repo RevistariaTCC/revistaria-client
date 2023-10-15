@@ -4,7 +4,7 @@ const SignUpSchema = z
   .object({
     firstName: z.string().min(3, "First name is required"),
     lastName: z.string().min(3, "Last name is required"),
-    birthDate: z.date(),
+    birthdate: z.date().refine((data) => data < new Date(), 'Birthdate must be in the passed'),
     email: z.string().min(1, "Email is required").email(),
     password: z.string().min(6, "Password must be atleast 6 characters"),
     confirm: z.string().min(6, "Password must be atleast 6 characters"),

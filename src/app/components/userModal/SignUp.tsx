@@ -11,7 +11,7 @@ export default function SignUp() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      birthDate: new Date(),
+      birthdate: new Date(),
       email: "",
       password: "",
       confirm: "",
@@ -39,6 +39,8 @@ export default function SignUp() {
         );
     }
   };
+
+  methods.watch()
 
   return <FormProvider {...methods}>{renderStep(step)}</FormProvider>;
 }
