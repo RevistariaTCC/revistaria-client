@@ -20,7 +20,8 @@ export default function SignUp() {
     resolver: zodResolver(SignUpSchema),
   });
   const { handleSubmit, formState: {errors} } = methods;
-  const [step, setStep] = useState(0);
+  //TODO: RETURN TO 0
+  const [step, setStep] = useState(1);
 
   const onSubmit: SubmitHandler<SignUpType> = (data) => {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
