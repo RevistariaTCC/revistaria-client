@@ -1,17 +1,15 @@
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useFormContext } from "react-hook-form";
 import ControlledInput from "../ControlledInput";
 import ControlledDatePicker from "../ControlledDatePicker";
+import ControlledCheckbox from "../ControlledCheckbox";
 
 interface IFirstStep {
   next(): void;
@@ -28,18 +26,12 @@ export default function FirstStep({ next }: IFirstStep) {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
         <Box component="form" sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -111,9 +103,11 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
+              <ControlledCheckbox 
+                control={control}
+                color="primary"
                 label="I want to receive inspiration, marketing promotions and updates via email."
+                name="newsletter"
               />
             </Grid>
           </Grid>

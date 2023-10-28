@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import FirstStep from "../signUp/FirstStep";
 import SecondStep from "../signUp/SecondStep";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SignUpSchema, { SignUpType } from "@/schemas/UserSignUp";
+import StepperComponent from "../signUp/Stepper";
 
 export default function SignUp() {
   const methods = useForm<SignUpType>({
@@ -15,17 +16,21 @@ export default function SignUp() {
       email: "",
       password: "",
       confirm: "",
+      newsletter: true,
     },
     mode: "all",
     resolver: zodResolver(SignUpSchema),
   });
-  const { handleSubmit, formState: {errors} } = methods;
-  //TODO: RETURN TO 0
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
   const [step, setStep] = useState(1);
 
   const onSubmit: SubmitHandler<SignUpType> = (data) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
   };
+
 
   const renderStep = (step: number) => {
     switch (step) {
@@ -41,7 +46,12 @@ export default function SignUp() {
     }
   };
 
-  methods.watch()
+  methods.watch();
 
-  return <FormProvider {...methods}>{renderStep(step)}</FormProvider>;
+  return (
+    <FormProvider {...methods}>
+      <StepperComponent step={step} />
+      {renderStep(step)}
+    </FormProvider>
+  );
 }

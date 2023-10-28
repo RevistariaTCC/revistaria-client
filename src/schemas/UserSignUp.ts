@@ -8,6 +8,8 @@ const SignUpSchema = z
     email: z.string().min(1, "Email is required").email(),
     password: z.string().min(6, "Password must be atleast 6 characters"),
     confirm: z.string().min(6, "Password must be atleast 6 characters"),
+    newsletter: z.boolean().optional(),
+    interests: z.string().array().optional(),
   }).refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
     path: ["confirm"], // path of error

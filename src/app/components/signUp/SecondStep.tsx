@@ -3,17 +3,16 @@ import { useQuery } from "react-query";
 import CategoriesLoading from "./CategoriesLoading";
 import { useFormContext } from "react-hook-form";
 import {
-  Avatar,
   Box,
   Button,
-  ButtonGroup,
   Chip,
   Container,
   CssBaseline,
-  Grid,
+  TextField,
   Typography,
 } from "@mui/material";
-import InterestsIcon from "@mui/icons-material/Interests";
+import { listCategories } from "@/services/api/internal/category";
+import { useCallback, useState } from "react";
 
 interface ISecondStep {
   previous(): void;
@@ -27,64 +26,114 @@ interface iCategory {
 
 export default function SecondStep({ previous, handleSubmit }: ISecondStep) {
   const {
-    control,
-    formState: { isValid },
+    setValue
   } = useFormContext();
 
-  const BASE_URL = process.env.NEXT_PUBLIC_APPLICATION_URL;
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [filter, setFilter] = useState("");
 
-  const { isLoading, error, data } = useQuery<iCategory[]>({
-    queryKey: ["categories"],
-    staleTime: Infinity,
-    queryFn: () => fetch(`${BASE_URL}/categories`).then((res) => res.json()),
-  });
+  const { isLoading, error, data } = useQuery<iCategory[]>(listCategories);
 
-  //TODO: Create a Skeleton, Separe the component in parts
-  if (isLoading) return <CategoriesLoading />;
+  const renderFilteredData = useCallback(() => {
+    if (filter.length < 3) return null;
+
+    return data
+      ?.filter((category) => category.name.includes(filter))
+      .map((category) => (
+        <Chip
+          key={`category-chip-${category.id}`}
+          label={category.name}
+          variant={
+            selectedCategories.includes(category.id) ? "filled" : "outlined"
+          }
+          onClick={() => handleClickCategory(category.id)}
+        />
+      ));
+  }, [filter]);
 
   if (error) return "An error has occurred: ";
 
-  const handleClickCategory = (id: string) => {
-    console.log("CLICKOU", id);
-  };
-
   if (!data) return "An error has occurred: ";
 
-  return (
-    <Container component="main" maxWidth="sm">
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <InterestsIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Choose your interests
-        </Typography>
-      </Box>
+  const handleClickCategory = (id: string) => {
+    const indexOfId = selectedCategories.indexOf(id);
+    indexOfId === -1 || indexOfId === undefined
+      ? selectedCategories.push(id)
+      : selectedCategories.splice(indexOfId, 1);
+    setSelectedCategories([...selectedCategories]);
+  };
 
-      <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
-        {data.map((category) => (
-          <Chip
-            key={`category-chip-${category.id}`}
-            label={category.name}
-            variant="outlined"
-            onClick={() => handleClickCategory(category.id)}
+  const handleIncludeInterests = () => {
+    setValue('interests', selectedCategories)
+    handleSubmit()
+  }
+
+  const renderContent = () => {
+    return (
+      <Container component="main" maxWidth="sm">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 3,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Choose your interests
+          </Typography>
+          <TextField
+            id="standard-basic"
+            label="Search category"
+            variant="standard"
+            size="small"
+            fullWidth
+            value={filter}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setFilter(event.target.value);
+            }}
           />
-        ))}
-      </div>
-      <div className="flex justify-end gap-6 mt-4">
-        <Button variant="text">Skip and finish</Button>
-        <Button variant="outlined" disabled>
-          Finish
-        </Button>
-      </div>
-    </Container>
-  );
+        </Box>
+
+        <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
+          {isLoading ? (
+            <CategoriesLoading />
+          ) : (
+            renderFilteredData() ??
+            data.map((category) => (
+              <Chip
+                key={`category-chip-${category.id}`}
+                label={category.name}
+                variant={
+                  selectedCategories.includes(category.id)
+                    ? "filled"
+                    : "outlined"
+                }
+                onClick={() => handleClickCategory(category.id)}
+              />
+            ))
+          )}
+        </div>
+
+        <div className="flex justify-between gap-6 mt-4 items-center">
+          <Button variant="outlined" onClick={previous}>
+            Voltar
+          </Button>
+          <div className="flex gap-2">
+            <Button variant="text" onClick={handleSubmit}>Skip and finish</Button>
+            <Button
+              variant="outlined"
+              disabled={selectedCategories.length === 0}
+              onClick={handleIncludeInterests}
+            >
+              Finish
+            </Button>
+          </div>
+        </div>
+      </Container>
+    );
+  };
+
+  return renderContent();
 }
