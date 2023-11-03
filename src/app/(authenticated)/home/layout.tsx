@@ -19,21 +19,21 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
   const pathname = usePathname()
 
 
-  function handlePathname () {
-    const trimedPathname = pathname.split('/').slice(1).map(e => e )
+  // function handlePathname () {
+  //   const trimedPathname = pathname.split('/').slice(1).map(e => e )
 
-    return trimedPathname.map((element, index) =>         
-      <Link href={`/${trimedPathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
-          <div className={`first-letter:uppercase inline-block`}>
-            {element} /
-          </div>
-      </Link>)
-  }
+  //   return trimedPathname.map((element, index) =>         
+  //     <Link href={`/${trimedPathname.slice(0, index + 1).join('/')}`} key={index} className='me-1'>
+  //         <div className={`first-letter:uppercase inline-block`}>
+  //           {element} /
+  //         </div>
+  //     </Link>)
+  // }
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header className="fixed top-0 w-full grid grid-cols-3 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-400">
+        {/* <header className="fixed top-0 w-full grid grid-cols-3 h-12 items-center px-[10%] bg-[#4C5A77] text-yellow-400">
           <div>
             <Link href='/home' className="">Logo</Link>
           </div>
@@ -44,9 +44,9 @@ export default function RootLayout({ children }: { children: React.ReactNode}){
           <div className='flex justify-end'>
             <DropDownMenu/>
           </div>
-        </header>
+        </header> */}
         <div className="">
-            <div className='ms-[8%] px-4 pt-28 text-sm'>{handlePathname()}</div>
+            <div className='ms-[8%] px-4 pt-28 text-sm'></div>
             {children}
         </div>
       </body>
