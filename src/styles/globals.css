@@ -20,6 +20,42 @@
   background-color: #4C5A77;
 }
 
-.scrollbarIvisible::-webkit-scrollbar{
+.scrollbarInvisible::-webkit-scrollbar{
   width: 0;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 300ms ease-in-out;
+}
+
+.carousel.transitioning {
+  pointer-events: none; 
+}
+
+
+.rotate-enter-active {
+  animation: rotate-enter 500ms ease-in-out;
+}
+
+@keyframes rotate-enter {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+.rotate-exit-active {
+  animation: rotate-exit 500ms ease-in-out;
+}
+
+@keyframes rotate-exit {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
