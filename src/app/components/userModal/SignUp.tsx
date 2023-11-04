@@ -10,8 +10,8 @@ import StepperComponent from "../signUp/Stepper";
 export default function SignUp() {
   const methods = useForm<SignUpType>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
+      phone: "",
       birthdate: new Date(),
       email: "",
       password: "",
@@ -25,7 +25,7 @@ export default function SignUp() {
     handleSubmit,
     formState: { errors },
   } = methods;
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   const onSubmit: SubmitHandler<SignUpType> = (data) => {
     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);

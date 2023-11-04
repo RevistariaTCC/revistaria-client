@@ -1,8 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -10,6 +8,8 @@ import { useFormContext } from "react-hook-form";
 import ControlledInput from "../ControlledInput";
 import ControlledDatePicker from "../ControlledDatePicker";
 import ControlledCheckbox from "../ControlledCheckbox";
+import ControlledMaskedInput from "../ControlledMaskedInput";
+import PasswordInput from "../PasswordInput";
 
 interface IFirstStep {
   next(): void;
@@ -34,26 +34,15 @@ export default function FirstStep({ next }: IFirstStep) {
       >
         <Box component="form" sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <ControlledInput
-                autoComplete="given-name"
-                name="firstName"
+                autoComplete="name"
+                name="name"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="name"
+                label="Nome"
                 autoFocus
-                control={control}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <ControlledInput
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
                 control={control}
               />
             </Grid>
@@ -63,10 +52,22 @@ export default function FirstStep({ next }: IFirstStep) {
                 id="birthdate"
                 fullWidth
                 className="w-full"
-                label="Birthdate"
+                label="Data de nascimento"
                 name="birthdate"
                 autoComplete="bday"
                 control={control}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ControlledMaskedInput
+                fullWidth
+                name="phone"
+                label="Telefone"
+                type="text"
+                id="phone"
+                autoComplete="tel"
+                control={control}
+                mask="(00) 00000-0000"
               />
             </Grid>
             <Grid item xs={12}>
@@ -74,17 +75,17 @@ export default function FirstStep({ next }: IFirstStep) {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="E-mail"
                 name="email"
                 autoComplete="email"
                 control={control}
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledInput
+              <PasswordInput
                 fullWidth
                 name="password"
-                label="Password"
+                label="Senha"
                 type="password"
                 id="password"
                 autoComplete="new-password"
@@ -92,10 +93,10 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledInput
+              <PasswordInput
                 fullWidth
                 name="confirm"
-                label="Confirm password"
+                label="Confirmar senha"
                 type="password"
                 id="confirm"
                 autoComplete="new-password"
@@ -106,7 +107,7 @@ export default function FirstStep({ next }: IFirstStep) {
               <ControlledCheckbox 
                 control={control}
                 color="primary"
-                label="I want to receive inspiration, marketing promotions and updates via email."
+                label="Eu gostaria de receber notificações de novidades via e-mail."
                 name="newsletter"
               />
             </Grid>
@@ -118,7 +119,7 @@ export default function FirstStep({ next }: IFirstStep) {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Continue
+            Continuar
           </Button>
         </Box>
       </Box>

@@ -81,7 +81,7 @@ export default function SecondStep({ previous, handleSubmit }: ISecondStep) {
           }}
         >
           <Typography component="h1" variant="h5">
-            Choose your interests
+            Escolha seus interesses
           </Typography>
           <TextField
             id="standard-basic"
@@ -121,13 +121,13 @@ export default function SecondStep({ previous, handleSubmit }: ISecondStep) {
             Voltar
           </Button>
           <div className="flex gap-2">
-            <Button variant="text" onClick={handleSubmit}>Skip and finish</Button>
+            <Button variant="text" onClick={handleSubmit}>Pular e concluir</Button>
             <Button
               variant="outlined"
               disabled={selectedCategories.length === 0}
               onClick={handleIncludeInterests}
             >
-              Finish
+              Concluir
             </Button>
           </div>
         </div>

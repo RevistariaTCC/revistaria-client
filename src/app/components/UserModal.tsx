@@ -74,8 +74,8 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Sign In" {...a11yProps(0)} />
-            <Tab label="Sign Up" {...a11yProps(1)} />
+            <Tab label="Entrar" {...a11yProps(0)} />
+            <Tab label="Cadastrar" {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

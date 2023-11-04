@@ -2,16 +2,16 @@ import { z } from "zod";
 
 const SignUpSchema = z
   .object({
-    firstName: z.string().min(3, "First name is required"),
-    lastName: z.string().min(3, "Last name is required"),
-    birthdate: z.date().refine((data) => data < new Date(), 'Birthdate must be in the passed'),
-    email: z.string().min(1, "Email is required").email(),
-    password: z.string().min(6, "Password must be atleast 6 characters"),
-    confirm: z.string().min(6, "Password must be atleast 6 characters"),
+    name: z.string().min(3, "Nome é obrigatório"),
+    birthdate: z.date().refine((data) => data < new Date(), 'Data de nascimento deve ser valida'),
+    phone: z.string(),
+    email: z.string().min(1, "E-mail é obrigatório").email(),
+    password: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
+    confirm: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
     newsletter: z.boolean().optional(),
     interests: z.string().array().optional(),
   }).refine((data) => data.password === data.confirm, {
-    message: "Passwords don't match",
+    message: "As senhas devem ser iguais!",
     path: ["confirm"], // path of error
   });
 
