@@ -7,7 +7,7 @@ import FilterTemplate from "../components/FilterTemplate";
 import Drawer  from "../components/Drawer";
 
 export default function Home() {
-    
+    /*
     const [pageSize, setPageSize] = useState({ width: 0});
     const [isClicked, setIsClicked] = useState(false)
 
@@ -66,6 +66,16 @@ export default function Home() {
             </div>
         </div>
     
+    )
+    */
+
+    return (
+        <div className="mx-10">
+            <div className="flex h-full w-full border border-black">
+
+                
+            </div>
+        </div>
     )
 };
  
