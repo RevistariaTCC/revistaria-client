@@ -63,7 +63,6 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
           transform: "translate(-50%, -50%)",
           width: 720,
           bgcolor: "background.paper",
-          border: "2px solid #000",
           boxShadow: 24,
           p: 4,
         }}

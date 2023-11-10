@@ -1,9 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {ArrowBackIos, ArrowForwardIos} from '@mui/icons-material/';
+import { List } from "postcss/lib/list";
+import { Box, Button, Card, CardActionArea, CardContent, CardMedia, Chip, Modal, Typography } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
+import VolumeModal from "./VolumeModal";
 
 type CarrouselProps = {
-  title: string
+  volume: volumeList[]
 }
+
+type volumeList = {
+  id: number;
+  volumeName: string;
+  category: string[];
+  img: string;
+};
+
 
 export default function Carrousel(props : CarrouselProps) {
 
@@ -11,10 +23,11 @@ export default function Carrousel(props : CarrouselProps) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isReversing, setIsReversing] = useState(false);
   const [wheelTimeout, setWheelTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [showModal,setShowModal] = useState(false);
   
-  const cards = [1,2,3,4,5,3,123,4,1,23,5,32,5,12,6,1];
+  const cards = props.volume;
+  const [volumesName, setVolumesName] = useState("");
 
-  
   const showNext = () => {
     setIsTransitioning(true);
     setIsReversing(false);
@@ -33,7 +46,6 @@ export default function Carrousel(props : CarrouselProps) {
     }, 500)
   };
 
-
   const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     if (!isTransitioning) {
       if (wheelTimeout) {
@@ -50,19 +62,37 @@ export default function Carrousel(props : CarrouselProps) {
       }, 100)
     );
   };
-  
 
+  const handleClick = (volumesName: string) =>{
+    setShowModal(true);
+    setVolumesName(volumesName);
+  }
+  
   return (
     <div className="">
-      <h2>{props.title}</h2>
       <div className="flex" onWheel={handleWheel} >
         <button className="flex-none z-10 border-none bg-gray-200 hover:bg-gray-300 opacity-70 rounded" onClick={showPrev}>
           <ArrowBackIos/>
         </button>
         <div className={`overflow-x-auto gap-2 grow z-0 carousel ${isTransitioning ? (isReversing ? 'rotate-exit-active' : 'rotate-enter-active'): ''}`}>
-            {cards.slice(startIndex, startIndex + 4).map((element, index) => (
-              <div key={element} className="h-40 w-60 bg-gray-400 rounded flex justify-center items-center">
-                {element}
+          {cards.slice(startIndex, startIndex + 4).map((volume, index) => (
+              <div key={volume.id} className=" bg-gray-400 rounded flex justify-center items-center">
+                <Card className='w-[130px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
+                    <CardActionArea onClick={()=>handleClick(volume.volumeName)} className='p-0 m-0 h-full'>
+                        <CardContent sx={{maxWidth: '100%', padding:'0'}}>
+                            <CardMedia
+                                component='img'
+                                image={volume.img}
+                                height={200}
+                                className='my-1 max-w-full'
+                            /> 
+                            <Card title={volume.volumeName} className='h-3 flex items-center text-sm'/> 
+                            <Box sx={{ flexGrow: 1}} className='h-10 flex justify-center items-center'>
+                                <Chip label={volume.volumeName}></Chip>
+                            </Box>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
               </div>
             ))}
         </div>
@@ -70,7 +100,7 @@ export default function Carrousel(props : CarrouselProps) {
           <ArrowForwardIos/>
         </button>
       </div>
-
+      <VolumeModal openModal={showModal} volumesName={volumesName} handleClose={()=>setShowModal(false)}/>
     </div>
     )
 };
