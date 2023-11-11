@@ -6,6 +6,10 @@ import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SignUpSchema, { SignUpType } from "@/schemas/UserSignUp";
 import StepperComponent from "../signUp/Stepper";
+import { useMutation } from "react-query";
+import { createUser } from "@/services/api/internal/user";
+import { LinearProgress } from "@mui/material";
+import { useAuth } from "../../../hooks/auth";
 
 export default function SignUp() {
   const methods = useForm<SignUpType>({
@@ -21,16 +25,19 @@ export default function SignUp() {
     mode: "all",
     resolver: zodResolver(SignUpSchema),
   });
-  const {
-    handleSubmit,
-    formState: { errors },
-  } = methods;
+  const { signIn } = useAuth();
+  const { handleSubmit } = methods;
   const [step, setStep] = useState(0);
+  const createUserMutation = useMutation(createUser, {
+    onSuccess: (data, variables, context) => {
+      const {result, token} = data
+      signIn({token, user: result})
+    },
+  });
 
   const onSubmit: SubmitHandler<SignUpType> = (data) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
+    createUserMutation.mutate(data);
   };
-
 
   const renderStep = (step: number) => {
     switch (step) {
@@ -38,10 +45,13 @@ export default function SignUp() {
         return <FirstStep next={() => setStep(1)}></FirstStep>;
       case 1:
         return (
-          <SecondStep
-            previous={() => setStep(0)}
-            handleSubmit={handleSubmit(onSubmit)}
-          ></SecondStep>
+          <>
+            {createUserMutation.isLoading && <LinearProgress />}
+            <SecondStep
+              previous={() => setStep(0)}
+              handleSubmit={handleSubmit(onSubmit)}
+            ></SecondStep>
+          </>
         );
     }
   };

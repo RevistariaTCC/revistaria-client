@@ -1,86 +1,84 @@
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useMutation } from "react-query";
+import { createSession } from "@/services/api/internal/session";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { SignInType } from "@/schemas/UserSignIn";
+import { LinearProgress, TextField } from "@mui/material";
+import { useAuth } from "@/hooks/auth";
 
-function Copyright(props: any) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn(){
+export default function SignIn() {
+  const { handleSubmit, register } = useForm<SignInType>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const { signIn } = useAuth();
+  const loginMutation = useMutation(createSession, {
+    onSuccess: (data) => {
+      signIn(data)
+    },
+  });
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const onSubmit: SubmitHandler<SignInType> = (data) => {
+    loginMutation.mutate(data)
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
+        {loginMutation.isLoading && <LinearProgress />}
         <CssBaseline />
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Faça Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            component="form"
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
+              {...register("email")}
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
-              name="email"
+              label="E-mail"
               autoComplete="email"
               autoFocus
+              error={!!loginMutation.error}
+              helperText={!!loginMutation.error && "Dados incorretos. Confira seu e-mail e senha e tente novamente."}
             />
             <TextField
+              {...register("password")}
               margin="normal"
               required
               fullWidth
-              name="password"
-              label="Password"
+              label="Senha"
               type="password"
               id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              autoComplete="current-password" 
             />
             <Button
               type="submit"
@@ -88,23 +86,10 @@ export default function SignIn(){
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              Entrar
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
