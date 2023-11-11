@@ -32,7 +32,7 @@ export default function Carrousel(props : CarrouselProps) {
     setIsTransitioning(true);
     setIsReversing(false);
     setTimeout(() => {
-      setStartIndex((prevIndex) => (prevIndex + 4) % cards.length);
+      setStartIndex((prevIndex) => (prevIndex + 1) % cards.length);
       setIsTransitioning(false);
     }, 500);
   };
@@ -41,7 +41,7 @@ export default function Carrousel(props : CarrouselProps) {
     setIsTransitioning(true);
     setIsReversing(true);
     setTimeout(()=> {
-      setStartIndex((prevIndex) => (prevIndex - 4 + cards.length) % cards.length);
+      setStartIndex((prevIndex) => (prevIndex - 1 + cards.length) % cards.length);
       setIsTransitioning(false);
     }, 500)
   };
@@ -68,6 +68,11 @@ export default function Carrousel(props : CarrouselProps) {
     setVolumesName(volumesName);
   }
   
+  const handleArray = () =>{
+    const total = startIndex + 4 - cards.length;
+    return total>0 ? cards.slice(startIndex, startIndex + 4).concat(cards.slice(0, total)): cards.slice(startIndex, startIndex + 4);
+  }
+
   return (
     <div className="">
       <div className="flex" onWheel={handleWheel} >
@@ -75,7 +80,7 @@ export default function Carrousel(props : CarrouselProps) {
           <ArrowBackIos/>
         </button>
         <div className={`overflow-x-auto gap-2 grow z-0 carousel ${isTransitioning ? (isReversing ? 'rotate-exit-active' : 'rotate-enter-active'): ''}`}>
-          {cards.slice(startIndex, startIndex + 4).map((volume, index) => (
+          {handleArray().map((volume, index) => (
               <div key={volume.id} className=" bg-gray-400 rounded flex justify-center items-center">
                 <Card className='w-[130px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
                     <CardActionArea onClick={()=>handleClick(volume.volumeName)} className='p-0 m-0 h-full'>
@@ -86,10 +91,9 @@ export default function Carrousel(props : CarrouselProps) {
                                 height={200}
                                 className='my-1 max-w-full'
                             /> 
-                            <Card title={volume.volumeName} className='h-3 flex items-center text-sm'/> 
-                            <Box sx={{ flexGrow: 1}} className='h-10 flex justify-center items-center'>
-                                <Chip label={volume.volumeName}></Chip>
-                            </Box>
+                            <div className="flex justify-center items-center bg-gray-300 rounded h-8">
+                              <h4>{volume.volumeName}</h4>
+                            </div>
                         </CardContent>
                     </CardActionArea>
                 </Card>

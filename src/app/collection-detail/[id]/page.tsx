@@ -48,8 +48,8 @@ export default function CollectionDetail({params} : {params : {id: number}}) {
                     <div>
                         <div>
                             <button className="mt-8 flex h-10 items-center justify-center w-80 bg-yellow-400 hover:bg-yellow-500 rounded-lg outline-none border-none" title="Favoritar coleção">
-                                <div className="flex text-lg text-white">
-                                    <strong>Favoritar</strong>
+                                <div className="flex text-lg">
+                                    Favoritar
                                 </div>
                             </button>
                         </div>
