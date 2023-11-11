@@ -1,8 +1,10 @@
 "use client";
-import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Modal, Tab, Tabs } from "@mui/material";
 import SignIn from "./userModal/SignIn";
 import { useState } from "react";
 import SignUp from "./userModal/SignUp";
+import Backdrop from "@mui/material/Backdrop";
+import Fade from "@mui/material/Fade";
 
 interface UserModalProps {
   open: boolean;
@@ -27,11 +29,7 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
         aria-labelledby={`simple-tab-${index}`}
         {...other}
       >
-        {value === index && (
-          <Box sx={{ p: 3 }}>
-            {children}
-          </Box>
-        )}
+        {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
       </div>
     );
   }
@@ -54,37 +52,46 @@ export default function UserModal({ open, handleClose }: UserModalProps) {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      closeAfterTransition
+      slots={{ backdrop: Backdrop }}
+      slotProps={{
+        backdrop: {
+          timeout: 500,
+        },
+      }}
     >
-      <Box
-        sx={{
-          position: "absolute" as "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 720,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="Sign In" {...a11yProps(0)} />
-            <Tab label="Sign Up" {...a11yProps(1)} />
-          </Tabs>
+      <Fade in={open}>
+        <Box
+          sx={{
+            position: "absolute" as "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 720,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+              <Tab label="Entrar" {...a11yProps(0)} />
+              <Tab label="Cadastrar" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <SignIn />
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <SignUp />
+          </CustomTabPanel>
         </Box>
-        <CustomTabPanel value={value} index={0}>
-          <SignIn />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <SignUp />
-        </CustomTabPanel>
-      </Box>
+      </Fade>
     </Modal>
   );
 }
