@@ -76,7 +76,7 @@ export default function Carrousel(props : CarrouselProps) {
   return (
     <div className="">
       <div className="flex" onWheel={handleWheel} >
-        <button className="flex-none z-10 border-none bg-gray-200 hover:bg-gray-300 opacity-70 rounded" onClick={showPrev}>
+        <button className="flex-none z-10 border-none bg-transparent rounded" onClick={showPrev}>
           <ArrowBackIos/>
         </button>
         <div className={`overflow-x-auto gap-2 grow z-0 carousel ${isTransitioning ? (isReversing ? 'rotate-exit-active' : 'rotate-enter-active'): ''}`}>
@@ -92,7 +92,7 @@ export default function Carrousel(props : CarrouselProps) {
                                 className='my-1 max-w-full'
                             /> 
                             <div className="flex justify-center items-center bg-gray-300 rounded h-8">
-                              <h4>{volume.volumeName}</h4>
+                              <h4>Indisponivel</h4>
                             </div>
                         </CardContent>
                     </CardActionArea>
@@ -100,7 +100,7 @@ export default function Carrousel(props : CarrouselProps) {
               </div>
             ))}
         </div>
-        <button className="flex-none z-10 border-none bg-gray-200 hover:bg-gray-300 opacity-70 rounded" onClick={showNext}>
+        <button className="flex-none z-10 border-none bg-transparent rounded" onClick={showNext}>
           <ArrowForwardIos/>
         </button>
       </div>

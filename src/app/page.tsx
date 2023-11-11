@@ -37,7 +37,7 @@ export default function Page() {
                     height={310}
                     className='my-1 max-w-full rounded-xl'
                   /> 
-                  <Card title={element.collectionName} className='h-3 flex items-center text-sm'/> 
+                 
                   <Box sx={{ flexGrow: 1}} className='h-20 flex justify-center items-center'>
                     <Grid2 container spacing={0.5} sx={{justifyContent: 'center'}}>
                       {element.category.slice(0,3).map((element, index) => (

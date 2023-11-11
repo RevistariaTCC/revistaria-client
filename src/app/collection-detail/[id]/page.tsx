@@ -1,10 +1,8 @@
 'use client'
 import Carrousel from "@/app/components/Carrousel"
-import { Box, Card, CardActionArea, CardContent, CardMedia, Chip } from "@mui/material"
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2"
-import Image from "next/image"
-import { useState } from "react"
 import { starIcon } from "../../../../public/icons/Icons"
+import { ArrowForward } from "@mui/icons-material"
+import { ArrowRightIcon } from "@mui/x-date-pickers"
 
 export default function CollectionDetail({params} : {params : {id: number}}) {
 
@@ -35,23 +33,25 @@ export default function CollectionDetail({params} : {params : {id: number}}) {
                             <img width="250px" src={volume.img}></img>
                         </div>
                     </div>
-                    <div className="flex gap-1 mt-2 justify-center">
-                        <Carrousel volume={volumes}></Carrousel>
-                    </div>
+                    <h2>Descrição</h2>
+                    <p>A vida era melhor antigamente. Pelo menos é o que dizem. Mas Greg Heffley, um garoto acostumado ao conforto do mundo moderno, não concorda muito com isso. E uma decisão polêmica começa a colocar seu paraíso tecnológico em curto-circuito: todos da cidade decidem dar um tempo dos aparelhos eletrônicos. Dentro e fora de casa, Greg terá que enfrentar o dia a dia à moda antiga. Será que ele vai conseguir sobreviver do mesmo jeitinho que se fazia nos "bons e velhos tempos"?</p>
                 </div>
                 <div>
                     <div className="mb-5">
-                        <h1>{volume.collectionName}</h1>
+                        <h1 className="ms-14">{volume.collectionName}</h1>
                     </div>
-                    <h2>Descrição</h2>
-                    <p>A vida era melhor antigamente. Pelo menos é o que dizem. Mas Greg Heffley, um garoto acostumado ao conforto do mundo moderno, não concorda muito com isso. E uma decisão polêmica começa a colocar seu paraíso tecnológico em curto-circuito: todos da cidade decidem dar um tempo dos aparelhos eletrônicos. Dentro e fora de casa, Greg terá que enfrentar o dia a dia à moda antiga. Será que ele vai conseguir sobreviver do mesmo jeitinho que se fazia nos "bons e velhos tempos"?</p>
                     <div>
-                        <div>
-                            <button className="mt-8 flex h-10 items-center justify-center w-80 bg-yellow-400 hover:bg-yellow-500 rounded-lg outline-none border-none" title="Favoritar coleção">
-                                <div className="flex text-lg">
-                                    Favoritar
-                                </div>
-                            </button>
+                        <button className="ms-14 mt-8 flex items-center justify-center w-40 bg-yellow-400 hover:bg-yellow-500 rounded-lg outline-none border-none" title="Favoritar coleção">
+                            <div className="flex text-lg w-10 h-10">
+                                {starIcon}
+                            </div>
+                        </button>
+                        <p className="ms-14">Adicione essa coleção a sua lista de favoritos para ficar atento sobre as novidades</p>
+                    </div>
+                    <div className="mt-40">
+                        <h2 className="ms-14 flex items-center">Volumes <ArrowRightIcon/></h2>
+                        <div className="flex gap-1 justify-center">
+                            <Carrousel volume={volumes}></Carrousel>
                         </div>
                     </div>
                 </div>
