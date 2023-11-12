@@ -1,4 +1,5 @@
 'use client'
+import { iUser } from "@/schemas/User"
 import { useCallback, useState, createContext, useContext, ReactNode } from "react"
 
 const AUTH_TOKEN_KEY = "@Revistaria:Token"
@@ -8,11 +9,12 @@ type LayoutProps = {children?: ReactNode}
 
 interface AuthState {
   token: string;
-  user: object;
+  user: iUser;
 }
 
 interface AuthContextData {
-  user: object;
+  user: iUser;
+  token: string;
   signIn(credentials: AuthState): Promise<void>;
   signOut(): void;
 }
@@ -48,7 +50,7 @@ const AuthProvider = ({ children }: LayoutProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, token: data.token, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
