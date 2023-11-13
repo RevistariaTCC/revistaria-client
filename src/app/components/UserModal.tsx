@@ -14,6 +14,7 @@ import SignUp from "./userModal/SignUp";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
 import InterestsComponent from "./userModal/Interests";
+import ProfileComponent from "./userModal/Profile";
 
 interface UserModalProps {
   handleOpen: { open: boolean; type: string };
@@ -96,7 +97,7 @@ const Content = ({
         <InterestsComponent closeModal={handleClose} onSucess={onSuccess} />
       );
     case "profile":
-      return <SignInContent />;
+      return <ProfileComponent closeModal={handleClose} onSucess={onSuccess}  />;
     default:
       return <div></div>;
   }

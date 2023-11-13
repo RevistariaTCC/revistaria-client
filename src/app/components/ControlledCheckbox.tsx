@@ -1,13 +1,15 @@
 import { Checkbox, CheckboxProps, FormControl, FormControlLabel, FormHelperText } from "@mui/material";
-import { Controller, ControllerProps } from "react-hook-form";
+import { Control, Controller, ControllerProps } from "react-hook-form";
 
 interface iFormControlLabel {
   label: string;
 }
 
-type iControlledCheckbox = Omit<ControllerProps, "render"> &
+type iControlledCheckbox = Omit<Omit<ControllerProps, "control">, "render"> &
   CheckboxProps &
-  iFormControlLabel;
+  iFormControlLabel & {
+    control: Control<any, object>;
+  };
 
 export default function ControlledCheckbox(props: iControlledCheckbox) {
   const state = props.control?.getFieldState(props.name);

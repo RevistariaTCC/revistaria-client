@@ -31,7 +31,7 @@ const InterestsComponent = ({ closeModal, onSucess }: iInterestsComponent) => {
   const [filter, setFilter] = useState("");
   const { user, token } = useAuth();
   const { isLoading, isError, data } = useQuery<iCategory[]>(listCategories);
-  const [sucess, setSuccess] = useState(false);
+
   useQuery({
     ...getUserById(user.id, { Authorization: `Bearer ${token}` }),
     onSuccess: (data) => {

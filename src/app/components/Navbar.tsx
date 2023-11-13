@@ -29,6 +29,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import ptBR from "date-fns/locale/pt-BR";
 import { useAuth } from "@/hooks/auth";
+import SearchInput from "./SearchInput";
 
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({})
@@ -165,19 +166,7 @@ export default function NavBar() {
         >
           <Toolbar>
             <Link variant="h6" underline="none" href="/" color="inherit">Revistaria</Link>
-            <TextField
-              name="search"
-              placeholder="Buscar"
-              variant="standard"
-              className="ml-8 relative"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <SearchInput />
             <Box sx={{ flexGrow: 1 }} />
             {currentUser ? (
               <>
