@@ -43,7 +43,7 @@ export default function Banner() {
         </button>
         <div className={`overflow-x-auto gap-2 grow z-0 carousel ${isTransitioning ? (isReversing ? 'rotate-exit-active' : 'rotate-enter-active'): ''}`}>
             {cards.slice(startIndex, startIndex + 1).map((element, index) => (
-              <div key={element} className="h-64 w-full bg-gray-400 flex justify-center items-center">
+              <div key={element} className="h-80 w-full bg-gray-400 flex justify-center items-center">
                 {element}
               </div>
             ))}
