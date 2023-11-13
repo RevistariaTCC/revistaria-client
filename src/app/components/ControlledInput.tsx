@@ -1,7 +1,14 @@
-import { Controller, ControllerProps } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  ControllerProps,
+  FieldValues,
+} from "react-hook-form";
 import { TextField, TextFieldProps } from "@mui/material";
 
-type iControlledInput = Omit<ControllerProps, "render"> & TextFieldProps;
+type iControlledInput = Omit<Omit<ControllerProps, "control">, "render"> & TextFieldProps & {
+  control: Control<any, object>;
+};
 
 export default function ControlledInput(props: iControlledInput) {
   const state = props.control?.getFieldState(props.name);

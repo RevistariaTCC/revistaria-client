@@ -1,6 +1,6 @@
 import { TextField, TextFieldProps } from "@mui/material";
 import React from "react";
-import { Controller, ControllerProps } from "react-hook-form";
+import { Control, Controller, ControllerProps } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 
 interface CustomProps {
@@ -13,9 +13,11 @@ interface iInput {
   mask: string;
 }
 
-type iControlledInput = Omit<ControllerProps, "render"> &
+type iControlledInput = Omit<Omit<ControllerProps, "control">, "render"> &
   TextFieldProps &
-  iInput;
+  iInput & {
+    control: Control<any, object>;
+  };
 
 const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
   function TextMaskCustom(props, ref) {

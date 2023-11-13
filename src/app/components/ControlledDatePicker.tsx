@@ -1,4 +1,4 @@
-import { Controller, ControllerProps } from "react-hook-form";
+import { Control, Controller, ControllerProps } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 interface IDatePicker {
@@ -10,7 +10,9 @@ interface IDatePicker {
   fullWidth: boolean;
 }
 
-type iControlledDatePicker = Omit<ControllerProps, "render"> & IDatePicker;
+type iControlledDatePicker = Omit<Omit<ControllerProps, "control">, "render"> & IDatePicker & {
+  control: Control<any, object>;
+};;
 
 export default function ControlledDatePicker(props: iControlledDatePicker) {
   const state = props.control?.getFieldState(props.name);

@@ -19,7 +19,9 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <NavBar />
-            {children}
+            <div className="m-2">
+              {children}
+            </div>
           </AuthProvider>
         </QueryClientProvider>
       </body>
