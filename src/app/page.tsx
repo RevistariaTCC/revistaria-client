@@ -1,5 +1,5 @@
 'use client'
-import Carrousel from './components/Carrousel'
+import Carrousel from './components/ScrollCards'
 import Banner from './components/Banner'
 import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
@@ -17,26 +17,27 @@ export default function Page() {
 
   const router = useRouter()
 
-  const handleClickColections = () => {
-    router.push('/')
+  const handleClickColections = (id:number) => {
+    router.push(`/collection-detail/${id}`)
   }
 
   return (
     <div className="">
       <Banner/>
+
       <div className='mt-8 flex justify-center'>
         <div className='flex flex-wrap gap-3 cell:justify-center md:justify-normal'>
           {colections.map((element) => (
             <Card key={element.id} className='w-[205px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
-              <CardActionArea onClick={handleClickColections} className='p-0 m-0 h-full'>
-                <CardHeader title={element.collectionName} className='h-7 flex items-center text-xs'/> 
+              <CardActionArea onClick={()=>handleClickColections(element.id)} className='p-0 m-0 h-full'>
                 <CardContent sx={{maxWidth: '100%', padding:'0'}}>
                   <CardMedia
                     component='img'
                     image={element.img}
                     height={310}
-                    className='my-1 max-w-full'
+                    className='my-1 max-w-full rounded-xl'
                   /> 
+                 
                   <Box sx={{ flexGrow: 1}} className='h-20 flex justify-center items-center'>
                     <Grid2 container spacing={0.5} sx={{justifyContent: 'center'}}>
                       {element.category.slice(0,3).map((element, index) => (
@@ -51,17 +52,6 @@ export default function Page() {
             </Card>
           ))}
         </div>
-      </div>
-  
-      <div className="mt-4">
-          <div className="">
-            <div className="h-8"></div>
-            <Carrousel title='Em destaque'></Carrousel>
-            <div className="h-8"></div>
-            <Carrousel title='Sugestões'></Carrousel>
-            <div className="h-8"></div>
-            <Carrousel title='Favoritos'></Carrousel>
-          </div>
       </div>
     </div>
   )
