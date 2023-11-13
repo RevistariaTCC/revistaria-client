@@ -1,5 +1,5 @@
 'use client'
-import Carrousel from './components/Carrousel'
+import Carrousel from './components/ScrollCards'
 import Banner from './components/Banner'
 import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
