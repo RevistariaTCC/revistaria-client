@@ -8,9 +8,10 @@ type CarrouselProps = {
 
 type volumeList = {
   id: number;
-  volumeName: string;
+  title: string;
   category: string[];
-  img: string;
+  image: string;
+  status: 'AVAILABLE' | 'UNAVAILABLE';
 };
 
 
@@ -21,6 +22,10 @@ export default function ScrollCards(props : CarrouselProps) {
   const cards = props.volume;
   const [volumesName, setVolumesName] = useState("");
 
+  const DISPONIBILITY = {
+    AVAILABLE: {text: 'Disponivel', class: 'bg-green-400'},
+    UNAVAILABLE: {text: 'Indisponivel', class: 'bg-gray-300'}
+  }
 
   const handleClick = (volumesName: string) =>{
     setShowModal(true);
@@ -37,19 +42,19 @@ export default function ScrollCards(props : CarrouselProps) {
           <ArrowForwardIos/>
         </button>
       </div> */}
-        <div className={`gap-2 z-0 flex`}>
+        <div className={`gap-2 z-0 flex p-2`}>
           {cards.map((volume) => (
               <Card key={volume.id} className='w-[130px] p-2 flex flex-col justify-center hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
-                  <CardActionArea onClick={()=>handleClick(volume.volumeName)} className='p-0 m-0 h-full'>
+                  <CardActionArea onClick={()=>handleClick(volume.title)} className='p-0 m-0 h-full'>
                       <CardContent sx={{maxWidth: '100%', padding:'0'}}>
                           <CardMedia
                               component='img'
-                              image={volume.img}
+                              image={volume.image}
                               height={200}  
-                              className='my-1 max-w-full'
+                              className='my-1 max-w-full rounded'
                           /> 
-                          <div className="flex justify-center items-center bg-gray-300 rounded h-8">
-                            <h4>Indisponivel</h4>
+                          <div className={`flex justify-center items-center rounded h-S8 ${DISPONIBILITY[volume.status].class}`}>
+                            <h4>{DISPONIBILITY[volume.status].text}</h4>
                           </div>
                       </CardContent>
                   </CardActionArea>

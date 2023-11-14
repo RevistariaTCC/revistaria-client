@@ -5,3 +5,9 @@ export const listCollections = (searchTerm: string) => ({
   staleTime: Infinity,
   queryFn: () => fetchData(`/collections${searchTerm ? "?search="+searchTerm : ""}`),
 });
+
+export const showCollection = (id: string) => ({
+  queryKey: ["collection-detail"],
+  staleTime: Infinity,
+  queryFn: () => fetchData(`/collections/${id}`),
+})
