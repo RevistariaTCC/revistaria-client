@@ -34,7 +34,7 @@ import SearchInput from "./SearchInput";
 import FavoritesPopover from "./FavoritesPopover";
 
 export default function NavBar() {
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -166,8 +166,8 @@ export default function NavBar() {
   }, [user]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+      <ThemeProvider theme={theme}>
         <AppBar position="static" className="sticky top-0 z-20 w-full">
           <Toolbar>
             <Container className="flex h-full justify-center items-center">
@@ -179,7 +179,7 @@ export default function NavBar() {
               {currentUser ? (
                 <>
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                    <FavoritesPopover/>
+                    <FavoritesPopover userID={currentUser.id} />
                     <IconButton
                       size="large"
                       aria-label="show 17 new notifications"
@@ -229,12 +229,12 @@ export default function NavBar() {
             </Container>
           </Toolbar>
         </AppBar>
-        <UserModal
-          handleOpen={showUserModal}
-          handleClose={() => setShowUserModal({ open: false, type: "" })}
-          type="signin"
-        />
-      </LocalizationProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+      <UserModal
+        handleOpen={showUserModal}
+        handleClose={() => setShowUserModal({ open: false, type: "" })}
+        type="signin"
+      />
+    </LocalizationProvider>
   );
 }

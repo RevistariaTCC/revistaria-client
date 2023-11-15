@@ -8,6 +8,6 @@ export const listCollections = (searchTerm: string) => ({
 
 export const showCollection = (id: string) => ({
   queryKey: ["collection-detail"],
-  staleTime: Infinity,
+  refetchOnWindowFocus: false,
   queryFn: () => fetchData(`/collections/${id}`),
 })
