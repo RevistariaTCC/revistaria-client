@@ -22,6 +22,7 @@ const style = {
     openModal: boolean;
     handleClose: ()=>void;
     volumesName: string;
+    synopsis: string
   }
 
 export default function VolumeModal (props: VolumeModalProps) {
@@ -37,7 +38,7 @@ export default function VolumeModal (props: VolumeModalProps) {
                 <Box sx={style}>
                     <h1>{props.volumesName}</h1>
                     <h2>Detalhes</h2>
-                    <p>A vida era melhor antigamente. Pelo menos é o que dizem. Mas Greg Heffley, um garoto acostumado ao conforto do mundo moderno, não concorda muito com isso. E uma decisão polêmica começa a colocar seu paraíso tecnológico em curto-circuito: todos da cidade decidem dar um tempo dos aparelhos eletrônicos. Dentro e fora de casa, Greg terá que enfrentar o dia a dia à moda antiga. Será que ele vai conseguir sobreviver do mesmo jeitinho que se fazia nos "bons e velhos tempos"?</p>
+                    <p>{props.synopsis}</p>
                     <div>
                         <button className="mt-8 flex h-10 items-center justify-center w-80 bg-yellow-400 hover:bg-yellow-500 rounded-lg outline-none border-none" title="Favoritar coleção">
                             <div className="flex text-lg">

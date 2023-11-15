@@ -3,15 +3,16 @@ import { Card, CardActionArea, CardContent, CardMedia } from "@mui/material";
 import VolumeModal from "./VolumeModal";
 
 type CarrouselProps = {
-  volume: volumeList[];
+  volumes: Volume[];
 }
 
-type volumeList = {
+type Volume = {
   id: number;
   title: string;
   category: string[];
   image: string;
   status: 'AVAILABLE' | 'UNAVAILABLE';
+  synopsis: string;
 };
 
 
@@ -19,7 +20,8 @@ export default function ScrollCards(props : CarrouselProps) {
 
   const [showModal,setShowModal] = useState(false);
   
-  const cards = props.volume;
+  const cards = props.volumes;
+  const [activeVolume, setActiveVolume] = useState<Volume>({} as Volume);
   const [volumesName, setVolumesName] = useState("");
 
   const DISPONIBILITY = {
@@ -27,9 +29,9 @@ export default function ScrollCards(props : CarrouselProps) {
     UNAVAILABLE: {text: 'Indisponivel', class: 'bg-gray-300'}
   }
 
-  const handleClick = (volumesName: string) =>{
+  const handleClick = (volume: Volume) =>{
     setShowModal(true);
-    setVolumesName(volumesName);
+    setActiveVolume(volume);
   }
 
   return (
@@ -45,7 +47,7 @@ export default function ScrollCards(props : CarrouselProps) {
         <div className={`gap-2 z-0 flex p-2`}>
           {cards.map((volume) => (
               <Card key={volume.id} className='w-[130px] p-2 flex flex-col justify-center hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
-                  <CardActionArea onClick={()=>handleClick(volume.title)} className='p-0 m-0 h-full'>
+                  <CardActionArea onClick={()=>handleClick(volume)} className='p-0 m-0 h-full'>
                       <CardContent sx={{maxWidth: '100%', padding:'0'}}>
                           <CardMedia
                               component='img'
@@ -61,7 +63,7 @@ export default function ScrollCards(props : CarrouselProps) {
               </Card> 
             ))}
         </div>
-      <VolumeModal openModal={showModal} volumesName={volumesName} handleClose={()=>setShowModal(false)}/>
+      <VolumeModal openModal={showModal} volumesName={activeVolume.title} synopsis={activeVolume.synopsis} handleClose={()=>setShowModal(false)}/>
     </div>
     )
 };

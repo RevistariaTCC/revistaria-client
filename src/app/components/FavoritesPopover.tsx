@@ -141,7 +141,7 @@ const FavoritesPopover = ({ userID }: FavoritesPopoverProps) => {
         className="mt-4"
       >
         {data && data.collections.length == 0 && (
-          <Box sx={{ flexGrow: 1 }} className="p-10">
+          <Box sx={{ flexGrow: 1 }} className="pt-2 px-4">
             <Typography>Sua lista de favoritos ainda está vazia!</Typography>
           </Box>
         )}

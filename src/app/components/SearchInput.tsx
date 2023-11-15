@@ -138,14 +138,14 @@ const SearchInput = () => {
           className="mt-2 p-2"
         >
           {isLoading && <CircularProgress />}
-          <div className="flex divide-y divide-slate-200 w-96">
-            {data && data.length == 0 && (
-              <Box sx={{ flexGrow: 1 }} className="p-10">
+          {data && data.length == 0 && (
+              <Box sx={{ flexGrow: 1 }} className="pt-2 px-4">
                 <Typography>
                   Não encontramos nenhuma coleção com esse nome!
                 </Typography>
               </Box>
             )}
+          <div className="flex divide-y divide-slate-200 w-96">
             <List dense={true} className="w-full">
               {data &&
                 data.map((item: iCollection, index: number) => (
