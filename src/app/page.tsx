@@ -4,45 +4,62 @@ import Banner from './components/Banner'
 import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { useRouter } from 'next/navigation'
+import { useQuery } from 'react-query'
+import { listCollections } from '@/services/api/internal/collection'
+import Image from 'next/image'
+
+interface iCollection {
+  name: string;
+  id: string;
+  image: string;
+  categories: iCategory[];
+}
+
+interface iCategory {
+  id: string;
+  name: string;
+}
 
 export default function Page() {
 
-  const colections = [
-    {id: 0 , collectionName: 'Naruto', category: ['Manga' , 'Shonnen', 'Ação', 'Comédia', 'Drama'], img: 'https://books.google.com.br/books/publisher/content?id=THsEEAAAQBAJ&hl=pt-BR&pg=PA1&img=1&zoom=3&bul=1&sig=ACfU3U3YI6v95ACL0S9G1QFQsdOTBeRnOA&w=1280' },
-    {id: 1 , collectionName: 'Harry Potter', category: ['Fantasia' , 'Aventura'], img: 'https://m.media-amazon.com/images/I/518mqZ7A31L._SY445_SX342_.jpg' },
-    {id: 2 , collectionName: 'Jujutsu Kaisen', category: ['Manga' , 'Shonen', 'Sobrenatural'], img: 'https://m.media-amazon.com/images/I/71PBZJaSmAL._SY466_.jpg' },
-    {id: 3 , collectionName: 'Jogos Vorazes', category: ['Romance' , 'Ação', 'Drama', 'Ficção Científica'], img: 'https://m.media-amazon.com/images/I/41bJaeuf89L._SY445_SX342_.jpg' },
-    {id: 4 , collectionName: 'As Crônicas de Gelo e Fogo', category: ['Fantasia' ,'Ação', 'Drama'], img: 'https://m.media-amazon.com/images/I/41UKpOWrZVL._SY445_SX342_.jpg' },
-  ]
-
   const router = useRouter()
 
-  const handleClickColections = (id:number) => {
+  const { data, isLoading, error, refetch } = useQuery({
+      ...listCollections(),
+      onSuccess: (data) => {
+        console.log(data)
+      }
+    } 
+  );
+
+  console.log(error);
+
+  const handleClickColections = (id:string) => {
     router.push(`/collection-detail/${id}`)
   }
 
   return (
     <div className="">
       <Banner/>
-
+    
       <div className='mt-8 flex justify-center'>
         <div className='flex flex-wrap gap-3 cell:justify-center md:justify-normal'>
-          {colections.map((element) => (
+          {data && data.slice(0,5).map((element: iCollection) => (
             <Card key={element.id} className='w-[205px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
               <CardActionArea onClick={()=>handleClickColections(element.id)} className='p-0 m-0 h-full'>
                 <CardContent sx={{maxWidth: '100%', padding:'0'}}>
                   <CardMedia
                     component='img'
-                    image={element.img}
+                    image={element.image}
                     height={310}
                     className='my-1 max-w-full rounded-xl'
                   /> 
                  
                   <Box sx={{ flexGrow: 1}} className='h-20 flex justify-center items-center'>
                     <Grid2 container spacing={0.5} sx={{justifyContent: 'center'}}>
-                      {element.category.slice(0,3).map((element, index) => (
+                      {element.categories && element.categories.slice(0,3).map((category, index) => (
                         <Grid2 key={index}>
-                          <Chip label={element}></Chip>
+                          <Chip label={category.name}></Chip>
                         </Grid2>
                       ))}
                     </Grid2>
