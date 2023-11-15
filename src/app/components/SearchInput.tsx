@@ -1,6 +1,14 @@
 import {
+  Avatar,
+  Box,
   CircularProgress,
+  IconButton,
   InputAdornment,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
   Popover,
   TextField,
   ThemeProvider,
@@ -11,6 +19,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import { listCollections } from "@/services/api/internal/collection";
+import { useRouter } from "next/navigation";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface iCollection {
   id: string;
@@ -24,26 +34,49 @@ const theme = createTheme({
   },
 });
 
-const CollectionItem = ({ collection }: { collection: iCollection }) => {
+const CollectionItem = ({
+  collection,
+  onClick,
+}: {
+  collection: iCollection;
+  onClick(): void;
+}) => {
   return (
-    <div className="flex p-2 items-center justify-center gap-2 cursor-pointer hover:bg-slate-300">
-      <img src={collection.image} alt="" width={50} className="rounded-md" />
-      <Typography variant="h6" sx={{ p: 2 }}>
-        {collection.name}
-      </Typography>
-    </div>
+    <ListItem
+
+    >
+      <ListItemButton onClick={onClick}>
+        <ListItemAvatar>
+          <Avatar>
+            <img
+              src={collection.image}
+              alt=""
+              width={50}
+              className="rounded-md"
+            />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={collection.name} />
+      </ListItemButton>
+    </ListItem>
   );
 };
 
 const SearchInput = () => {
+  const router = useRouter();
+
+  const handleClickColections = (id: string) => {
+    router.push(`/collection-detail/${id}`);
+    setAnchorEl(null);
+    setSearchTerm("");
+  };
+
   const [anchorEl, setAnchorEl] = useState<
     HTMLInputElement | HTMLTextAreaElement | null | undefined
   >(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading, error, refetch } = useQuery(
-    listCollections(searchTerm)
-  );
+  const { data, isLoading, refetch } = useQuery(listCollections(searchTerm));
 
   const handleSearch = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined
@@ -74,7 +107,7 @@ const SearchInput = () => {
   const open = Boolean(anchorEl);
 
   return (
-    <div>
+    <>
       <TextField
         placeholder="Buscar"
         variant="standard"
@@ -89,6 +122,7 @@ const SearchInput = () => {
         }}
         onChange={handleSearch}
         onFocus={handleFocus}
+        autoComplete="off"
       />
       <ThemeProvider theme={theme}>
         <Popover
@@ -104,18 +138,28 @@ const SearchInput = () => {
           className="mt-2 p-2"
         >
           {isLoading && <CircularProgress />}
-          <div className="flex divide-y divide-slate-200">
-            {data &&
-              data.map((item: iCollection, index: number) => (
-                <CollectionItem
-                  key={`search-collection-${index}`}
-                  collection={item}
-                />
-              ))}
+          {data && data.length == 0 && (
+              <Box sx={{ flexGrow: 1 }} className="pt-2 px-4">
+                <Typography>
+                  Não encontramos nenhuma coleção com esse nome!
+                </Typography>
+              </Box>
+            )}
+          <div className="flex divide-y divide-slate-200 w-96">
+            <List dense={true} className="w-full">
+              {data &&
+                data.map((item: iCollection, index: number) => (
+                  <CollectionItem
+                    key={`search-collection-${index}`}
+                    collection={item}
+                    onClick={() => handleClickColections(item.id)}
+                  />
+                ))}
+            </List>
           </div>
         </Popover>
       </ThemeProvider>
-    </div>
+    </>
   );
 };
 

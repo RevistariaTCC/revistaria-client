@@ -6,6 +6,7 @@ import {
   Badge,
   Box,
   Button,
+  Container,
   IconButton,
   InputAdornment,
   Link,
@@ -17,7 +18,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import UserModal from "./UserModal";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -30,10 +31,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ptBR from "date-fns/locale/pt-BR";
 import { useAuth } from "@/hooks/auth";
 import SearchInput from "./SearchInput";
+import FavoritesPopover from "./FavoritesPopover";
 
 export default function NavBar() {
-  const [currentUser, setCurrentUser] = useState({})
-  const [showUserModal, setShowUserModal] = useState({open: false, type: ''});
+  const [currentUser, setCurrentUser] = useState({} as { id: string });
+  const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -48,7 +50,6 @@ export default function NavBar() {
       mode: "dark",
     },
   });
-
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -68,14 +69,14 @@ export default function NavBar() {
   };
 
   const openInterestsModal = () => {
-    setShowUserModal({open: true, type: 'interests'})
-    handleMenuClose()
-  }
+    setShowUserModal({ open: true, type: "interests" });
+    handleMenuClose();
+  };
 
   const openProfileModal = () => {
-    setShowUserModal({open: true, type: 'profile'})
-    handleMenuClose()
-  }
+    setShowUserModal({ open: true, type: "profile" });
+    handleMenuClose();
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -96,7 +97,14 @@ export default function NavBar() {
     >
       <MenuItem onClick={openInterestsModal}>Interesses</MenuItem>
       <MenuItem onClick={openProfileModal}>Minha conta</MenuItem>
-      <MenuItem onClick={() => {signOut(); handleMenuClose()}}>Sair</MenuItem>
+      <MenuItem
+        onClick={() => {
+          signOut();
+          handleMenuClose();
+        }}
+      >
+        Sair
+      </MenuItem>
     </Menu>
   );
 
@@ -153,82 +161,80 @@ export default function NavBar() {
   );
 
   useEffect(() => {
-    setShowUserModal({open: false, type: ''});
-    setCurrentUser(user)
+    setShowUserModal({ open: false, type: "" });
+    setCurrentUser(user);
   }, [user]);
 
   return (
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
-        <AppBar
-          position="static"
-          className="sticky top-0 z-20 w-full"
-        >
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+      <ThemeProvider theme={theme}>
+        <AppBar position="static" className="sticky top-0 z-20 w-full">
           <Toolbar>
-            <Link variant="h6" underline="none" href="/" color="inherit">Revistaria</Link>
-            <SearchInput />
-            <Box sx={{ flexGrow: 1 }} />
-            {currentUser ? (
-              <>
-                <Box sx={{ display: { xs: "none", md: "flex" } }}>
-                <IconButton
-                    size="large"
-                    aria-label="Favoritos"
-                    color="inherit"
-                  >
-                    <Badge color="error">
-                      <FavoriteIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                  >
-                    <Badge badgeContent={17} color="error">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="account of current user"
-                    aria-controls={menuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton>
-                </Box>
-                <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                  <IconButton
-                    size="large"
-                    aria-label="show more"
-                    aria-controls={mobileMenuId}
-                    aria-haspopup="true"
-                    onClick={handleMobileMenuOpen}
-                    color="inherit"
-                  >
-                    <MoreIcon />
-                  </IconButton>
-                  {renderMobileMenu}
-                  {renderMenu}
-                </Box>
-              </>
-            ) : (
-              <Button color="inherit" onClick={() => setShowUserModal({open: true, type: 'signin'})}>
-                Login
-              </Button>
-            )}
+            <Container className="flex h-full justify-center items-center">
+              <Link variant="h6" underline="none" href="/" color="inherit">
+                Revistaria
+              </Link>
+              <SearchInput />
+              <Box sx={{ flexGrow: 1 }} />
+              {currentUser ? (
+                <>
+                  <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    <FavoritesPopover userID={currentUser.id} />
+                    <IconButton
+                      size="large"
+                      aria-label="show 17 new notifications"
+                      color="inherit"
+                    >
+                      <Badge badgeContent={17} color="error">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                    <IconButton
+                      size="large"
+                      edge="end"
+                      aria-label="account of current user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={handleProfileMenuOpen}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                  </Box>
+                  <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                    <IconButton
+                      size="large"
+                      aria-label="show more"
+                      aria-controls={mobileMenuId}
+                      aria-haspopup="true"
+                      onClick={handleMobileMenuOpen}
+                      color="inherit"
+                    >
+                      <MoreIcon />
+                    </IconButton>
+                    {renderMobileMenu}
+                    {renderMenu}
+                  </Box>
+                </>
+              ) : (
+                <Button
+                  color="inherit"
+                  onClick={() =>
+                    setShowUserModal({ open: true, type: "signin" })
+                  }
+                >
+                  Login
+                </Button>
+              )}
+            </Container>
           </Toolbar>
         </AppBar>
-        <UserModal
-          handleOpen={showUserModal}
-          handleClose={() => setShowUserModal({open: false, type: ''})}
-          type="signin"
-        />
-      </LocalizationProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+      <UserModal
+        handleOpen={showUserModal}
+        handleClose={() => setShowUserModal({ open: false, type: "" })}
+        type="signin"
+      />
+    </LocalizationProvider>
   );
 }

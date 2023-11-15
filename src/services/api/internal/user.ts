@@ -49,3 +49,19 @@ export const updateInterests = ({ data, headers = {} }: iRequest) =>
     },
     body: JSON.stringify(data),
   });
+
+export const boundCollection = ({id, headers = {}}: {id: string, headers: object}) =>
+  fetchData(`/users/link-collection/${id}`, {
+    method: "PUT", // or 'PUT'
+    headers: {
+      ...headers,
+    },
+  });
+
+  export const unboundCollection = ({id, headers = {}}: {id: string, headers: object}) =>
+  fetchData(`/users/unlink-collection/${id}`, {
+    method: "PUT", // or 'PUT'
+    headers: {
+      ...headers,
+    },
+  });
