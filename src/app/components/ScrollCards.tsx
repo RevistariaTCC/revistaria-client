@@ -18,7 +18,7 @@ type CarrouselProps = {
 };
 
 type Volume = {
-  id: number;
+  id: string;
   title: string;
   category: string[];
   image: string;
@@ -136,9 +136,8 @@ export default function ScrollCards(props: CarrouselProps) {
 
       <VolumeModal
         openModal={showModal}
-        volumesName={activeVolume.title}
-        synopsis={activeVolume.synopsis}
         handleClose={() => setShowModal(false)}
+        volume={activeVolume}
       />
     </>
   );

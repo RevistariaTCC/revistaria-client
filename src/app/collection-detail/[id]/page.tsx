@@ -3,7 +3,7 @@ import ScrollCards from "@/app/components/ScrollCards";
 import { ArrowRightIcon } from "@mui/x-date-pickers";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
 import GradeIcon from "@mui/icons-material/Grade";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { showCollection } from "@/services/api/internal/collection";
 import {
@@ -30,18 +30,23 @@ export default function CollectionDetail({
     ...showCollection(params.id),
   });
 
-  const checkIsFavorite = (collectios: iCollections[], id: string) => {
-    return collectios.some((collection) => collection.id == id);
+  const checkIsFavorite = (collections: iCollections[], id: string) => {
+    if (!collections) return false;
+    return collections.some((collection) => collection.id == id);
   };
 
-  if (user) {
-    useQuery({
-      ...getUserById(user.id, { Authorization: `Bearer ${token}` }),
-      onSuccess: (data) => {
-        setActiveFavorite(checkIsFavorite(data.collections, params.id));
-      },
-    });
-  }
+  const {refetch} = useQuery({
+    ...getUserById(user?.id, { Authorization: `Bearer ${token}` }),
+    onSuccess: (data) => {
+      setActiveFavorite(checkIsFavorite(data.collections, params.id));
+    },
+    enabled: false,
+  })
+
+  useEffect(() => {
+    if (user) refetch()
+
+  }, [user]);
 
   const addFavoriteMutation = useMutation(boundCollection, {
     onSuccess: (data) => {
@@ -109,9 +114,7 @@ export default function CollectionDetail({
           <div className="flex flex-col justify-between">
             <h2>Descrição</h2>
 
-            <p>
-              {collection.description}
-            </p>
+            <p>{collection.description}</p>
             <h2 className="flex items-center">
               Volumes <ArrowRightIcon />
             </h2>

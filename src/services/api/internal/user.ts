@@ -27,7 +27,7 @@ export const updateUser = ({ data, headers = {} }: iRequest) =>
     body: JSON.stringify(data),
   });
 
-export const getUserById = (id: string, headers = {}) => {
+export const getUserById = (id = "", headers = {}) => {
   return {
     queryKey: ["getUserById"],
     queryFn: () =>
@@ -50,7 +50,13 @@ export const updateInterests = ({ data, headers = {} }: iRequest) =>
     body: JSON.stringify(data),
   });
 
-export const boundCollection = ({id, headers = {}}: {id: string, headers: object}) =>
+export const boundCollection = ({
+  id,
+  headers = {},
+}: {
+  id: string;
+  headers: object;
+}) =>
   fetchData(`/users/link-collection/${id}`, {
     method: "PUT", // or 'PUT'
     headers: {
@@ -58,10 +64,29 @@ export const boundCollection = ({id, headers = {}}: {id: string, headers: object
     },
   });
 
-  export const unboundCollection = ({id, headers = {}}: {id: string, headers: object}) =>
+export const unboundCollection = ({
+  id,
+  headers = {},
+}: {
+  id: string;
+  headers: object;
+}) =>
   fetchData(`/users/unlink-collection/${id}`, {
     method: "PUT", // or 'PUT'
     headers: {
       ...headers,
     },
   });
+
+export const getReservations = ({ headers = {} }) => {
+  return {
+    queryKey: ["getUserReservations"],
+    queryFn: () =>
+      fetchData("/users/reservations", {
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+      }),
+  };
+};
