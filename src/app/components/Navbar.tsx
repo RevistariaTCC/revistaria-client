@@ -24,8 +24,9 @@ import { useAuth } from "@/hooks/auth";
 import SearchInput from "./SearchInput";
 import FavoritesPopover from "./FavoritesPopover";
 import LogoutIcon from "@mui/icons-material/Logout";
-import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import InterestsIcon from "@mui/icons-material/Interests";
+import NotificationPopover from "./NotificationsModal";
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
@@ -105,7 +106,7 @@ export default function NavBar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Minha conta</p>
+        <p>Conta</p>
       </MenuItem>
       <MenuItem onClick={() => openUserModal("reservations")}>
         <IconButton
@@ -115,9 +116,9 @@ export default function NavBar() {
           aria-haspopup="true"
           color="inherit"
         >
-          <ConfirmationNumberIcon />
+          <AssignmentTurnedInIcon />
         </IconButton>
-        <p>Minhas reservas</p>
+        <p>Reservas</p>
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -211,15 +212,7 @@ export default function NavBar() {
                 <>
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
                     <FavoritesPopover userID={currentUser.id} />
-                    <IconButton
-                      size="large"
-                      aria-label="show 17 new notifications"
-                      color="inherit"
-                    >
-                      <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
+                    <NotificationPopover />
                     <IconButton
                       size="large"
                       edge="end"
