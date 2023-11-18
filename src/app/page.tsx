@@ -1,18 +1,27 @@
 'use client'
-import Carrousel from './components/ScrollCards'
 import Banner from './components/Banner'
-import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Typography } from '@mui/material'
+import { Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Container, Typography } from '@mui/material'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
 import { useRouter } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { listCollections } from '@/services/api/internal/collection'
-import Image from 'next/image'
+import { ArrowRightIcon } from '@mui/x-date-pickers'
+import IndexScrollCards from './components/IndexScrollCards'
 
 interface iCollection {
   name: string;
   id: string;
   image: string;
   categories: iCategory[];
+  volumes: iVolumes[];
+}
+
+interface iVolumes {
+  id: number;
+  title: string;
+  category: string[];
+  image: string;
+  status: "AVAILABLE" | "UNAVAILABLE";
 }
 
 interface iCategory {
@@ -32,19 +41,21 @@ export default function Page() {
     } 
   );
 
-  console.log(error);
-
   const handleClickColections = (id:string) => {
     router.push(`/collection-detail/${id}`)
   }
 
+  const volumeList = data && data.map((element: iCollection) => element.volumes).reduce((listaVolumes: iVolumes[], livro: iVolumes[]) => {
+    listaVolumes.push(...livro);
+    return listaVolumes;
+  }, []);
+
   return (
-    <div className="">
+    <Container>
       <Banner/>
-    
       <div className='mt-8 flex justify-center'>
         <div className='flex flex-wrap gap-3 cell:justify-center md:justify-normal'>
-          {data && data.slice(0,5).map((element: iCollection) => (
+          {data && data.slice(0,4).map((element: iCollection) => (
             <Card key={element.id} className='w-[205px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer'>
               <CardActionArea onClick={()=>handleClickColections(element.id)} className='p-0 m-0 h-full'>
                 <CardContent sx={{maxWidth: '100%', padding:'0'}}>
@@ -70,6 +81,24 @@ export default function Page() {
           ))}
         </div>
       </div>
-    </div>
+      <Container className='mt-16'>
+        <h2 className="flex items-center">
+          Novidades <ArrowRightIcon />
+        </h2>
+        <IndexScrollCards volumes={volumeList}></IndexScrollCards>
+      </Container>
+      <Container className='mt-16'>
+        <h2 className="flex items-center">
+          Novidades <ArrowRightIcon />
+        </h2>
+        <IndexScrollCards volumes={volumeList}></IndexScrollCards>
+      </Container>
+      <Container className='mt-16'>
+        <h2 className="flex items-center">
+          Novidades <ArrowRightIcon />
+        </h2>
+        <IndexScrollCards volumes={volumeList}></IndexScrollCards>
+      </Container>
+    </Container>
   )
 }
