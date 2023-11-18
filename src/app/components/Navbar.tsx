@@ -16,7 +16,7 @@ import {
 import { useEffect, useState } from "react";
 import UserModal from "./UserModal";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MailIcon from "@mui/icons-material/Mail";
+import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -96,7 +96,9 @@ export default function NavBar() {
         </IconButton>
         <p>Minha conta</p>
       </MenuItem>
-      <MenuItem onClick={() => openUserModal("reservations")}><p>Minhas reservas</p></MenuItem>
+      <MenuItem onClick={() => openUserModal("reservations")}>
+        <p>Minhas reservas</p>
+      </MenuItem>
       <MenuItem
         onClick={() => {
           signOut();
@@ -222,7 +224,9 @@ export default function NavBar() {
                   onClick={() =>
                     setShowUserModal({ open: true, type: "signin" })
                   }
+                  className="flex gap-2"
                 >
+                  <LoginIcon />
                   Login
                 </Button>
               )}
