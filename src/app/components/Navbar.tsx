@@ -8,27 +8,18 @@ import {
   Button,
   Container,
   IconButton,
-  InputAdornment,
   Link,
   Menu,
   MenuItem,
-  TextField,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import MenuIcon from "@mui/icons-material/Menu";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import UserModal from "./UserModal";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import SearchIcon from "@mui/icons-material/Search";
-import ptBR from "date-fns/locale/pt-BR";
 import { useAuth } from "@/hooks/auth";
 import SearchInput from "./SearchInput";
 import FavoritesPopover from "./FavoritesPopover";
@@ -68,13 +59,8 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const openInterestsModal = () => {
-    setShowUserModal({ open: true, type: "interests" });
-    handleMenuClose();
-  };
-
-  const openProfileModal = () => {
-    setShowUserModal({ open: true, type: "profile" });
+  const openUserModal = (type: string) => {
+    setShowUserModal({ open: true, type });
     handleMenuClose();
   };
 
@@ -95,15 +81,29 @@ export default function NavBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={openInterestsModal}>Interesses</MenuItem>
-      <MenuItem onClick={openProfileModal}>Minha conta</MenuItem>
+      <MenuItem onClick={() => openUserModal("interests")}>
+        <p>Interesses</p>
+      </MenuItem>
+      <MenuItem onClick={() => openUserModal("profile")}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Minha conta</p>
+      </MenuItem>
+      <MenuItem onClick={() => openUserModal("reservations")}><p>Minhas reservas</p></MenuItem>
       <MenuItem
         onClick={() => {
           signOut();
           handleMenuClose();
         }}
       >
-        Sair
+        <p>Sair</p>
       </MenuItem>
     </Menu>
   );
@@ -125,14 +125,6 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
       <MenuItem>
         <IconButton
           size="large"
@@ -157,6 +149,14 @@ export default function NavBar() {
         </IconButton>
         <p>Minha conta</p>
       </MenuItem>
+      <MenuItem
+        onClick={() => {
+          signOut();
+          handleMenuClose();
+        }}
+      >
+        Sair
+      </MenuItem>
     </Menu>
   );
 
@@ -166,7 +166,7 @@ export default function NavBar() {
   }, [user]);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+    <>
       <ThemeProvider theme={theme}>
         <AppBar position="static" className="sticky top-0 z-20 w-full">
           <Toolbar>
@@ -233,8 +233,7 @@ export default function NavBar() {
       <UserModal
         handleOpen={showUserModal}
         handleClose={() => setShowUserModal({ open: false, type: "" })}
-        type="signin"
       />
-    </LocalizationProvider>
+    </>
   );
 }

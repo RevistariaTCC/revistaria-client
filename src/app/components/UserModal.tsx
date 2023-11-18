@@ -15,11 +15,14 @@ import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
 import InterestsComponent from "./userModal/Interests";
 import ProfileComponent from "./userModal/Profile";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import ptBR from "date-fns/locale/pt-BR";
+import ReservationsComponent from "./userModal/Reservations";
 
 interface UserModalProps {
   handleOpen: { open: boolean; type: string };
   handleClose(): void;
-  type: "signin" | "interests" | "profile";
 }
 
 interface TabPanelProps {
@@ -97,7 +100,9 @@ const Content = ({
         <InterestsComponent closeModal={handleClose} onSucess={onSuccess} />
       );
     case "profile":
-      return <ProfileComponent closeModal={handleClose} onSucess={onSuccess}  />;
+      return <ProfileComponent closeModal={handleClose} onSucess={onSuccess} />;
+    case "reservations":
+        return <ReservationsComponent closeModal={handleClose} />
     default:
       return <div></div>;
   }
@@ -129,7 +134,7 @@ export default function UserModal({ handleClose, handleOpen }: UserModalProps) {
   };
 
   return (
-    <>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
       <Modal
         open={open}
         onClose={handleClose}
@@ -181,6 +186,6 @@ export default function UserModal({ handleClose, handleOpen }: UserModalProps) {
           {alert.message}
         </Alert>
       </Snackbar>
-    </>
+    </LocalizationProvider>
   );
 }
