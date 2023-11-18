@@ -23,7 +23,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@/hooks/auth";
 import SearchInput from "./SearchInput";
 import FavoritesPopover from "./FavoritesPopover";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
+import InterestsIcon from "@mui/icons-material/Interests";
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
@@ -82,6 +84,15 @@ export default function NavBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => openUserModal("interests")}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <InterestsIcon />
+        </IconButton>
         <p>Interesses</p>
       </MenuItem>
       <MenuItem onClick={() => openUserModal("profile")}>
@@ -97,6 +108,15 @@ export default function NavBar() {
         <p>Minha conta</p>
       </MenuItem>
       <MenuItem onClick={() => openUserModal("reservations")}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <ConfirmationNumberIcon />
+        </IconButton>
         <p>Minhas reservas</p>
       </MenuItem>
       <MenuItem
@@ -105,6 +125,15 @@ export default function NavBar() {
           handleMenuClose();
         }}
       >
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
         <p>Sair</p>
       </MenuItem>
     </Menu>
