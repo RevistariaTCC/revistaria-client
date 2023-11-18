@@ -102,7 +102,7 @@ const Content = ({
     case "profile":
       return <ProfileComponent closeModal={handleClose} onSucess={onSuccess} />;
     case "reservations":
-        return <ReservationsComponent closeModal={handleClose} />
+        return <ReservationsComponent />
     default:
       return <div></div>;
   }
