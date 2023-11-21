@@ -27,6 +27,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import InterestsIcon from "@mui/icons-material/Interests";
 import NotificationPopover from "./NotificationsModal";
+import { useRouter } from "next/navigation";
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
@@ -35,7 +36,7 @@ export default function NavBar() {
     React.useState<null | HTMLElement>(null);
 
   const { user, signOut } = useAuth();
-
+  const router = useRouter()
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -66,6 +67,10 @@ export default function NavBar() {
     setShowUserModal({ open: true, type });
     handleMenuClose();
   };
+
+  const navigate = (id: string) => {
+    router.push(`/collection-detail/${id}`)
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -212,7 +217,7 @@ export default function NavBar() {
                 <>
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
                     <FavoritesPopover userID={currentUser.id} />
-                    <NotificationPopover />
+                    <NotificationPopover openReservations={() => openUserModal("reservations")} navigate={navigate}/>
                     <IconButton
                       size="large"
                       edge="end"
