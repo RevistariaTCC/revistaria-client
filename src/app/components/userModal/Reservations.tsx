@@ -1,59 +1,108 @@
 import { useAuth } from "@/hooks/auth";
 import { getReservations } from "@/services/api/internal/user";
-import { Box, CircularProgress, Container, CssBaseline, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useCallback, useState } from "react";
 import { useQuery } from "react-query";
+import { format } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
-interface ReservationsComponentProps {
-  closeModal(): void;
+interface ReservationListItemProps {
+  reservation: ReservationType;
 }
 
-interface iReservation {
+interface ReservationType {
   claimed: boolean;
   createdAt: Date;
   claimedDate: Date | null;
-  volume: VolumeType
+  volume: VolumeType;
 }
 
 type VolumeType = {
-  image: string,
+  image: string;
   title: string;
-  collection: CollectionType
-}
+  collection: CollectionType;
+};
 
 type CollectionType = {
-  name: string
-}
+  name: string;
+};
 
+const ReservationListItem = ({ reservation }: ReservationListItemProps) => {
+  return (
+    <div className="flex gap-2 w-full">
+      <img src={reservation.volume.image} alt="" width={80} />
+      <div className="flex justify-between w-full content-baseline">
+        <div className="flex flex-col">
+          <Typography variant="caption">
+            {reservation.volume.collection.name}
+          </Typography>
+          <Typography variant="h6">{reservation.volume.title}</Typography>
+          <Typography variant="caption" className="flex flex-grow items-center">
+            {format(new Date(reservation.createdAt), "dd 'de' MMMM 'de' yyyy", {
+              locale: ptBR,
+            })}
+          </Typography>
+        </div>
+        {reservation.claimed && (
+          <div className="flex flex-col items-end pt-5">
+            <VerifiedIcon sx={{ width: 32, height: 32 }} />
+            {reservation.claimedDate && (
+              <Typography
+                variant="caption"
+                className="flex flex-grow items-center"
+              >
+                {format(
+                  new Date(reservation.claimedDate),
+                  "'Resgatado em' dd 'de' MMMM 'de' yyyy",
+                  {
+                    locale: ptBR,
+                  }
+                )}
+              </Typography>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
-const ReservationListItem = (reservation: iReservation) => {
-  return (<div>
-
-  </div>)
-}
-
-const ReservationsComponent = ({ closeModal }: ReservationsComponentProps) => {
+const ReservationsComponent = () => {
   const [filter, setFilter] = useState("");
   const { token } = useAuth();
 
-  const {data, isLoading, isError} = useQuery<iReservation[]>(getReservations({headers: {'Authorization': `Bearer ${token}`}}))
+  const { data, isLoading, isError } = useQuery<ReservationType[]>(
+    getReservations({ headers: { Authorization: `Bearer ${token}` } })
+  );
 
-  // const renderFilteredData = useCallback(() => {
-  //   if (filter.length < 3 || !data) return null;
+  const renderFilteredData = useCallback(() => {
+    if (filter.length < 3 || !data) return null;
 
-  //   return data
-  //     ?.filter((category) => category.name.includes(filter))
-  //     .map((category) => (
-  //       <Chip
-  //         key={`category-chip-${category.id}`}
-  //         label={category.name}
-  //         variant={
-  //           selectedCategories.includes(category.id) ? "filled" : "outlined"
-  //         }
-  //         onClick={() => handleClickCategory(category.id)}
-  //       />
-  //     ));
-  // }, [filter]);
+    const reservations = data
+      ?.filter((reservation) =>
+        reservation.volume.title
+          .toLocaleLowerCase()
+          .includes(filter.toLocaleLowerCase())
+      )
+      .map((reservation, index) => (
+        <ReservationListItem
+          key={`reservation-container-${index}`}
+          reservation={reservation}
+        />
+      ));
+
+    return reservations.length > 0
+      ? reservations
+      : "Nenhuma reserva com esse nome encontrada!";
+  }, [filter]);
 
   if (isError) return "An error has occurred: ";
 
@@ -91,10 +140,11 @@ const ReservationsComponent = ({ closeModal }: ReservationsComponentProps) => {
           {isLoading ? (
             <CircularProgress />
           ) : (
-            // renderFilteredData() ??
+            renderFilteredData() ??
             data.map((reservation, index) => (
               <ReservationListItem
                 key={`reservation-container-${index}`}
+                reservation={reservation}
               />
             ))
           )}

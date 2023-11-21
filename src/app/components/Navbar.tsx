@@ -16,14 +16,18 @@ import {
 import { useEffect, useState } from "react";
 import UserModal from "./UserModal";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import MailIcon from "@mui/icons-material/Mail";
+import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@/hooks/auth";
 import SearchInput from "./SearchInput";
 import FavoritesPopover from "./FavoritesPopover";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import InterestsIcon from "@mui/icons-material/Interests";
+import NotificationPopover from "./NotificationsModal";
+import { useRouter } from "next/navigation";
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
@@ -32,7 +36,7 @@ export default function NavBar() {
     React.useState<null | HTMLElement>(null);
 
   const { user, signOut } = useAuth();
-
+  const router = useRouter()
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -64,6 +68,10 @@ export default function NavBar() {
     handleMenuClose();
   };
 
+  const navigate = (id: string) => {
+    router.push(`/collection-detail/${id}`)
+  }
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -82,6 +90,15 @@ export default function NavBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => openUserModal("interests")}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <InterestsIcon />
+        </IconButton>
         <p>Interesses</p>
       </MenuItem>
       <MenuItem onClick={() => openUserModal("profile")}>
@@ -94,15 +111,35 @@ export default function NavBar() {
         >
           <AccountCircle />
         </IconButton>
-        <p>Minha conta</p>
+        <p>Conta</p>
       </MenuItem>
-      <MenuItem onClick={() => openUserModal("reservations")}><p>Minhas reservas</p></MenuItem>
+      <MenuItem onClick={() => openUserModal("reservations")}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AssignmentTurnedInIcon />
+        </IconButton>
+        <p>Reservas</p>
+      </MenuItem>
       <MenuItem
         onClick={() => {
           signOut();
           handleMenuClose();
         }}
       >
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LogoutIcon />
+        </IconButton>
         <p>Sair</p>
       </MenuItem>
     </Menu>
@@ -180,15 +217,7 @@ export default function NavBar() {
                 <>
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
                     <FavoritesPopover userID={currentUser.id} />
-                    <IconButton
-                      size="large"
-                      aria-label="show 17 new notifications"
-                      color="inherit"
-                    >
-                      <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                      </Badge>
-                    </IconButton>
+                    <NotificationPopover openReservations={() => openUserModal("reservations")} navigate={navigate}/>
                     <IconButton
                       size="large"
                       edge="end"
@@ -222,7 +251,9 @@ export default function NavBar() {
                   onClick={() =>
                     setShowUserModal({ open: true, type: "signin" })
                   }
+                  className="flex gap-2"
                 >
+                  <LoginIcon />
                   Login
                 </Button>
               )}
