@@ -18,7 +18,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { listCollections } from "@/services/api/internal/collection";
+import { searchCollections } from "@/services/api/internal/collection";
 import { useRouter } from "next/navigation";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -76,7 +76,7 @@ const SearchInput = () => {
   >(null);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const { data, isLoading, refetch } = useQuery(listCollections(searchTerm));
+  const { data, isLoading, refetch } = useQuery(searchCollections(searchTerm));
 
   const handleSearch = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined

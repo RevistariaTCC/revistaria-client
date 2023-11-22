@@ -1,9 +1,9 @@
 import { fetchData } from "./api";
 
-export const listCollections = (searchTerm = "") => ({
+export const listCollections = () => ({
   queryKey: ["collections"],
   staleTime: Infinity,
-  queryFn: () => fetchData(`/collections${searchTerm ? "?search="+searchTerm : ""}`),
+  queryFn: () => fetchData('/collections'),
 });
 
 export const showCollection = (id: string) => ({
@@ -11,3 +11,9 @@ export const showCollection = (id: string) => ({
   refetchOnWindowFocus: false,
   queryFn: () => fetchData(`/collections/${id}`),
 })
+
+export const searchCollections = (searchTerm = "") => ({
+  queryKey: ["searchCollections"],
+  staleTime: Infinity,
+  queryFn: () => fetchData(`/collections${searchTerm ? "?search="+searchTerm : ""}`),
+});
