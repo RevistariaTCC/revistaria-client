@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import VolumeModal from "./VolumeModal";
-import Slider, { Settings } from "react-slick";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
@@ -18,7 +18,7 @@ type CarrouselProps = {
 };
 
 type Volume = {
-  id: number;
+  id: string;
   title: string;
   category: string[];
   image: string;
@@ -97,7 +97,7 @@ export default function IndexScrollCards(props: CarrouselProps) {
   };
 
   return (
-    <>
+    <div>
       <Slider
         {...config}
         adaptiveHeight
@@ -119,10 +119,10 @@ export default function IndexScrollCards(props: CarrouselProps) {
                   component="img"
                   image={volume.image}
                   height={200}
-                  className="my-1 max-w-full rounded"
+                  className="my-1 w-full rounded"
                 />
                 <div
-                  className={`flex justify-center items-center rounded h-S8 ${
+                  className={`flex justify-center items-center rounded h-8 mt-2 ${
                     DISPONIBILITY[volume.status].class
                   }`}
                 >
@@ -136,10 +136,9 @@ export default function IndexScrollCards(props: CarrouselProps) {
 
       <VolumeModal
         openModal={showModal}
-        volumesName={activeVolume.title}
-        synopsis={activeVolume.synopsis}
+        volume={activeVolume}
         handleClose={() => setShowModal(false)}
       />
-    </>
+    </div>
   );
 }
