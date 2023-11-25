@@ -8,17 +8,17 @@ import {
   Tab,
   Tabs,
 } from "@mui/material";
-import SignIn from "./userModal/SignIn";
+import SignIn from "../userModal/SignIn";
 import { useState } from "react";
-import SignUp from "./userModal/SignUp";
+import SignUp from "../userModal/SignUp";
 import Backdrop from "@mui/material/Backdrop";
 import Fade from "@mui/material/Fade";
-import InterestsComponent from "./userModal/Interests";
-import ProfileComponent from "./userModal/Profile";
+import InterestsComponent from "../userModal/Interests";
+import ProfileComponent from "../userModal/Profile";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ptBR from "date-fns/locale/pt-BR";
-import ReservationsComponent from "./userModal/Reservations";
+import ReservationsComponent from "../userModal/Reservations";
 
 interface UserModalProps {
   handleOpen: { open: boolean; type: string };
