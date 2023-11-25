@@ -11,21 +11,6 @@ body {
   margin: 0
 }
 
-.scrollbar::-webkit-scrollbar {
-    width: .6em;
-}
- 
-.scrollbar::-webkit-scrollbar-track {
-    background-color: #DEDEDE00;
-}
- 
-.scrollbar::-webkit-scrollbar-thumb {
-  background-color: #4C5A7700;
-}
-
-.scrollbarInvisible::-webkit-scrollbar{
-  width: 0;
-}
 
 .carousel {
   display: flex;

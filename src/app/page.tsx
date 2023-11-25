@@ -1,7 +1,6 @@
 'use client'
 import Banner from './components/Banner'
-import { Badge, Box, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Container, Typography } from '@mui/material'
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import { Container, } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { listCollections } from '@/services/api/internal/collection'
