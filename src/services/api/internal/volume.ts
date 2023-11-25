@@ -8,3 +8,9 @@ export const reserveVolume = ({id, headers = {}}: {id: string, headers: object})
     }
   })
 )
+
+export const listVolumes = () => ({
+  queryKey: ["volumes"],
+  staleTime: Infinity,
+  queryFn: () => fetchData('/volumes'),
+})

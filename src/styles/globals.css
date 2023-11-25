@@ -68,3 +68,7 @@ body {
 .slick-list {
   margin: 0 -20px;
 }
+
+.slick-track {
+  margin-left: 0 !important;
+}

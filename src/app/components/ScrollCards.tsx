@@ -7,7 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import VolumeModal from "./VolumeModal";
-import Slider, { Settings } from "react-slick";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";

@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-
 import {
   AppBar,
   Badge,
@@ -14,20 +13,23 @@ import {
   Toolbar,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import UserModal from "./UserModal";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginIcon from "@mui/icons-material/Login";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@/hooks/auth";
-import SearchInput from "./SearchInput";
-import FavoritesPopover from "./FavoritesPopover";
+
 import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import InterestsIcon from "@mui/icons-material/Interests";
-import NotificationPopover from "./NotificationsModal";
 import { useRouter } from "next/navigation";
+
+import SearchInput from "./navbar/SearchInput";
+import FavoritesPopover from "./navbar/FavoritesPopover";
+import NotificationPopover from "./navbar/NotificationsModal";
+import UserModal from "./navbar/UserModal";
+
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });

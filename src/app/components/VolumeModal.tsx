@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/hooks/auth";
 import { Alert, AlertColor, Box, Button, LinearProgress, Link, Modal, Snackbar } from "@mui/material";
-import UserModal from "./UserModal";
+import UserModal from "./navbar/UserModal";
 import { useEffect, useState } from "react";
 import { useMutation } from "react-query";
 import { reserveVolume } from "@/services/api/internal/volume";
