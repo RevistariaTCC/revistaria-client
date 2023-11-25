@@ -19,6 +19,7 @@ const style = {
   alignItems: "center",
   justifyContent: "center",
   flexDirection: "column",
+  borderRadius: "10px"
 };
 
 type Volume = {
@@ -89,9 +90,10 @@ export default function VolumeModal({openModal, handleClose, volume}: VolumeModa
       >
         <Box sx={style}>
           {reserveMutation.isLoading && <LinearProgress />}
-          <h1>{volume.title}</h1>
-          <h2>Detalhes</h2>
-          <p>{volume.synopsis}</p>
+          <h2>Sinopse</h2>
+          <div className="h-60 pe-2 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-900 scrollbar-track-gray-500 scrollbar-thumb-rounded-md scrollbar-track-rounded-md whitespace-pre-line">
+            {volume.synopsis}
+          </div>
           <div>
             {user ? (
               <Button

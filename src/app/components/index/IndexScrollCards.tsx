@@ -35,7 +35,7 @@ export default function IndexScrollCards(props: CarrouselProps) {
   };
 
   return (
-    <>
+    <div>
       <SliderComponent
         slideProps={{ slidesToShow: 5, slidesToScroll: 10, infinite: false }}
       >
@@ -54,10 +54,10 @@ export default function IndexScrollCards(props: CarrouselProps) {
                     component="img"
                     image={volume.image}
                     height={200}
-                    className="my-1 max-w-full rounded"
+                    className="my-1 w-full rounded"
                   />
                   <div
-                    className={`flex justify-center items-center rounded h-S8 ${
+                    className={`flex justify-center items-center rounded h-8 mt-2 ${
                       DISPONIBILITY[volume.status].class
                     }`}
                   >
@@ -74,6 +74,6 @@ export default function IndexScrollCards(props: CarrouselProps) {
         volume={activeVolume}
         handleClose={() => setShowModal(false)}
       />
-    </>
+    </div>
   );
 }
