@@ -90,3 +90,16 @@ export const getReservations = ({ headers = {} }) => {
       }),
   };
 };
+
+export const getHome = ({ headers = {} }) => {
+  return {
+    queryKey: ["getUserHome"],
+    queryFn: () =>
+      fetchData("/users/home", {
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+      }),
+  };
+};

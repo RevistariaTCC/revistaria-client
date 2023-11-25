@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import {ArrowBackIos, ArrowForwardIos} from '@mui/icons-material/';
 import Steps from './Steps'
