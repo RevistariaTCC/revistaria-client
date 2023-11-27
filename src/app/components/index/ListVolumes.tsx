@@ -14,13 +14,14 @@ type Volume = {
   synopsis: string;
 };
 
+
 const ListVolumes = () => {
   const { data, isLoading } = useQuery<Volume[]>({ ...listVolumes() });
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 mx-2">
       <h2 className="flex items-center">
-        Tudo <ArrowRightIcon />
+        Volumes disponíveis <ArrowRightIcon />
       </h2>
       {isLoading && (
         <SkeletonLoading
@@ -30,7 +31,7 @@ const ListVolumes = () => {
           skeletonName="volumes"
         />
       )}
-      {data && <IndexScrollCards volumes={data}></IndexScrollCards>}
+      {data && <IndexScrollCards volumes={data}/>}
     </div>
   );
 };

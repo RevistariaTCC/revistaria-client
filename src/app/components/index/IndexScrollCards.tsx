@@ -32,15 +32,16 @@ export default function IndexScrollCards(props: CarrouselProps) {
   const handleClick = (volume: Volume) => {
     setShowModal(true);
     setActiveVolume(volume);
-  };
+  }
+  const availableVolumns = cards && cards.filter((volume) => volume.status === "AVAILABLE");
 
   return (
     <div>
       <SliderComponent
-        slideProps={{ slidesToShow: 5, slidesToScroll: 10, infinite: false }}
+        slideProps={{ slidesToShow: 5, slidesToScroll: 1, infinite: true }}
       >
         {cards &&
-          cards.map((volume) => (
+          availableVolumns.slice(0, 12).sort(() => 0.6 - Math.random()).map((volume) => (
             <Card
               key={volume.id}
               className="p-2 max-w-60 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer"

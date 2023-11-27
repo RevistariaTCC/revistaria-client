@@ -26,7 +26,7 @@ interface iCategory {
   name: string;
 }
 
-const NewCollectionsCaroulsel = () => {
+const NewCollectionsCarousel = () => {
   const router = useRouter();
 
   const { data, isLoading } = useQuery(listCollections());
@@ -36,7 +36,7 @@ const NewCollectionsCaroulsel = () => {
   };
 
   return (
-    <div className="flex gap-3 cell:justify-center md:justify-normal">
+    <div className="flex gap-3 cell:justify-center md:justify-normal flex-wrap">
       {isLoading && (
         <SkeletonLoading
           quantity={5}
@@ -59,4 +59,4 @@ const NewCollectionsCaroulsel = () => {
   );
 };
 
-export default NewCollectionsCaroulsel;
+export default NewCollectionsCarousel;
