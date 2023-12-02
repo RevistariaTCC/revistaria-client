@@ -10,6 +10,8 @@ import ControlledDatePicker from "../ControlledDatePicker";
 import ControlledCheckbox from "../ControlledCheckbox";
 import ControlledMaskedInput from "../ControlledMaskedInput";
 import PasswordInput from "../PasswordInput";
+import { useMutation } from "react-query";
+import { generateCode } from "@/services/api/internal/code";
 
 interface IFirstStep {
   next(): void;
@@ -18,8 +20,16 @@ interface IFirstStep {
 export default function FirstStep({ next }: IFirstStep) {
   const {
     control,
+    getValues,
     formState: { isValid },
   } = useFormContext();
+
+  const generateCodeMutation = useMutation(generateCode)
+
+  const handleNextStep = () => {
+    generateCodeMutation.mutate(getValues("phone"))
+    next()
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -71,17 +81,6 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledInput
-                required
-                fullWidth
-                id="email"
-                label="E-mail"
-                name="email"
-                autoComplete="email"
-                control={control}
-              />
-            </Grid>
-            <Grid item xs={12}>
               <PasswordInput
                 fullWidth
                 name="password"
@@ -113,7 +112,7 @@ export default function FirstStep({ next }: IFirstStep) {
             </Grid>
           </Grid>
           <Button
-            onClick={next}
+            onClick={handleNextStep}
             disabled={!isValid}
             fullWidth
             variant="contained"
