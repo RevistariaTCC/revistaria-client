@@ -1,134 +1,87 @@
-"use client";
-import { useQuery } from "react-query";
-import CategoriesLoading from "./CategoriesLoading";
-import { useFormContext } from "react-hook-form";
 import {
   Box,
   Button,
-  Chip,
   Container,
   CssBaseline,
-  TextField,
+  Grid,
   Typography,
 } from "@mui/material";
-import { listCategories } from "@/services/api/internal/category";
-import { useCallback, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { PinInput } from "./PinInput";
+import { useCallback, useEffect, useState } from "react";
+import { useMutation } from "react-query";
+import { validateCode } from "@/services/api/internal/code";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
 
-interface ISecondStep {
+interface iSecondStep {
+  next(): void;
   previous(): void;
-  handleSubmit(): void;
 }
 
-interface iCategory {
-  id: string;
-  name: string;
-}
+export default function SecondStep({ next, previous }: iSecondStep) {
+  const { getValues } = useFormContext();
 
-export default function SecondStep({ previous, handleSubmit }: ISecondStep) {
-  const { setValue } = useFormContext();
+  const [activationCode, setActivationCode] = useState("");
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [filter, setFilter] = useState("");
+  const validateCodeMutation = useMutation(validateCode);
 
-  const { isLoading, isError, data, error } =
-    useQuery<iCategory[]>(listCategories);
+  const isValid = useCallback(() => {
+    return activationCode.trim().length === 6;
+  }, [activationCode]);
 
-    const handleClickCategory = (id: string) => {
-      const indexOfId = selectedCategories.indexOf(id);
-      indexOfId === -1 || indexOfId === undefined
-        ? selectedCategories.push(id)
-        : selectedCategories.splice(indexOfId, 1);
-      setSelectedCategories([...selectedCategories]);
-    };
-  
-    const handleIncludeInterests = () => {
-      setValue("interests", selectedCategories);
-      handleSubmit();
-    };
+  useEffect(() => {
+    if (!isValid()) return;
 
-  const renderFilteredData = useCallback(() => {
-    if (filter.length < 3 || !data ) return null;
-
-    return data
-      ?.filter((category) => category.name.includes(filter))
-      .map((category) => (
-        <Chip
-          key={`category-chip-${category.id}`}
-          label={category.name}
-          variant={
-            selectedCategories.includes(category.id) ? "filled" : "outlined"
-          }
-          onClick={() => handleClickCategory(category.id)}
-        />
-      ));
-  }, [filter]);
-
-  if (isError) return "An error has occurred: ";
-
-  if (!data) return "An error has occurred: ";
+    validateCodeMutation.mutate({
+      code: activationCode,
+      phone: getValues("phone"),
+    });
+  }, [isValid]);
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 3,
+          marginTop: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Escolha seus interesses
-        </Typography>
-        <TextField
-          id="standard-basic"
-          label="Search category"
-          variant="standard"
-          size="small"
-          fullWidth
-          value={filter}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setFilter(event.target.value);
-          }}
-        />
-      </Box>
-
-      <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
-        {isLoading ? (
-          <CategoriesLoading />
-        ) : (
-          renderFilteredData() ??
-          data.map((category) => (
-            <Chip
-              key={`category-chip-${category.id}`}
-              label={category.name}
-              variant={
-                selectedCategories.includes(category.id) ? "filled" : "outlined"
-              }
-              onClick={() => handleClickCategory(category.id)}
+        <Box component="form" sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Typography>
+              Informe o código que enviamos para <b>{getValues("phone")}</b>{" "}
+            </Typography>
+            <PinInput
+              handleChange={setActivationCode}
+              disabled={validateCodeMutation.isLoading}
+              error={validateCodeMutation.isError}
             />
-          ))
-        )}
-      </div>
-
-      <div className="flex justify-between gap-6 mt-4 items-center">
-        <Button variant="outlined" onClick={previous}>
-          Voltar
-        </Button>
-        <div className="flex gap-2">
-          <Button variant="text" onClick={handleSubmit}>
-            Pular e concluir
-          </Button>
+          </Grid>
+          {validateCodeMutation.isError && (
+            <Typography className="relative border border-solid border-red-500 text-red-500 mt-4 p-2 text-center text-sm  rounded">
+              <ReportGmailerrorredIcon
+                sx={{ width: 20 }}
+                className="absolute top-1 left-28"
+              />
+              Código inválido!
+              <br /> Por favor revise o telefone e o código informados!
+            </Typography>
+          )}
           <Button
-            variant="outlined"
-            disabled={selectedCategories.length === 0}
-            onClick={handleIncludeInterests}
+            onClick={next}
+            disabled={!isValid() || validateCodeMutation.isError}
+            fullWidth
+            autoFocus={false}
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
           >
-            Concluir
+            Confirmar
           </Button>
-        </div>
-      </div>
+        </Box>
+      </Box>
     </Container>
   );
 }
