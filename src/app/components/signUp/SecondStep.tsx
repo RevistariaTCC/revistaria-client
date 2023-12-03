@@ -1,134 +1,142 @@
-"use client";
-import { useQuery } from "react-query";
-import CategoriesLoading from "./CategoriesLoading";
-import { useFormContext } from "react-hook-form";
 import {
   Box,
   Button,
-  Chip,
   Container,
   CssBaseline,
-  TextField,
+  Grid,
   Typography,
 } from "@mui/material";
-import { listCategories } from "@/services/api/internal/category";
-import { useCallback, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { PinInput } from "./PinInput";
+import { useCallback, useEffect, useState } from "react";
+import { useMutation } from "react-query";
+import { generateCode, validateCode } from "@/services/api/internal/code";
+import ReportGmailerrorredIcon from "@mui/icons-material/ReportGmailerrorred";
+import RestoreIcon from "@mui/icons-material/Restore";
+import { useTimer } from "react-timer-hook";
 
-interface ISecondStep {
+interface iSecondStep {
+  next(): void;
   previous(): void;
-  handleSubmit(): void;
 }
 
-interface iCategory {
-  id: string;
-  name: string;
-}
+export default function SecondStep({ next, previous }: iSecondStep) {
+  const { getValues } = useFormContext();
 
-export default function SecondStep({ previous, handleSubmit }: ISecondStep) {
-  const { setValue } = useFormContext();
+  const [activationCode, setActivationCode] = useState("");
+  const [hideTimer, setHideTimer] = useState(false);
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [filter, setFilter] = useState("");
+  const validateCodeMutation = useMutation(validateCode);
 
-  const { isLoading, isError, data, error } =
-    useQuery<iCategory[]>(listCategories);
+  const generateTime = () => {
+    const time = new Date();
+    time.setSeconds(time.getSeconds() + 15);
+    return time;
+  };
 
-    const handleClickCategory = (id: string) => {
-      const indexOfId = selectedCategories.indexOf(id);
-      indexOfId === -1 || indexOfId === undefined
-        ? selectedCategories.push(id)
-        : selectedCategories.splice(indexOfId, 1);
-      setSelectedCategories([...selectedCategories]);
-    };
-  
-    const handleIncludeInterests = () => {
-      setValue("interests", selectedCategories);
-      handleSubmit();
-    };
+  const { restart, seconds } = useTimer({
+    expiryTimestamp: generateTime(),
+    onExpire: () => setHideTimer(true),
+  });
 
-  const renderFilteredData = useCallback(() => {
-    if (filter.length < 3 || !data ) return null;
+  const isValid = useCallback(() => {
+    return activationCode.trim().length === 6;
+  }, [activationCode]);
 
-    return data
-      ?.filter((category) => category.name.includes(filter))
-      .map((category) => (
-        <Chip
-          key={`category-chip-${category.id}`}
-          label={category.name}
-          variant={
-            selectedCategories.includes(category.id) ? "filled" : "outlined"
-          }
-          onClick={() => handleClickCategory(category.id)}
-        />
-      ));
-  }, [filter]);
+  useEffect(() => {
+    if (!isValid()) return;
 
-  if (isError) return "An error has occurred: ";
+    validateCodeMutation.mutate({
+      code: activationCode,
+      phone: getValues("phone"),
+    });
+  }, [isValid]);
 
-  if (!data) return "An error has occurred: ";
+  const generateCodeMutation = useMutation(generateCode);
+
+  const handleResendCode = () => {
+    restart(generateTime());
+    setHideTimer(false);
+
+    generateCodeMutation.mutate(getValues("phone"));
+  };
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 3,
+          marginTop: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Escolha seus interesses
-        </Typography>
-        <TextField
-          id="standard-basic"
-          label="Search category"
-          variant="standard"
-          size="small"
-          fullWidth
-          value={filter}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setFilter(event.target.value);
-          }}
-        />
-      </Box>
-
-      <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
-        {isLoading ? (
-          <CategoriesLoading />
-        ) : (
-          renderFilteredData() ??
-          data.map((category) => (
-            <Chip
-              key={`category-chip-${category.id}`}
-              label={category.name}
-              variant={
-                selectedCategories.includes(category.id) ? "filled" : "outlined"
-              }
-              onClick={() => handleClickCategory(category.id)}
+        <Box component="form" sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Typography>
+              Informe o código que enviamos para <b>{getValues("phone")}</b>{" "}
+            </Typography>
+            <PinInput
+              handleChange={setActivationCode}
+              disabled={validateCodeMutation.isLoading}
+              error={validateCodeMutation.isError}
             />
-          ))
-        )}
-      </div>
-
-      <div className="flex justify-between gap-6 mt-4 items-center">
-        <Button variant="outlined" onClick={previous}>
-          Voltar
-        </Button>
-        <div className="flex gap-2">
-          <Button variant="text" onClick={handleSubmit}>
-            Pular e concluir
-          </Button>
-          <Button
-            variant="outlined"
-            disabled={selectedCategories.length === 0}
-            onClick={handleIncludeInterests}
-          >
-            Concluir
-          </Button>
-        </div>
-      </div>
+          </Grid>
+          {validateCodeMutation.isError && (
+            <Typography className="relative border border-solid border-red-500 text-red-500 mt-4 p-2 text-center text-sm  rounded">
+              <ReportGmailerrorredIcon
+                sx={{ width: 20 }}
+                className="absolute top-1 left-28"
+              />
+              Código inválido!
+              <br /> Por favor revise o telefone e o código informados!
+            </Typography>
+          )}
+          <div className="flex justify-center items-center">
+            <Button
+              onClick={handleResendCode}
+              variant="contained"
+              className="bg-white text-indigo-800 w-48 h-10 hover:bg-blue-600 hover:text-white"
+              sx={{ mt: 3, mb: 2 }}
+              disabled={!hideTimer}
+            >
+              {hideTimer ? (
+                <Typography className="flex flex-col text-xs justify-center">
+                  Reenviar código
+                </Typography>
+              ) : (
+                <Typography className="flex flex-col text-xs justify-center">
+                  <RestoreIcon sx={{ width: 20 }} />
+                  {seconds}
+                </Typography>
+              )}
+            </Button>
+          </div>
+          <div className="flex justify-center items-center gap-6">
+            <Button
+              onClick={previous}
+              variant="contained"
+              className="bg-white text-indigo-800 w-full h-10 hover:bg-blue-600 hover:text-white"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              <Typography className="flex flex-col text-xs justify-center">
+                Voltar
+              </Typography>
+            </Button>
+            <Button
+              onClick={next}
+              disabled={!isValid() || validateCodeMutation.isError}
+              fullWidth
+              variant="contained"
+              className="py-2"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Confirmar
+            </Button>
+          </div>
+        </Box>
+      </Box>
     </Container>
   );
 }

@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { Interests, PersonAdd } from "@mui/icons-material";
+import { Interests, PersonAdd, PhonelinkLock } from "@mui/icons-material";
 import {
   Step,
   StepConnector,
@@ -63,7 +63,8 @@ function ColorlibStepIcon(props: StepIconProps) {
 
   const icons: { [index: string]: React.ReactElement } = {
     1: <PersonAdd />,
-    2: <Interests />,
+    2: <PhonelinkLock />,
+    3: <Interests />,
   };
 
   return (
@@ -87,12 +88,15 @@ export default function StepperComponent({ step }: StepperProps) {
       alternativeLabel
       connector={<ColorlibConnector />}
     >
-      <Step key="Dados do usuário">
+      <Step key="user-data">
         <StepLabel StepIconComponent={ColorlibStepIcon}>
           Dados do usuário
         </StepLabel>
       </Step>
-      <Step key="Interesses">
+      <Step key="user-phone">
+        <StepLabel StepIconComponent={ColorlibStepIcon}>Validar Número</StepLabel>
+      </Step>
+      <Step key="user-interests">
         <StepLabel StepIconComponent={ColorlibStepIcon}>Interesses</StepLabel>
       </Step>
     </Stepper>

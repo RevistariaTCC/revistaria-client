@@ -10,6 +10,8 @@ import ControlledDatePicker from "../ControlledDatePicker";
 import ControlledCheckbox from "../ControlledCheckbox";
 import ControlledMaskedInput from "../ControlledMaskedInput";
 import PasswordInput from "../PasswordInput";
+import { useMutation } from "react-query";
+import { generateCode } from "@/services/api/internal/code";
 
 interface IFirstStep {
   next(): void;
@@ -18,8 +20,16 @@ interface IFirstStep {
 export default function FirstStep({ next }: IFirstStep) {
   const {
     control,
+    getValues,
     formState: { isValid },
   } = useFormContext();
+
+  const generateCodeMutation = useMutation(generateCode);
+
+  const handleNextStep = () => {
+    generateCodeMutation.mutate(getValues("phone"));
+    next();
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -47,19 +57,22 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledDatePicker
-                required
-                id="birthdate"
-                fullWidth
-                className="w-full"
-                label="Data de nascimento"
-                name="birthdate"
-                autoComplete="bday"
-                control={control}
-              />
+              <label className="text-xs">
+                <ControlledMaskedInput
+                  required
+                  fullWidth
+                  name="cpf"
+                  label="CPF"
+                  id="cpf"
+                  control={control}
+                  mask="000.000.000-00"
+                />
+                *Seu CPF será usado de forma segura como identificação única e login no sistema, garantindo a confidencialidade dos seus dados.
+              </label>
             </Grid>
             <Grid item xs={12}>
               <ControlledMaskedInput
+                required
                 fullWidth
                 name="phone"
                 label="Telefone"
@@ -71,13 +84,14 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledInput
+              <ControlledDatePicker
                 required
+                id="birthdate"
                 fullWidth
-                id="email"
-                label="E-mail"
-                name="email"
-                autoComplete="email"
+                className="w-full"
+                label="Data de nascimento"
+                name="birthdate"
+                autoComplete="bday"
                 control={control}
               />
             </Grid>
@@ -104,7 +118,7 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledCheckbox 
+              <ControlledCheckbox
                 control={control}
                 color="primary"
                 label="Eu gostaria de receber notificações de novidades via e-mail."
@@ -113,7 +127,7 @@ export default function FirstStep({ next }: IFirstStep) {
             </Grid>
           </Grid>
           <Button
-            onClick={next}
+            onClick={handleNextStep}
             disabled={!isValid}
             fullWidth
             variant="contained"

@@ -48,7 +48,7 @@ const CollectionCard = ({ collection, onClick }: CollectionCardProps) => {
   return (
       <Card
         key={collection.id}
-        className="w-[205px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer"
+        className="min-w-[180px] max-w-[205px] p-2 flex flex-col justify-center hover:shadow-md hover:shadow-blue-300 hover:-translate-y-2 transition ease-in-out duration-200 cursor-pointer"
       >
         <CardActionArea
           onClick={() => onClick(collection.id)}

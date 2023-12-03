@@ -1,15 +1,16 @@
 import { z } from "zod";
+import { validateCpf } from "@/utils/validateCpf";
 
 const SignUpSchema = z
   .object({
     name: z.string().min(3, "Nome é obrigatório"),
     birthdate: z.date().refine((data) => data < new Date(), 'Data de nascimento deve ser valida'),
     phone: z.string(),
-    email: z.string().min(1, "E-mail é obrigatório").email(),
     password: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
     confirm: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
     newsletter: z.boolean().optional(),
     interests: z.string().array().optional(),
+    cpf: z.string().refine((cpf: string) => validateCpf(cpf.replaceAll(/[^0-9]+/g, '')), "Digite um cpf válido.")
   }).refine((data) => data.password === data.confirm, {
     message: "As senhas devem ser iguais!",
     path: ["confirm"], // path of error

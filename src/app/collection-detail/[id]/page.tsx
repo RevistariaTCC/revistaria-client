@@ -93,9 +93,11 @@ export default function CollectionDetail({
             <div className="flex p-2">
               <h1>{collection.name}</h1>
             </div>
-            <div className="my-4 p-2 flex">
-              <img width={360} src={collection.image} className="rounded"></img>
-            </div>
+            
+              <div className="my-4 p-2 flex cell:justify-center md:justify-start">
+                <img src={collection.image} className="rounded cell:w-[280px] md:w-[320px] lg:w-[400px]"></img>
+              </div>
+        
             {user && (
               <div className="flex items-center">
                 <IconButton
@@ -118,7 +120,9 @@ export default function CollectionDetail({
             <h2 className="flex items-center">
               Volumes <ArrowRightIcon />
             </h2>
-            <ScrollCards volumes={collection.volumes}></ScrollCards>
+            <div className="mx-2">
+              <ScrollCards volumes={collection.volumes}></ScrollCards>
+            </div>
           </div>
         </div>
       </Container>
