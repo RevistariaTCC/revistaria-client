@@ -4,8 +4,6 @@ import { Inter } from "next/font/google";
 import NavBar from "./components/Navbar";
 import { AuthProvider } from "@/hooks/auth";
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { Container } from "@mui/material";
-import { GitHub } from "@mui/icons-material";
 import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +17,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-[#D6D6D6]`}>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <NavBar />
