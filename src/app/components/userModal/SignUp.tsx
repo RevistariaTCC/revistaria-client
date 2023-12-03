@@ -8,15 +8,25 @@ import SignUpSchema, { SignUpType } from "@/schemas/UserSignUp";
 import StepperComponent from "../signUp/Stepper";
 import { useMutation } from "react-query";
 import { createUser } from "@/services/api/internal/user";
-import { LinearProgress } from "@mui/material";
+import { Alert, AlertColor, LinearProgress, Snackbar } from "@mui/material";
 import { useAuth } from "../../../hooks/auth";
 import SecondStep from "../signUp/SecondStep";
+
+interface AlertType {
+  type: AlertColor | undefined;
+  message: string;
+}
+
+interface ExceptionResponse {
+  type: string;
+  error: Response;
+}
 
 export default function SignUp() {
   const methods = useForm<SignUpType>({
     defaultValues: {
       name: "",
-      phone: "(41) 99570-5692",
+      phone: "",
       birthdate: new Date(),
       password: "",
       confirm: "",
@@ -27,11 +37,35 @@ export default function SignUp() {
   });
   const { signIn } = useAuth();
   const { handleSubmit } = methods;
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
+
+  const [alert, setAlert] = useState<AlertType>({
+    type: undefined,
+    message: "",
+  });
+
+  const handleCloseAlert = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setShowAlert(false);
+  };
+
   const createUserMutation = useMutation(createUser, {
     onSuccess: (data, variables, context) => {
       const { result, token } = data;
       signIn({ token, user: result });
+    },
+    onError: ({ error }: ExceptionResponse) => {
+      error.text().then((text) => {
+        setAlert({ type: "error", message: JSON.parse(text).message });
+        setShowAlert(true);
+      });
     },
   });
 
@@ -70,6 +104,21 @@ export default function SignUp() {
     <FormProvider {...methods}>
       <StepperComponent step={step} />
       {renderStep(step)}
+      <Snackbar
+        className="fixed"
+        open={showAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert.type}
+          sx={{ width: "100%" }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </FormProvider>
   );
 }

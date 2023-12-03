@@ -24,12 +24,12 @@ export default function FirstStep({ next }: IFirstStep) {
     formState: { isValid },
   } = useFormContext();
 
-  const generateCodeMutation = useMutation(generateCode)
+  const generateCodeMutation = useMutation(generateCode);
 
   const handleNextStep = () => {
-    generateCodeMutation.mutate(getValues("phone"))
-    next()
-  }
+    generateCodeMutation.mutate(getValues("phone"));
+    next();
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -57,6 +57,33 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
+              <label className="text-xs">
+                <ControlledMaskedInput
+                  required
+                  fullWidth
+                  name="cpf"
+                  label="CPF"
+                  id="cpf"
+                  control={control}
+                  mask="000.000.000-00"
+                />
+                *Seu CPF será usado de forma segura como identificação única e login no sistema, garantindo a confidencialidade dos seus dados.
+              </label>
+            </Grid>
+            <Grid item xs={12}>
+              <ControlledMaskedInput
+                required
+                fullWidth
+                name="phone"
+                label="Telefone"
+                type="text"
+                id="phone"
+                autoComplete="tel"
+                control={control}
+                mask="(00) 00000-0000"
+              />
+            </Grid>
+            <Grid item xs={12}>
               <ControlledDatePicker
                 required
                 id="birthdate"
@@ -66,18 +93,6 @@ export default function FirstStep({ next }: IFirstStep) {
                 name="birthdate"
                 autoComplete="bday"
                 control={control}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <ControlledMaskedInput
-                fullWidth
-                name="phone"
-                label="Telefone"
-                type="text"
-                id="phone"
-                autoComplete="tel"
-                control={control}
-                mask="(00) 00000-0000"
               />
             </Grid>
             <Grid item xs={12}>
@@ -103,7 +118,7 @@ export default function FirstStep({ next }: IFirstStep) {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledCheckbox 
+              <ControlledCheckbox
                 control={control}
                 color="primary"
                 label="Eu gostaria de receber notificações de novidades via e-mail."
