@@ -43,7 +43,7 @@ const UserCustomCarousel = () => {
   return (
     <div>
       {suggestions.length > 0 && (
-        <div className="mt-16">
+        <div className="mt-16 mx-2">
           <h2 className="flex items-center">
             Sugestões <ArrowRightIcon />
           </h2>

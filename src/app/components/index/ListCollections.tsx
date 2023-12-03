@@ -28,7 +28,7 @@ const ListCollections = () => {
   };
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 mx-2">
       <h2 className="flex items-center">
         Coleções <ArrowRightIcon />
       </h2>
