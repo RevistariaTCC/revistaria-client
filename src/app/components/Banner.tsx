@@ -15,7 +15,7 @@ export default function Banner() {
   return (
       <SliderComponent slideProps={{infinite: true, slidesToShow: 1}}>
         {images.map((images,index) => (
-          <img key={index} src={images} alt="banner" className="rounded container w-full"/>
+          <img key={index} src={images} alt="banner" className="rounded container"/>
         ))}
       </SliderComponent>
     )
