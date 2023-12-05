@@ -88,7 +88,7 @@ export default function CollectionDetail({
   if (data) {
     return (
       <Container>
-        <div className="grid cell:grid-cols-1 md:grid-cols-2 gap-4 bg-white">
+        <div className="grid lg:grid-cols-2 gap-4 p-5 bg-white">
           <div className="flex flex-col">
             <div className="flex p-2">
               <h1>{collection.name}</h1>

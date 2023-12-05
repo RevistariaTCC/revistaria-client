@@ -1,3 +1,4 @@
+'use client'
 import { IconButton } from "@mui/material";
 import { ReactNode } from "react";
 import Slider from "react-slick";
