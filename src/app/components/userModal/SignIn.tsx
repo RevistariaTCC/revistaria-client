@@ -11,12 +11,19 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { SignInType } from "@/schemas/UserSignIn";
 import { LinearProgress, TextField } from "@mui/material";
 import { useAuth } from "@/hooks/auth";
+import { IMaskInput } from "react-imask";
+import React from "react";
 
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+  mask: string;
+}
 
 export default function SignIn() {
   const { handleSubmit, register } = useForm<SignInType>({
     defaultValues: {
-      email: "",
+      cpf: "",
       password: "",
     },
   });
@@ -28,8 +35,26 @@ export default function SignIn() {
   });
 
   const onSubmit: SubmitHandler<SignInType> = (data) => {
-    loginMutation.mutate(data);
+
+    loginMutation.mutate({...data, cpf: data.cpf.replaceAll(/[^0-9]+/g, '')});
   };
+
+  const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
+    function TextMaskCustom(props, ref) {
+      const { onChange, mask, ...other } = props;
+      return (
+        <IMaskInput
+          {...other}
+          mask={mask}
+          inputRef={ref}
+          onAccept={(value: any) =>
+            onChange({ target: { name: props.name, value } })
+          }
+          overwrite
+        />
+      );
+    }
+  );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -56,18 +81,21 @@ export default function SignIn() {
           sx={{ mt: 1 }}
         >
           <TextField
-            {...register("email")}
+            {...register("cpf")}
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="E-mail"
-            autoComplete="email"
+            id="cpf"
+            label="CPF"
             autoFocus
+            InputProps={{
+              inputComponent: TextMaskCustom as any,
+              inputProps: { mask: "000.000.000-00" },
+            }}
             error={!!loginMutation.error}
             helperText={
               !!loginMutation.error &&
-              "Dados incorretos. Confira seu e-mail e senha e tente novamente."
+              "Dados incorretos. Confira seu CPF e senha e tente novamente."
             }
           />
           <TextField
