@@ -2,7 +2,6 @@ import {
   Avatar,
   Badge,
   Box,
-  CircularProgress,
   IconButton,
   List,
   ListItem,
@@ -141,7 +140,7 @@ const FavoritesPopover = ({ userID }: FavoritesPopoverProps) => {
         className="mt-4"
       >
         {data && data.collections.length == 0 && (
-          <Box sx={{ flexGrow: 1 }} className="pt-2 px-4">
+          <Box sx={{ flexGrow: 1 }} className="pt-2 px-4 items-center justify-center">
             <Typography>Sua lista de favoritos ainda está vazia!</Typography>
           </Box>
         )}

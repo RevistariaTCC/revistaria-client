@@ -18,8 +18,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 
-import { useState } from "react";
-import { getUserNotifications, readAllNotifications, readNotification } from "@/services/api/internal/notification";
+import { useEffect, useState } from "react";
+import {
+  getUserNotifications,
+  readAllNotifications,
+  readNotification,
+} from "@/services/api/internal/notification";
 import { useAuth } from "@/hooks/auth";
 import { useMutation, useQuery } from "react-query";
 import { format } from "date-fns";
@@ -33,7 +37,7 @@ interface iNotification {
   text: string;
   status: "UNREAD" | "READ";
   type: "NEW_RESERVATION" | "NEW_VOLUME" | "NEW_INTEREST";
-  data?: string
+  data?: string;
 }
 
 const NOTIFICATION_ICONS = {
@@ -43,20 +47,24 @@ const NOTIFICATION_ICONS = {
 };
 
 interface NotificationPopoverProps {
-  openReservations(): void
-  navigate(param: string): void
+  openReservations(): void;
+  navigate(param: string): void;
 }
 
 interface NotificationItemProps {
   notification: iNotification;
-  onClick(): void
+  onClick(): void;
 }
 
-const NotificationItem = ({notification, onClick}: NotificationItemProps) => {
-  
+const NotificationItem = ({ notification, onClick }: NotificationItemProps) => {
   return (
     <ListItem>
-      <ListItemButton onClick={onClick} className={`rounded ${notification.status === "UNREAD" ? "bg-violet-50" : ""}`}>
+      <ListItemButton
+        onClick={onClick}
+        className={`rounded ${
+          notification.status === "UNREAD" ? "bg-violet-50" : ""
+        }`}
+      >
         <ListItemAvatar>
           <Avatar>{NOTIFICATION_ICONS[notification.type]}</Avatar>
         </ListItemAvatar>
@@ -87,7 +95,10 @@ const NotificationItem = ({notification, onClick}: NotificationItemProps) => {
   );
 };
 
-const NotificationPopover = ({openReservations, navigate}: NotificationPopoverProps) => {
+const NotificationPopover = ({
+  openReservations,
+  navigate,
+}: NotificationPopoverProps) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClose = () => {
@@ -106,8 +117,14 @@ const NotificationPopover = ({openReservations, navigate}: NotificationPopoverPr
   });
   const { token } = useAuth();
   const { data, isLoading, refetch } = useQuery<iNotification[]>(
-    getUserNotifications({ Authorization: `Bearer ${token}` })
+    {...getUserNotifications({ Authorization: `Bearer ${token}` }), enabled: false}
   );
+
+  useEffect(() => {
+    if(!token) return
+
+    refetch()
+  }, [token])
 
   const unreadTotal = () => {
     return data
@@ -116,31 +133,38 @@ const NotificationPopover = ({openReservations, navigate}: NotificationPopoverPr
   };
   const readNotificationMutation = useMutation(readNotification, {
     onSuccess: (data) => {
-      refetch()
-    }
+      refetch();
+    },
   });
 
   const readAllNotificationMutation = useMutation(readAllNotifications, {
     onSuccess: (data) => {
-      refetch()
-    }
-  })
+      refetch();
+    },
+  });
 
   const actions = {
     NEW_RESERVATION: openReservations,
     NEW_INTEREST: navigate,
-    NEW_VOLUME: navigate
-  }
+    NEW_VOLUME: navigate,
+  };
 
-  const handleClickNotification = (id: string, type: "NEW_VOLUME" | "NEW_RESERVATION" | "NEW_INTEREST", data = "") => {
+  const handleClickNotification = (
+    id: string,
+    type: "NEW_VOLUME" | "NEW_RESERVATION" | "NEW_INTEREST",
+    data = ""
+  ) => {
     handleClose();
-    readNotificationMutation.mutate({id: id, headers: {"Authorization": `Bearer ${token}`}})
+    readNotificationMutation.mutate({
+      id: id,
+      headers: { Authorization: `Bearer ${token}` },
+    });
     actions[type](data);
-  }
+  };
 
   const handleReadAllNotification = () => {
-    readAllNotificationMutation.mutate({"Authorization": `Bearer ${token}`})
-  }
+    readAllNotificationMutation.mutate({ Authorization: `Bearer ${token}` });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -172,27 +196,43 @@ const NotificationPopover = ({openReservations, navigate}: NotificationPopoverPr
       >
         {isLoading && <CircularProgress />}
         {data && data.length == 0 && (
-          <Box className="flex items-center justify-center pt-4">
+          <Box sx={{ flexGrow: 1 }}  className="flex items-center justify-center pt-2 px-4">
             <Typography>Nenhuma notificação encontrada!</Typography>
           </Box>
         )}
-        <div className="flex justify-between px-3 items-center pt-2">
-          <Typography variant="h5">Notificações</Typography>
-          <Link variant="caption" className="cursor-pointer" onClick={handleReadAllNotification}>marcar todas como lidas</Link>
-        </div>
+        {data && data.length > 0 && (
+          <>
+            <div className="flex justify-between px-3 items-center pt-2">
+              <Typography variant="h5">Notificações</Typography>
+              <Link
+                variant="caption"
+                className="cursor-pointer"
+                onClick={handleReadAllNotification}
+              >
+                marcar todas como lidas
+              </Link>
+            </div>
 
-        <div className="flex w-96 max-h-96 overflow-y-auto">
-          <List dense={true} className="w-full divide-y divide-slate-200">
-            {data &&
-              data.map((notification, index) => (
-                <NotificationItem
-                  notification={notification}
-                  key={`notification-${index}`}
-                  onClick={() => handleClickNotification(notification.id, notification.type, notification.data)}
-                />
-              ))}
-          </List>
-        </div>
+            <div className="flex w-96 max-h-96 overflow-y-auto">
+              <List dense={true} className="w-full divide-y divide-slate-200">
+                {data &&
+                  data.map((notification, index) => (
+                    <NotificationItem
+                      notification={notification}
+                      key={`notification-${index}`}
+                      onClick={() =>
+                        handleClickNotification(
+                          notification.id,
+                          notification.type,
+                          notification.data
+                        )
+                      }
+                    />
+                  ))}
+              </List>
+            </div>
+          </>
+        )}
       </Popover>
     </ThemeProvider>
   );

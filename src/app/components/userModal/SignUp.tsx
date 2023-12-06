@@ -57,9 +57,9 @@ export default function SignUp() {
   };
 
   const createUserMutation = useMutation(createUser, {
-    onSuccess: (data, variables, context) => {
-      const { result, token } = data;
-      signIn({ token, user: result });
+    onSuccess: (data) => {
+      const { data:user, token } = data;
+      signIn({ token, user });
     },
     onError: ({ error }: ExceptionResponse) => {
       error.text().then((text) => {
@@ -70,7 +70,7 @@ export default function SignUp() {
   });
 
   const onSubmit: SubmitHandler<SignUpType> = (data) => {
-    createUserMutation.mutate(data);
+    createUserMutation.mutate({...data, cpf: data.cpf.replaceAll(/[^0-9]+/g, '')});
   };
 
   const renderStep = (step: number) => {
