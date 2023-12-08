@@ -28,6 +28,7 @@ import SearchInput from "./navbar/SearchInput";
 import FavoritesPopover from "./navbar/FavoritesPopover";
 import NotificationPopover from "./navbar/NotificationsModal";
 import UserModal from "./navbar/UserModal";
+import Image from "next/image";
 
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
@@ -207,7 +208,7 @@ export default function NavBar() {
         <AppBar position="static" className="sticky top-0 z-20 w-full">
           <Toolbar>
             <Container className="flex h-full justify-center items-center">
-              <Link variant="h6" underline="none" href="/" color="inherit">
+              <Link variant="h6" underline="none" href="/" color="inherit ">
                 Revistaria
               </Link>
               <SearchInput />

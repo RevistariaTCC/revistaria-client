@@ -43,6 +43,11 @@ export default function SignIn() {
     setShowUserModal({ open: true, type });
   };
 
+  const closeUserModal = () =>{
+    setShowUserModal({open: false, type:'userModal'})
+    showUserModal
+  }
+
   const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
     function TextMaskCustom(props, ref) {
       const { onChange, mask, ...other } = props;
@@ -71,7 +76,7 @@ export default function SignIn() {
           flexDirection: "column",
           alignItems: "center",
         }}
-      >
+        >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
@@ -83,7 +88,7 @@ export default function SignIn() {
           onSubmit={handleSubmit(onSubmit)}
           noValidate
           sx={{ mt: 1 }}
-        >
+          >
           <TextField
             {...register("cpf")}
             margin="normal"
@@ -120,17 +125,17 @@ export default function SignIn() {
           >
             Entrar
           </Button>
-          <button 
-            type="button"
-            className='outline-none border-none bg-transparent text-blue-800 hover:text-blue-500 text-lg cursor-pointer'
-            onClick={()=>{
-              openUserModal('tokenValidation')
-            }}
-            >
-              Esqueci a senha
-          </button>
         </Box>
       </Box>
+        <button 
+          type="button"
+          className='outline-none border-none bg-transparent text-blue-800 hover:text-blue-500 text-lg cursor-pointer'
+          onClick={()=>{
+            closeUserModal();
+          }}
+          >
+            Esqueci a senha
+        </button>
     </Container>
   );
 }
