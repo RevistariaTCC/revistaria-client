@@ -24,7 +24,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import InterestsIcon from "@mui/icons-material/Interests";
 import { useRouter } from "next/navigation";
-
 import SearchInput from "./navbar/SearchInput";
 import FavoritesPopover from "./navbar/FavoritesPopover";
 import NotificationPopover from "./navbar/NotificationsModal";
@@ -33,10 +32,8 @@ import UserModal from "./navbar/UserModal";
 export default function NavBar() {
   const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
   const { user, signOut } = useAuth();
   const router = useRouter()
   const isMenuOpen = Boolean(anchorEl);
@@ -248,16 +245,18 @@ export default function NavBar() {
                   </Box>
                 </>
               ) : (
-                <Button
-                  color="inherit"
-                  onClick={() =>
-                    setShowUserModal({ open: true, type: "signin" })
-                  }
-                  className="flex gap-2"
-                >
-                  <LoginIcon />
-                  Login
-                </Button>
+                <>
+                  <Button
+                    color="inherit"
+                    onClick={() =>
+                      setShowUserModal({ open: true, type: "signin" })
+                    }
+                    className="flex gap-2"
+                  >
+                    <LoginIcon />
+                    Login
+                  </Button>
+                </>
               )}
             </Container>
           </Toolbar>

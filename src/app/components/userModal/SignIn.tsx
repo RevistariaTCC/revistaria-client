@@ -12,7 +12,7 @@ import { SignInType } from "@/schemas/UserSignIn";
 import { LinearProgress, TextField } from "@mui/material";
 import { useAuth } from "@/hooks/auth";
 import { IMaskInput } from "react-imask";
-import React from "react";
+import React, { useState } from "react";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -21,6 +21,7 @@ interface CustomProps {
 }
 
 export default function SignIn() {
+  const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
   const { handleSubmit, register } = useForm<SignInType>({
     defaultValues: {
       cpf: "",
@@ -35,8 +36,11 @@ export default function SignIn() {
   });
 
   const onSubmit: SubmitHandler<SignInType> = (data) => {
-
     loginMutation.mutate({...data, cpf: data.cpf.replaceAll(/[^0-9]+/g, '')});
+  };
+
+  const openUserModal = (type: string) => {
+    setShowUserModal({ open: true, type });
   };
 
   const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
@@ -116,6 +120,15 @@ export default function SignIn() {
           >
             Entrar
           </Button>
+          <button 
+            type="button"
+            className='outline-none border-none bg-transparent text-blue-800 hover:text-blue-500 text-lg cursor-pointer'
+            onClick={()=>{
+              openUserModal('tokenValidation')
+            }}
+            >
+              Esqueci a senha
+          </button>
         </Box>
       </Box>
     </Container>
