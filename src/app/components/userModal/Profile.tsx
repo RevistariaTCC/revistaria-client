@@ -12,10 +12,12 @@ import { useForm } from "react-hook-form";
 import ControlledInput from "../ControlledInput";
 import ControlledDatePicker from "../ControlledDatePicker";
 import ControlledMaskedInput from "../ControlledMaskedInput";
-import ControlledCheckbox from "../ControlledCheckbox";
 import { useMutation, useQuery } from "react-query";
 import { getUserById, updateUser } from "@/services/api/internal/user";
 import { useAuth } from "@/hooks/auth";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { useState } from "react";
+import UserNewPassword from "./userNewPassword";
 
 interface iProfileComponent {
   closeModal(): void;
@@ -62,6 +64,12 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
       });
     },
   });
+
+  const [openNewPassoword, setOpenNewPassoword] = useState(false);
+
+  if (openNewPassoword) {
+    return <UserNewPassword closeModal={closeModal} />
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -116,23 +124,26 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledInput
+              <ControlledMaskedInput
                 required
                 fullWidth
-                id="email"
-                label="E-mail"
-                name="email"
-                autoComplete="email"
+                name="cpf"
+                label="CPF"
+                id="cpf"
                 control={control}
+                mask="000.000.000-00"
               />
             </Grid>
             <Grid item xs={12}>
-              <ControlledCheckbox
-                control={control}
-                color="primary"
-                label="Eu gostaria de receber notificações de novidades via e-mail."
-                name="newsletter"
-              />
+              <button
+                type="button"
+                className="outline-none border-none bg-transparent text-blue-800 hover:text-blue-500 text-sm cursor-pointer flex items-center"
+                onClick={() => {
+                  setOpenNewPassoword(true)
+                }}
+              >
+                Mudar Senha <OpenInNewIcon className='ms-1' fontSize="small"/>
+              </button>
             </Grid>
           </Grid>
           <div className="flex justify-between gap-6 mt-4 items-center">
