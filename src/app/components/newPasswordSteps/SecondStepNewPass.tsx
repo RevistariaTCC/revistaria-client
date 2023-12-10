@@ -48,7 +48,7 @@ import {
   
       validateCodeMutation.mutate({
         code: activationCode,
-        phone: getValues("phone"),
+        cpf: getValues("cpf").replaceAll(/[^0-9]+/g, ""),
       });
     }, [isValid]);
   
@@ -58,7 +58,7 @@ import {
       restart(generateTime());
       setHideTimer(false);
   
-      generateCodeMutation.mutate(getValues("phone"));
+      generateCodeMutation.mutate({cpf: getValues("cpf").replaceAll(/[^0-9]+/g, "")});
     };
   
     return (

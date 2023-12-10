@@ -5,13 +5,8 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { useFormContext } from "react-hook-form";
-import ControlledInput from "../ControlledInput";
-import ControlledDatePicker from "../ControlledDatePicker";
-import ControlledCheckbox from "../ControlledCheckbox";
-import ControlledMaskedInput from "../ControlledMaskedInput";
 import PasswordInput from "../PasswordInput";
-import { useMutation } from "react-query";
-import { generateCode } from "@/services/api/internal/code";
+
 
 interface IThirdStepNewPass {
   previous(): void;
@@ -65,7 +60,7 @@ export default function ThirdStepNewPass({ previous, handleSubmit }: IThirdStepN
             </Grid>
           </Grid>
           <Button
-            onClick={()=>{}}
+            onClick={handleSubmit}
             disabled={!isValid}
             fullWidth
             variant="contained"

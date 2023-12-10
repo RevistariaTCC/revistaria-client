@@ -5,9 +5,9 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { useFormContext } from "react-hook-form";
-import ControlledMaskedInput from "../ControlledMaskedInput";
 import { useMutation } from "react-query";
-import { generateCode } from "@/services/api/internal/code";
+import { requestNewPassword } from "@/services/api/internal/user";
+import ControlledMaskedInput from "../ControlledMaskedInput";
 
 interface IFirstStepNewpass {
   next(): void;
@@ -20,11 +20,13 @@ export default function FirstStepNewPass({ next }: IFirstStepNewpass) {
     formState: { isValid },
   } = useFormContext();
 
-  const generateCodeMutation = useMutation(generateCode);
-
+  const requestNewPasswordMutation = useMutation(requestNewPassword, {
+    onSuccess: () => next(),
+  });
   const handleNextStep = () => {
-    generateCodeMutation.mutate(getValues("phone"));
-    next();
+    requestNewPasswordMutation.mutate(
+      getValues("cpf").replaceAll(/[^0-9]+/g, "")
+    );
   };
 
   return (
@@ -39,24 +41,21 @@ export default function FirstStepNewPass({ next }: IFirstStepNewpass) {
         }}
       >
         <Box component="form" sx={{ mt: 3 }}>
-          <Grid container spacing={2}> 
+          <Grid container spacing={2}>
             <Grid item xs={12}>
-              <ControlledMaskedInput
-                required
-                fullWidth
-                name="phone"
-                label="Telefone"
-                type="text"
-                id="phone"
-                autoComplete="tel"
-                control={control}
-                mask="(00) 00000-0000"
-              />
+            <ControlledMaskedInput
+                  required
+                  fullWidth
+                  name="cpf"
+                  label="CPF"
+                  id="cpf"
+                  control={control}
+                  mask="000.000.000-00"
+                />
             </Grid>
           </Grid>
           <Button
             onClick={handleNextStep}
-            disabled={!isValid}
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
