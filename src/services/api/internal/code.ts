@@ -1,8 +1,9 @@
 import { fetchData } from "./api";
 
 type ValidateCodeType = {
-  phone: string;
+  phone?: string;
   code: string;
+  cpf?: string;
 };
 
 export const validateCode = (data: ValidateCodeType) =>
@@ -14,11 +15,11 @@ export const validateCode = (data: ValidateCodeType) =>
     body: JSON.stringify(data),
   });
 
-export const generateCode = (phone: string) =>
+export const generateCode = (data: object) =>
   fetchData("/activation-code/send", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ phone }),
+    body: JSON.stringify(data),
   });
