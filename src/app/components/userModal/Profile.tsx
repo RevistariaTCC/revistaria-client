@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import ControlledInput from "../ControlledInput";
 import ControlledDatePicker from "../ControlledDatePicker";
 import ControlledMaskedInput from "../ControlledMaskedInput";
@@ -17,7 +17,8 @@ import { getUserById, updateUser } from "@/services/api/internal/user";
 import { useAuth } from "@/hooks/auth";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useState } from "react";
-import UserNewPassword from "./userNewPassword";
+import UserNewPassword from "./UserNewPassword";
+import { ChangePasswordSchema, ChangePasswordType } from "@/schemas/RecoveryPassword";
 
 interface iProfileComponent {
   closeModal(): void;
@@ -25,7 +26,7 @@ interface iProfileComponent {
 }
 
 const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
-  const { control, handleSubmit, reset, setValue, formState } =
+  const { control, handleSubmit, reset } =
     useForm<UpdateType>({
       defaultValues: {
         name: "",
@@ -45,6 +46,19 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
       onSucess && onSucess({type: 'success', message: 'Usuário atualizado com sucesso'})
       closeModal()
     }})
+
+
+  const methods =
+    useForm<ChangePasswordType>({
+      defaultValues: {
+        currentPassword: "",
+        newPassword: "",
+        confirm: "",
+      },
+
+      mode: "all",
+      resolver: zodResolver(ChangePasswordSchema),
+    });
 
   const onSubmit = (data: object) => {
     updateUserMutation.mutate({data, headers: { Authorization: `Bearer ${token}` }})
@@ -68,7 +82,7 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
   const [openNewPassoword, setOpenNewPassoword] = useState(false);
 
   if (openNewPassoword) {
-    return <UserNewPassword closeModal={closeModal} />
+    return <FormProvider {...methods}><UserNewPassword closeModal={closeModal} /></FormProvider>
   }
 
   return (

@@ -20,3 +20,15 @@ const RecoveryPasswordSchema = z
 export type RecoveryPasswordType = z.infer<typeof RecoveryPasswordSchema>;
 
 export default RecoveryPasswordSchema;
+
+
+export const ChangePasswordSchema = z.object({
+  currentPassword: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
+  newPassword: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
+  confirm: z.string().min(6, "A senha deve ter no minimo 6 caracteres"),
+}).refine((data) => data.newPassword === data.confirm, {
+  message: "As senhas devem ser iguais!",
+  path: ["confirm"], // path of error
+});
+
+export type ChangePasswordType = z.infer<typeof ChangePasswordSchema>

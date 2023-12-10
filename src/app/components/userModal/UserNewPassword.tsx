@@ -11,7 +11,6 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
 
     const {
         control,
-        getValues,
         formState: { isValid },
       } = useFormContext();
     
@@ -34,10 +33,21 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
               <Grid item xs={12}>
                 <PasswordInput
                   fullWidth
-                  name="password"
+                  name="currentPassword"
+                  label="Senha atual"
+                  type="password"
+                  id="currentPassword"
+                  autoComplete="new-password"
+                  control={control}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <PasswordInput
+                  fullWidth
+                  name="newPassword"
                   label="Senha"
                   type="password"
-                  id="password"
+                  id="newPassword"
                   autoComplete="new-password"
                   control={control}
                 />
