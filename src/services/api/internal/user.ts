@@ -123,3 +123,13 @@ export const resetPassword = (data: object, headers = {}) =>
     },
     body: JSON.stringify(data),
   });
+
+export const changePassword = ({ data, headers = {} }: iRequest) =>
+  fetchData("/users/change-password", {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });

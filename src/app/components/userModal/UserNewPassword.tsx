@@ -3,10 +3,11 @@ import PasswordInput from "../PasswordInput"
 import { useFormContext } from "react-hook-form";
 
 interface IuserNewPassword {
-    closeModal: () => void
+    previous: () => void
+    handleSubmit: () => void
 }
 
-export default function UserNewPassword({ closeModal } : IuserNewPassword) {
+export default function UserNewPassword({previous, handleSubmit } : IuserNewPassword) {
 
     const {
         control,
@@ -64,10 +65,10 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
               </Grid>
             </Grid>
             <div className="flex justify-between gap-6 mt-4 items-center">
-              <Button variant="outlined" onClick={closeModal}>
-                Cancelar
+              <Button variant="outlined" onClick={previous}>
+                Voltar
               </Button>
-              <Button type="submit" variant="outlined" disabled={!isValid}>
+              <Button variant="outlined" disabled={!isValid} onClick={handleSubmit}>
                 Atualizar
               </Button>
             </div>

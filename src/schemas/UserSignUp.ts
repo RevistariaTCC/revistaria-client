@@ -21,7 +21,7 @@ export const UpdateSchema = z
   name: z.string().min(3, "Nome é obrigatório"),
   birthdate: z.date().refine((data) => data < new Date(), 'Data de nascimento deve ser valida'),
   phone: z.string(),
-  email: z.string().min(1, "E-mail é obrigatório").email(),
+  cpf: z.string().refine((cpf: string) => validateCpf(cpf.replaceAll(/[^0-9]+/g, '')), "Digite um cpf válido."),
   newsletter: z.boolean().optional(),
   interests: z.string().array().optional(),
 });
