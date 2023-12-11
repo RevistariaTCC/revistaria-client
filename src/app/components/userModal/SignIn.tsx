@@ -34,7 +34,6 @@ export default function SignIn() {
 
     setOpenAlert(false);
   };
-  const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
   const { handleSubmit, register } = useForm<SignInType>({
     defaultValues: {
       cpf: "",

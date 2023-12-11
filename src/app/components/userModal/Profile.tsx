@@ -48,8 +48,7 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
     }})
 
 
-  const methods =
-    useForm<ChangePasswordType>({
+  const methods = useForm<ChangePasswordType>({
       defaultValues: {
         currentPassword: "",
         newPassword: "",
@@ -82,8 +81,14 @@ const ProfileComponent = ({ closeModal, onSucess }: iProfileComponent) => {
   const [openNewPassoword, setOpenNewPassoword] = useState(false);
 
   if (openNewPassoword) {
-    return <FormProvider {...methods}><UserNewPassword closeModal={closeModal} /></FormProvider>
+    return (
+      <FormProvider {...methods}>
+        <UserNewPassword closeModal={closeModal} />
+      </FormProvider>
+
+    )
   }
+  methods.watch();
 
   return (
     <Container component="main" maxWidth="xs">

@@ -4,7 +4,6 @@ import { useFormContext } from "react-hook-form";
 
 interface IuserNewPassword {
     closeModal: () => void
-
 }
 
 export default function UserNewPassword({ closeModal } : IuserNewPassword) {
@@ -45,7 +44,7 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
                 <PasswordInput
                   fullWidth
                   name="newPassword"
-                  label="Senha"
+                  label="Nova senha"
                   type="password"
                   id="newPassword"
                   autoComplete="new-password"
@@ -56,7 +55,7 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
                 <PasswordInput
                   fullWidth
                   name="confirm"
-                  label="Confirmar senha"
+                  label="Confirmar a nova senha"
                   type="password"
                   id="confirm"
                   autoComplete="new-password"
@@ -68,7 +67,7 @@ export default function UserNewPassword({ closeModal } : IuserNewPassword) {
               <Button variant="outlined" onClick={closeModal}>
                 Cancelar
               </Button>
-              <Button type="submit" variant="outlined">
+              <Button type="submit" variant="outlined" disabled={!isValid}>
                 Atualizar
               </Button>
             </div>

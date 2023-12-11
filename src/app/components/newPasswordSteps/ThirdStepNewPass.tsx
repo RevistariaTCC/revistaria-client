@@ -22,7 +22,6 @@ export default function ThirdStepNewPass({ previous, handleSubmit }: IThirdStepN
   } = useFormContext();
 
 
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
