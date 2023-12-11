@@ -21,7 +21,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useAuth } from "@/hooks/auth";
 
 import LogoutIcon from "@mui/icons-material/Logout";
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import InterestsIcon from "@mui/icons-material/Interests";
 import { useRouter } from "next/navigation";
 
@@ -29,16 +29,25 @@ import SearchInput from "./navbar/SearchInput";
 import FavoritesPopover from "./navbar/FavoritesPopover";
 import NotificationPopover from "./navbar/NotificationsModal";
 import UserModal from "./navbar/UserModal";
+import { iUser } from "@/schemas/User";
 
 export default function NavBar() {
-  const [currentUser, setCurrentUser] = useState({} as { id: string });
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
 
   const { user, signOut } = useAuth();
-  const router = useRouter()
+
+  const [currentUser, setCurrentUser] = useState<iUser>({} as iUser)
+
+
+  useEffect(() => {
+    setShowUserModal({ open: false, type: "" });
+    setCurrentUser(user)
+  }, [user]);
+
+  const router = useRouter();
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -71,8 +80,8 @@ export default function NavBar() {
   };
 
   const navigate = (id: string) => {
-    router.push(`/collection-detail/${id}`)
-  }
+    router.push(`/collection-detail/${id}`);
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -199,27 +208,32 @@ export default function NavBar() {
     </Menu>
   );
 
-  useEffect(() => {
-    setShowUserModal({ open: false, type: "" });
-    setCurrentUser(user);
-  }, [user]);
-
   return (
     <>
       <ThemeProvider theme={theme}>
         <AppBar position="static" className="sticky top-0 z-20 w-full">
           <Toolbar>
-            <Container className="flex h-full justify-center items-center">
+            <Container
+              sx={{
+                display: "flex",
+                height: "100%",
+                justifyContent: "justify-center",
+                alignItems: "center",
+              }}
+            >
               <Link variant="h6" underline="none" href="/" color="inherit">
                 Revistaria
               </Link>
               <SearchInput />
               <Box sx={{ flexGrow: 1 }} />
-              {currentUser ? (
+              {currentUser && Object.keys(currentUser).length > 0 && (
                 <>
                   <Box sx={{ display: { xs: "none", md: "flex" } }}>
                     <FavoritesPopover userID={currentUser.id} />
-                    <NotificationPopover openReservations={() => openUserModal("reservations")} navigate={navigate}/>
+                    <NotificationPopover
+                      openReservations={() => openUserModal("reservations")}
+                      navigate={navigate}
+                    />
                     <IconButton
                       size="large"
                       edge="end"
@@ -247,13 +261,14 @@ export default function NavBar() {
                     {renderMenu}
                   </Box>
                 </>
-              ) : (
+              )}
+              {!currentUser && (
                 <Button
                   color="inherit"
                   onClick={() =>
                     setShowUserModal({ open: true, type: "signin" })
                   }
-                  className="flex gap-2"
+                  className="gap-2"
                 >
                   <LoginIcon />
                   Login

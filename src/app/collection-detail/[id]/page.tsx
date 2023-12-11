@@ -78,7 +78,7 @@ export default function CollectionDetail({
 
   if (isLoading)
     return (
-      <Container className="flex items-center justify-center h-full w-full">
+      <Container className="flex items-center justify-center h-screen w-full">
         <CircularProgress />
       </Container>
     );

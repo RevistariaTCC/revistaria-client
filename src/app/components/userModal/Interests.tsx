@@ -3,9 +3,9 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   Container,
   CssBaseline,
-  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -41,7 +41,7 @@ const InterestsComponent = ({ closeModal, onSucess }: iInterestsComponent) => {
   });
 
   const updateInterestsMutation = useMutation(updateInterests, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       triggerSuccess();
       closeModal();
     },
@@ -89,67 +89,74 @@ const InterestsComponent = ({ closeModal, onSucess }: iInterestsComponent) => {
 
   if (isError) return "An error has occurred: ";
 
-  if (!data) return "An error has occurred: ";
-
-  return (
-    <>
-      <Container component="main" maxWidth="sm">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 3,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography component="h1" variant="h5">
-            Escolha seus interesses
-          </Typography>
-          <TextField
-            id="standard-basic"
-            label="Buscar interesses"
-            variant="standard"
-            size="small"
-            fullWidth
-            value={filter}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setFilter(event.target.value);
-            }}
-          />
-        </Box>
-
-        <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
-          {isLoading ? (
-            <CategoriesLoading />
-          ) : (
-            renderFilteredData() ??
-            data.map((category) => (
-              <Chip
-                key={`category-chip-${category.id}`}
-                label={category.name}
-                variant={
-                  selectedCategories.includes(category.id)
-                    ? "filled"
-                    : "outlined"
-                }
-                onClick={() => handleClickCategory(category.id)}
-              />
-            ))
-          )}
-        </div>
-
-        <div className="flex justify-between gap-6 mt-4 items-center">
-          <Button variant="outlined" onClick={closeModal}>
-            Cancelar
-          </Button>
-          <Button variant="outlined" onClick={handleUpdateInterests}>
-            Atualizar
-          </Button>
-        </div>
+  if (isLoading)
+    return (
+      <Container className="flex items-center justify-center h-screen w-full">
+        <CircularProgress />
       </Container>
-    </>
-  );
+    );
+
+  if (data) {
+    return (
+      <>
+        <Container component="main" maxWidth="sm">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography component="h1" variant="h5">
+              Escolha seus interesses
+            </Typography>
+            <TextField
+              id="standard-basic"
+              label="Buscar interesses"
+              variant="standard"
+              size="small"
+              fullWidth
+              value={filter}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                setFilter(event.target.value);
+              }}
+            />
+          </Box>
+
+          <div className="flex col max-h-96 flex-wrap w-100 overflow-y-auto gap-2 mt-4">
+            {isLoading ? (
+              <CategoriesLoading />
+            ) : (
+              renderFilteredData() ??
+              data.map((category) => (
+                <Chip
+                  key={`category-chip-${category.id}`}
+                  label={category.name}
+                  variant={
+                    selectedCategories.includes(category.id)
+                      ? "filled"
+                      : "outlined"
+                  }
+                  onClick={() => handleClickCategory(category.id)}
+                />
+              ))
+            )}
+          </div>
+
+          <div className="flex justify-between gap-6 mt-4 items-center">
+            <Button variant="outlined" onClick={closeModal}>
+              Cancelar
+            </Button>
+            <Button variant="outlined" onClick={handleUpdateInterests}>
+              Atualizar
+            </Button>
+          </div>
+        </Container>
+      </>
+    );
+  }
 };
 
 export default InterestsComponent;
