@@ -36,7 +36,7 @@ const NewCollectionsCarousel = () => {
   };
 
   return (
-    <div className="flex gap-3 cell:justify-center md:justify-normal flex-wrap">
+    <div className="flex gap-2 cell:justify-center md:justify-normal flex-wrap">
       {isLoading && (
         <SkeletonLoading
           quantity={5}

@@ -18,7 +18,7 @@ export default function Page() {
       </Container>
         
       <div className="mt-16">
-        <Container maxWidth='xl' className="bg-[#2e2e2e] text-white text-lg uppercase font-bold h-10 flex items-center px-[5%]">
+        <Container maxWidth='xl' className="bg-[#2e2e2e] text-white text-lg uppercase font-bold h-10 flex items-center px-[5%] rounded-t">
           Nosso Conteudo
         </Container>
         <Container maxWidth='xl' className="bg-white pt-2 pb-8 py-4 "> 

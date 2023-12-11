@@ -65,6 +65,7 @@ const CollectionCard = ({ collection, onClick }: CollectionCardProps) => {
                 component="img"
                 image={collection.image}
                 height={310}
+                width={205}
                 className="my-1 max-w-full rounded-xl"
               />
             </Badge>

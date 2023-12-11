@@ -28,7 +28,6 @@ import { useAuth } from "@/hooks/auth";
 import { useMutation, useQuery } from "react-query";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { headers } from "next/dist/client/components/headers";
 
 interface iNotification {
   id: string;
@@ -116,17 +115,12 @@ const NotificationPopover = ({
     },
   });
   const { token } = useAuth();
-  const { data, isLoading, refetch } = useQuery<iNotification[]>(
-    {...getUserNotifications({ Authorization: `Bearer ${token}` }), enabled: false}
-  );
 
-  useEffect(() => {
-    if(!token) return
+  const { data, isLoading, refetch } = useQuery<iNotification[]>({
+    ...getUserNotifications({ Authorization: `Bearer ${token}` }),
+  });
 
-    refetch()
-  }, [token])
-
-  const unreadTotal = () => {
+  const unreadTotal = (data: iNotification[]) => {
     return data
       ? data.filter((notification) => notification.status === "UNREAD").length
       : 0;
@@ -174,11 +168,9 @@ const NotificationPopover = ({
         color="inherit"
         onClick={handleClick}
       >
-        {data && (
-          <Badge badgeContent={unreadTotal()} color="error">
-            <NotificationsIcon />
-          </Badge>
-        )}
+        <Badge badgeContent={unreadTotal(data ?? [])} color="error">
+          <NotificationsIcon />
+        </Badge>
       </IconButton>
 
       <Popover
@@ -196,7 +188,10 @@ const NotificationPopover = ({
       >
         {isLoading && <CircularProgress />}
         {data && data.length == 0 && (
-          <Box sx={{ flexGrow: 1 }}  className="flex items-center justify-center pt-2 px-4">
+          <Box
+            sx={{ flexGrow: 1 }}
+            className="flex items-center justify-center pt-2 px-4"
+          >
             <Typography>Nenhuma notificação encontrada!</Typography>
           </Box>
         )}
