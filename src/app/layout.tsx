@@ -1,13 +1,16 @@
-'use client'
 import "../styles/globals.css";
-import { Inter } from "next/font/google";
-import NavBar from "./components/Navbar";
-import { AuthProvider } from "@/hooks/auth";
-import { QueryClient, QueryClientProvider } from 'react-query'
-import Footer from "./components/Footer";
+import { Metadata } from "next";
+import MainLayout from "./components/MainLayout";
 
-const inter = Inter({ subsets: ["latin"] });
-const queryClient = new QueryClient();
+<link rel="icon" href="/favicon.ico" sizes="12x12" />
+
+export const metadata: Metadata = {
+  title: 'Revistaria',
+  icons: {
+    icon: '/images/favicon.png',
+  },
+}
+
 
 export default function RootLayout({
   children,
@@ -16,18 +19,8 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-[#D6D6D6]`}>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <NavBar />
-            <div className="m-2">
-              {children}
-            </div>
-            <Footer/>
-          </AuthProvider>
-        </QueryClientProvider>
-      </body>
-    </html>
+    <MainLayout>
+      {children}
+    </MainLayout>
   );
 }

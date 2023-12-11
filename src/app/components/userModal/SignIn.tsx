@@ -9,10 +9,11 @@ import { useMutation } from "react-query";
 import { createSession } from "@/services/api/internal/session";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SignInType } from "@/schemas/UserSignIn";
-import { LinearProgress, TextField } from "@mui/material";
+import { Alert, LinearProgress, Snackbar, TextField } from "@mui/material";
 import { useAuth } from "@/hooks/auth";
 import { IMaskInput } from "react-imask";
-import React from "react";
+import React, { useState } from "react";
+import RecoveryPasswordComponent from "./RevoreyPassword";
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -21,12 +22,26 @@ interface CustomProps {
 }
 
 export default function SignIn() {
+  const [openAlert, setOpenAlert] = useState(false);
+
+  const handleCloseAlert = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenAlert(false);
+  };
   const { handleSubmit, register } = useForm<SignInType>({
     defaultValues: {
       cpf: "",
       password: "",
     },
   });
+
+  const [recoveryPassword, setRecoveryPassword] = useState(false);
   const { signIn } = useAuth();
   const loginMutation = useMutation(createSession, {
     onSuccess: (data) => {
@@ -35,9 +50,9 @@ export default function SignIn() {
   });
 
   const onSubmit: SubmitHandler<SignInType> = (data) => {
-
-    loginMutation.mutate({...data, cpf: data.cpf.replaceAll(/[^0-9]+/g, '')});
+    loginMutation.mutate({ ...data, cpf: data.cpf.replaceAll(/[^0-9]+/g, "") });
   };
+
 
   const TextMaskCustom = React.forwardRef<HTMLInputElement, CustomProps>(
     function TextMaskCustom(props, ref) {
@@ -55,6 +70,11 @@ export default function SignIn() {
       );
     }
   );
+
+  if (recoveryPassword)
+    return (
+      <RecoveryPasswordComponent onUpdate={() => {setRecoveryPassword(false); setOpenAlert(true)}} />
+    );
 
   return (
     <Container component="main" maxWidth="xs">
@@ -118,6 +138,30 @@ export default function SignIn() {
           </Button>
         </Box>
       </Box>
+      <button
+        type="button"
+        className="outline-none border-none bg-transparent text-blue-800 hover:text-blue-500 text-sm cursor-pointer flex w-full justify-end"
+        onClick={() => {
+          setRecoveryPassword(true);
+        }}
+      >
+        Esqueceu a senha?
+      </button>
+      <Snackbar
+        className="fixed"
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Senha atualizada com sucesso!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

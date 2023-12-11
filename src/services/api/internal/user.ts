@@ -103,3 +103,33 @@ export const getHome = ({ headers = {} }) => {
       }),
   };
 };
+
+export const requestNewPassword = (cpf: "", headers = {}) =>
+  fetchData("/users/request-new-password", {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ cpf: cpf }),
+  });
+
+export const resetPassword = (data: object, headers = {}) =>
+  fetchData("/users/reset-password", {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+export const changePassword = ({ data, headers = {} }: iRequest) =>
+  fetchData("/users/change-password", {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });

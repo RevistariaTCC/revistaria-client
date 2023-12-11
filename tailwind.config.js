@@ -13,8 +13,8 @@ module.exports = {
       },
      },
     screens:{
-      'cell': '350px',
-      // => @media (min-width: 475px) { ... }
+      'cell': '320px',
+      // => @media (min-width: 320px) { ... }
       
       'sm': '640px',
       // => @media (min-width: 640px) { ... }

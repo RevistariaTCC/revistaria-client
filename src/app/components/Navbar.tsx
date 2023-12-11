@@ -24,7 +24,6 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import InterestsIcon from "@mui/icons-material/Interests";
 import { useRouter } from "next/navigation";
-
 import SearchInput from "./navbar/SearchInput";
 import FavoritesPopover from "./navbar/FavoritesPopover";
 import NotificationPopover from "./navbar/NotificationsModal";
@@ -33,10 +32,8 @@ import { iUser } from "@/schemas/User";
 
 export default function NavBar() {
   const [showUserModal, setShowUserModal] = useState({ open: false, type: "" });
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
-
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
   const { user, signOut } = useAuth();
 
   const [currentUser, setCurrentUser] = useState<iUser>({} as iUser)
@@ -222,7 +219,7 @@ export default function NavBar() {
               }}
             >
               <Link variant="h6" underline="none" href="/" color="inherit">
-                Revistaria
+                <img src={'https://revistariabanners.s3.sa-east-1.amazonaws.com/hero.png'} className="w-32 flex " alt="Revistaria"/>
               </Link>
               <SearchInput />
               <Box sx={{ flexGrow: 1 }} />

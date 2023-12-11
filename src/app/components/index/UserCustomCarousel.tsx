@@ -51,14 +51,25 @@ const UserCustomCarousel = () => {
         </div>
       )}
 
-      {favorites.length > 0 && (
+      {favorites.length > 0 ? (
         <div className="mt-16">
           <h2 className="flex items-center">
             Favoritos <ArrowRightIcon />
           </h2>
           <CollectionScrollCards items={favorites} onClick={handleClick} />
         </div>
-      )}
+      ): (
+        <div className="mt-16">
+          <h2 className="flex items-center">
+            Favoritos <ArrowRightIcon />
+          </h2>
+          <div className="h-20 flex items-center">
+            Você ainda não possui favoritos
+          </div>
+      </div>
+      ) 
+      
+      }
     </div>
   );
 };

@@ -97,7 +97,7 @@ export default function VolumeModal({openModal, handleClose, volume}: VolumeModa
             {user ? (
               <Button
                 variant="outlined"
-                className="mt-8 bg-yellow-400 hover:bg-yellow-500 border-none capitalize text-inherit"
+                className={`mt-8 ${volume.status ===  'UNAVAILABLE'? 'bg-gray-400 hover:bg-gray-500' : 'bg-yellow-400 hover:bg-yellow-500' } bg-yellow-400 hover:bg-yellow-500 border-none capitalize text-inherit`}
                 title="Reservar volume"
                 onClick={handleReservation}
                 disabled={volume.status === 'UNAVAILABLE'}

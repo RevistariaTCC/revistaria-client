@@ -27,7 +27,7 @@ export default function FirstStep({ next }: IFirstStep) {
   const generateCodeMutation = useMutation(generateCode);
 
   const handleNextStep = () => {
-    generateCodeMutation.mutate(getValues("phone"));
+    generateCodeMutation.mutate({phone: getValues("phone")});
     next();
   };
 

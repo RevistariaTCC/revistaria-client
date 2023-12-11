@@ -9,7 +9,9 @@ export default function Page() {
   return (
     <div>
       <div className="bg-white p-7 my-8">
-        <Banner />
+        <Container maxWidth='xl'>
+          <Banner />
+        </Container>
       </div>
       <Container className="mt-16">
         <NewCollectionsCarousel />

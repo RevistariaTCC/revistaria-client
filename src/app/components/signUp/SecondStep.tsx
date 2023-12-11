@@ -58,7 +58,7 @@ export default function SecondStep({ next, previous }: iSecondStep) {
     restart(generateTime());
     setHideTimer(false);
 
-    generateCodeMutation.mutate(getValues("phone"));
+    generateCodeMutation.mutate({phone: getValues("phone")});
   };
 
   return (
