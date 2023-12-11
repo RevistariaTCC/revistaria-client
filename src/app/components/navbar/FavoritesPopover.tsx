@@ -2,6 +2,8 @@ import {
   Avatar,
   Badge,
   Box,
+  CircularProgress,
+  Container,
   IconButton,
   List,
   ListItem,
@@ -77,7 +79,7 @@ const FavoritesPopover = ({ userID }: FavoritesPopoverProps) => {
   const router = useRouter();
   const { token } = useAuth();
   const [data, setData] = useState<iUser>();
-  const { refetch } = useQuery({
+  const { refetch, isLoading } = useQuery({
     ...getUserById(userID, { Authorization: `Bearer ${token}` }),
     onSuccess: (data) => {
       setData(data);
@@ -139,8 +141,16 @@ const FavoritesPopover = ({ userID }: FavoritesPopoverProps) => {
         disableEnforceFocus={true}
         className="mt-4"
       >
+        {isLoading && (
+          <Container className="flex items-center justify-center h-20 w-full">
+            <CircularProgress />
+          </Container>
+        )}
         {data && data.collections.length == 0 && (
-          <Box sx={{ flexGrow: 1 }} className="pt-2 px-4 items-center justify-center">
+          <Box
+            sx={{ flexGrow: 1 }}
+            className="pt-2 px-4 items-center justify-center"
+          >
             <Typography>Sua lista de favoritos ainda está vazia!</Typography>
           </Box>
         )}

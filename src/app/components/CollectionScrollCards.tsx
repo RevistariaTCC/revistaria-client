@@ -20,7 +20,7 @@ const CollectionScrollCards = ({items, onClick}: CollectionScrollCardsProps) => 
 
 
   return (
-    <SliderComponent slideProps={{infinite: false, slidesToShow: 6}}>
+    <SliderComponent slideProps={{infinite: false, slidesToShow: 5}}>
       {
         items.map((collection) => (
           <Card

@@ -111,7 +111,8 @@ const SearchInput = () => {
       <TextField
         placeholder="Buscar"
         variant="standard"
-        className="ml-8 relative"
+        sx={{marginLeft: 4}}
+        className="relative"
         value={searchTerm}
         InputProps={{
           startAdornment: (
