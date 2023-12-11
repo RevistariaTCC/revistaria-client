@@ -113,7 +113,7 @@ export default function CollectionDetail({
               </div>
             )}
           </div>
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between container">
             <h2>Descrição</h2>
 
             <p>{collection.description}</p>
