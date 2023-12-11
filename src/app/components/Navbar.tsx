@@ -28,7 +28,6 @@ import SearchInput from "./navbar/SearchInput";
 import FavoritesPopover from "./navbar/FavoritesPopover";
 import NotificationPopover from "./navbar/NotificationsModal";
 import UserModal from "./navbar/UserModal";
-import Image from "next/image";
 import { iUser } from "@/schemas/User";
 
 export default function NavBar() {
@@ -220,7 +219,7 @@ export default function NavBar() {
               }}
             >
               <Link variant="h6" underline="none" href="/" color="inherit">
-                Revistaria
+                <img src={'https://revistariabanners.s3.sa-east-1.amazonaws.com/hero.png'} className="w-32 flex " alt="Revistaria"/>
               </Link>
               <SearchInput />
               <Box sx={{ flexGrow: 1 }} />
